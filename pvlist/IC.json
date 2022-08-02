@@ -1,0 +1,26 @@
+{
+	"PV":
+	{
+		"IC0Volt":{
+			"pvname":"D08-ES-IC0:getVoltage"
+		},
+		"IC0AvrVolt":{
+			"pvname":"D08-ES-IC0:getAverageVoltage"
+		},
+		"IC1Volt":{
+			"pvname":"D08-ES-IC1:getVoltage"
+		},
+		"IC1AvrVolt":{
+			"pvname":"D08-ES-IC1:getAverageVoltage"
+		},
+		"IC2Volt":{
+			"pvname":"D08-ES-IC2:getVoltage"
+		},
+		"IC2AvrVolt":{
+			"pvname":"D08-ES-IC2:getAverageVoltage"
+		}, 
+		"ICsAvrTime": {
+			"pvname": "D08-ES-DAQ:setAveragingTime"
+		}
+	}
+}

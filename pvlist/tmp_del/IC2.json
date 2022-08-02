@@ -1,0 +1,11 @@
+{
+	"PV":
+	{
+		"Voltage":{
+			"pvname":"D08-ES-IC1:getVoltage"
+		},
+		"AverageVoltage":{
+			"pvname":"D08-ES-IC1:getAverageVoltage"
+		}
+	}
+}

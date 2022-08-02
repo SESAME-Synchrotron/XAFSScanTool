@@ -1,0 +1,78 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'detectors.ui'
+#
+# Created by: PyQt5 UI code generator 5.12
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(195, 171)
+        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
+        self.buttonBox.setGeometry(QtCore.QRect(10, 130, 171, 32))
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.groupBox = QtWidgets.QGroupBox(Dialog)
+        self.groupBox.setGeometry(QtCore.QRect(10, 10, 171, 111))
+        self.groupBox.setObjectName("groupBox")
+        self.label = QtWidgets.QLabel(self.groupBox)
+        self.label.setGeometry(QtCore.QRect(10, 30, 141, 20))
+        self.label.setObjectName("label")
+        self.IC1 = QtWidgets.QCheckBox(self.groupBox)
+        self.IC1.setEnabled(False)
+        self.IC1.setGeometry(QtCore.QRect(10, 50, 41, 26))
+        self.IC1.setChecked(True)
+        self.IC1.setObjectName("IC1")
+        self.IC2 = QtWidgets.QCheckBox(self.groupBox)
+        self.IC2.setEnabled(False)
+        self.IC2.setGeometry(QtCore.QRect(60, 50, 41, 26))
+        self.IC2.setChecked(True)
+        self.IC2.setObjectName("IC2")
+        self.IC3 = QtWidgets.QCheckBox(self.groupBox)
+        self.IC3.setEnabled(False)
+        self.IC3.setGeometry(QtCore.QRect(110, 50, 41, 26))
+        self.IC3.setChecked(True)
+        self.IC3.setObjectName("IC3")
+        self.FICUS = QtWidgets.QCheckBox(self.groupBox)
+        self.FICUS.setGeometry(QtCore.QRect(10, 75, 61, 26))
+        self.FICUS.setChecked(False)
+        self.FICUS.setObjectName("FICUS")
+        self.KETEK = QtWidgets.QCheckBox(self.groupBox)
+        self.KETEK.setEnabled(True)
+        self.KETEK.setGeometry(QtCore.QRect(80, 75, 61, 26))
+        self.KETEK.setChecked(False)
+        self.KETEK.setObjectName("KETEK")
+
+        self.retranslateUi(Dialog)
+        self.buttonBox.accepted.connect(Dialog.accept)
+        self.buttonBox.rejected.connect(Dialog.reject)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def retranslateUi(self, Dialog):
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
+        self.groupBox.setTitle(_translate("Dialog", "Detectors confguration"))
+        self.label.setText(_translate("Dialog", "Ionization chambers"))
+        self.IC1.setText(_translate("Dialog", "IC1"))
+        self.IC2.setText(_translate("Dialog", "IC2"))
+        self.IC3.setText(_translate("Dialog", "IC3"))
+        self.FICUS.setText(_translate("Dialog", "FICUS"))
+        self.KETEK.setText(_translate("Dialog", "KETEK"))
+
+
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())

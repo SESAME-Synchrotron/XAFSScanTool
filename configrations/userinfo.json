@@ -1,0 +1,13 @@
+{
+  "Proposal": "20190139",
+  "Title": "Trace Quantitative Analysis of Biometals in Cancerous Tissue and Fluid (urine) by Synchrotron X-ray Fluorescence and Absorption Spectrometry",
+  "Proposer": "Justus OKONDA",
+  "Email": "okondajjustus@gmail.com",
+  "Beamline": "XAFS/XRF",
+  "Begin": "30/03/2022",
+  "End": "01/04/2022",
+  "Assigned shifts": "6",
+  "Assigned hours": "48",
+  "Semester": "2",
+  "Experimental_Data_Path": "/home/SED-Data/XAFS/SEM_2/20190139/ExpData/"
+}

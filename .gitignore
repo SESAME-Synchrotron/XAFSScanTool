@@ -2,7 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+# custom ignors: 
+DATA/
 # C extensions
 *.so
 
