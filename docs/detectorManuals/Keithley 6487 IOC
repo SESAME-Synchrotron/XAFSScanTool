@@ -1,0 +1,56 @@
+
+# Keithley6487-IOC
+
+This IOC controls Keithley picoammeter Model 6487
+
+The IOC gives the user full control over what filters to turn on, number fo samples to consider per time step, and the time per sample step.
+
+## PV List
+The following are some of the important PVs $`^1`$:
+| PV Name | Description |
+| ------ | ------ |
+| K6487:1:ZeroCheck | Disable/Enable zero check (input clamp) |
+| K6487:1:AutoZero$`^2`$ | Disable/Enable Auto Zero |
+| K6487:1:AutoRange | Disable/Enable auto-range |
+| K6487:1:IntegrationTime | Number Of Power Line Cycles$`^3`$ (**NPLC**) (Range: 0.01 - 50) |
+| K6487:1:AverageFilterEnable$`^*`$ | Disable/Enable Average filter |
+| K6487:1:AverageFilterCount | Number of samples per time step (Range: 2 - 100) |
+| K6487:1:MedianFilterEnable$`^*`$ | Disable/Enable Median filter |
+| K6487:1:MedianFilterRank | Median Filter Rank for 2n+1 samples (n range: 1 - 5) |
+| K6487:1:FilterType | Either Mov or REP - default is REP |
+| K6487:1:Damping$`^4`$ | Disable/Enable damping |
+| K6487:1:TimePerSampleStep | Time Per Sample Step |
+| K6487:1:NumSampleSteps | Number Of Sample Steps |
+
+_(1) All the PVs above has readback version. Just add **RBV** at the end of PV name (e.g. K6487:1:ZeroCheckRBV)_
+
+_(2) Auto Zero Helps maintaining stability and accuracy over time and changes in temparature. When enabled, it reduces measurement speed by a factor of 3_
+
+_(3) NPLC standard ranges are (fast: 0.1, medium: 1, slow: 5), where recommended values are in the range between 1 and 10_
+
+_(4) Damping reduces noise from input capacitance. Maybe caused by long input cable or the capacitance of the source_
+
+_(*) Average and Median filters stabilizes noise measurements caused by noisy input signals_
+
+## Calculations
+Some of the PVs above are connected with the following equation:
+
+$`\begingroup\color{red}3\endgroup * \frac{NPLC}{50} * \color{green}(NumSamples * 1.0285) + \color{blue}\epsilon`$
+
+where $`\color{blue}\epsilon = 0.0076172`$
+
+Note That the green section collapses to 1 when average filter is disabled.
+
+Also the factor 3 $`\color{red}(in\ red)`$ collapses to 1 when AutoZero is disabled.
+
+## Aqcuiring Data
+The PV that fires the calculation process is K6487:1:Acquire.
+
+All you have to do is: **caput K6487:1:Acquire.PROC 1**
+
+All filters that are enabled will be used in this process. For example if both _median_ and _average_ filters are enabled, then the _median_ filter operation is performed first. After the _median_ filter yields a reading, it is sent to the stack of the _average_ filter.
+
+After the process finishes you can read the result by running: **caget K6487:1:Acquire**
+
+## Reference
+For **full** reference, you can refer to the documentation in project source
