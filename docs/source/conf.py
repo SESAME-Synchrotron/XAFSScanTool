@@ -17,9 +17,9 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'XAFS-XRF Scanning Tool'
-copyright = '2022, Mustafa Alzubi, Basil Aljamal, Anas Mohammad'
-author = 'Mustafa Alzubi, Basil Aljamal, Anas Mohammad'
+project = 'XAFSScanTool'
+copyright = '2022, Data Acquisition and Control teams'
+author = 'Data Acquisition and Control teams'
 
 
 # -- General configuration ---------------------------------------------------
