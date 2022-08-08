@@ -1,5 +1,5 @@
 .. XAFS-XRF Scanning Tool documentation master file, created by
-   sphinx-quickstart on Sun Aug  7 09:53:58 2022.
+   sphinx-quickstart on Sun Aug  7 18:06:12 2022.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
