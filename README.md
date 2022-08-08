@@ -1,7 +1,7 @@
-# xafs-scan
+This is a documentation for the scanning tool that collects experimental data from XAFS/XRF (X-ray Absorption Fine Structure/X-ray Fluorescence) spectroscopy beamline. The tool has been developed by data collection and analysis team of SESAME in collaboration with control team.
 
-XAFS scan tool
+This documentation is targeting beamline end-users and scientists.
 
+The scanning tool is GUI based that helps users to easily understand the scanning parameters and thus saving the time of explaning how to get XAFS-XRF experimental data.
 
-Action points to be done: 
-1. XDI file format to be added as standard generated file from the Beamline, reference: https://github.com/XraySpectroscopy/XAS-Data-Interchange/blob/master/specification/spec.md 
+More detailes can be found on this link: https://xafs-xrf-scanning-tool.readthedocs.io
