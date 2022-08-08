@@ -16,3 +16,5 @@ The scanning tool is GUI based that helps users to easily understand the scannin
    :caption: Contents:
 
    features
+   install
+   
