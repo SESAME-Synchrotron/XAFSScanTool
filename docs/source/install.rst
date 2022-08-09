@@ -16,6 +16,8 @@ The following should be installed on the computer before running the scanning to
 
 Python virtual environment
 ---------------------------
+venv module of Python is being used as a virtual environment for this setup. 
+
 The venv module of python provides support for creating **virtual environments** that is isolated from system site directories. Normally, each virtual environment has its own Python binary (which matches the version of the binary that was used to create this environment) and can have its own independent set of installed Python packages in its site directories. 
 
 to install and create venv: 
