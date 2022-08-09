@@ -53,38 +53,67 @@ The list below contains the list of python packages needed for the scanning tool
 
 ::
 	
+	backports.entry-points-selectable==1.1.0
 	bcrypt==3.2.0
-	beautifulsoup4==4.11.1
-	bs4==0.0.1
-	certifi==2022.5.18.1
 	cffi==1.15.0
-	charset-normalizer==2.0.12
 	colorama==0.4.4
-	commonmark==0.9.1
-	cryptography==36.0.2
-	idna==3.3
-	numpy==1.22.3
-	paramiko==2.10.2
-	pip-search==0.0.12
+	cryptography==35.0.0
+	cycler==0.10.0
+	distlib==0.3.2
+	filelock==3.0.12
+	h5py==2.10.0
+	importlib-metadata==4.8.1
+	importlib-resources==5.2.2
+	kiwisolver==1.2.0
+	matplotlib==3.2.1
+	numpy==1.18.5
+	pandas==1.0.4
+	paramiko==2.8.0
+	Pillow==7.1.2
+	platformdirs==2.3.0
 	progressbar==2.5
-	pycparser==2.21
-	pyepics==3.5.1
-	Pygments==2.12.0
-	PyNaCl==1.5.0
-	PyQt5==5.15.6
-	PyQt5-Qt5==5.15.2
-	PyQt5-sip==12.9.1
-	requests==2.27.1
-	rich==12.4.1
-	six==1.16.0
-	soupsieve==2.3.2.post1
-	urllib3==1.26.9
+	pycparser==2.20
+	pyepics==3.4.1
+	PyNaCl==1.4.0
+	pyparsing==2.4.7
+	PyQt5==5.12
+	PyQt5_sip==4.19.19
+	pyqtgraph==0.10.0
+	python-dateutil==2.8.1
+	pytz==2020.1
+	scipy==1.4.1
+	six==1.15.0
+	typing-extensions==3.10.0.2
+	virtualenv==20.7.2
+	zipp==3.5.0
+
 
 
 Qt and its libraries: 
 .....................
 
-Anas to add text here. 
+	
+	1. Install epics from SESAME's local repo.
+	2. Download Qt creator: https://drive.sesame.org.jo/owncloud/index.php/s/LO3GLyDkPMWZKU9.
+	3. Install qt-creator-opensource-linux-x86_64-4.13.3.run. 
+	4. Install epics-qt, qt5, qwt, or anything related to *qt* packages by ``yum`` command.
+	5. Go to ``.bashrc`` and copy the following:
+
+	::
+
+		export EPICS_BASE='/opt/epics/base'
+		export EPICS_HOST_ARCH=linux-x86_64
+		export PATH=${PATH}:/opt/qtcreator-4.13.3/bin/
+		export QWT_ROOT=/usr/local/qwt-6.1.3
+		export QWT_INCLUDE_PATH=${QWT_ROOT}/include
+		export QE_TARGET_DIR=/usr/local/epics-qt
+		export PATH=${EPICS_BASE}/bin/$EPICS_HOST_ARCH:${QE_TARGET_DIR}/bin/${EPICS_HOST_ARCH}:/usr/lib64/qt5/bin:${PATH}
+		export LD_LIBRARY_PATH=${EPICS_BASE}/lib/${EPICS_HOST_ARCH}:/usr/local/qwt-6.1.3/lib:${QE_TARGET_DIR}/lib/${EPICS_HOST_ARCH}:${QE_TARGET_DIR}/lib/${EPICS_HOST_ARCH}/designer
+		export QT_PLUGIN_PATH=${QT_PLUGIN_PATH}:${QWT_ROOT}/plugins:$QE_TARGET_DIR/lib/$EPICS_HOST_ARCH
+
+	6. ``source .bashrc`` 
+	7. To validate your setup, create a new project and open the designer, you should get qwt and epics qt widgets shown.
+
 
 Clone and run the scanning tool
 --------------------------------
