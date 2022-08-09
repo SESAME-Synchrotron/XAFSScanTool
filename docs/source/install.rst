@@ -120,13 +120,13 @@ Clone and run the scanning tool
 
 .. note:: Make sure that the python environment is activated before proceeding with this section 
 
-The scanning tool (HESEBScanTool) is available on github. The most recent version can be found on this link: https://github.com/SESAME-Synchrotron/HESEBScanTool. To clone and run, launch your terminal then do the follwoing: 
+The scanning tool (XAFSXRFScanTool) is available on github. The most recent version can be found on this link: https://github.com/SESAME-Synchrotron/XAFSScanTool.git. To clone and run, launch your terminal then do the follwoing: 
 
 ::
 
 	$ cd ~ 
-	$ git clone git@github.com:SESAME-Synchrotron/HESEBScanTool.git
-	$ cd HESEBScanTool
+	$ git git@github.com:SESAME-Synchrotron/XAFSScanTool.git
+	$ cd XAFSScanTool
 	$ python main.py --testingMode yes
 
 .. warning:: If all is fine, you should see the GUI pops up, otherwise, error messages and alerts should be shown in the terminal.
