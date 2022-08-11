@@ -25,3 +25,14 @@ the main function will validate and execute some procedures and functions, if al
    *Figure 1: First popup GUI that allows you to choose experiment type*
 
 .. warning:: if a PV is disconnected, the scanning tool will show such PV in "red" color (instead of green as shown ubove), this will cause the tool to not run!!.
+
+From the GUI above you can choose the experiment type. Choose **Users Experiment** if there is a schedule beamtime for an accepted proposal. 
+
+Upon choosing Users Experiment, you will be asked to provide scheduled proposal ID as shown in Figure 2 below: 
+
+.. figure:: /images/propID.png
+   :align: center
+   :alt: proposal ID 
+   :scale: 70%
+
+   *Figure 2: proposal ID*
