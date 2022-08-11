@@ -8,7 +8,7 @@ The scanning tool home directory is located in the home directory of the control
 ::
 
 	$ cd ~ 
-	$ cd HESEBScanTool
+	$ cd XAFSScanTool
 	
 
 to run the scanning tool: 
