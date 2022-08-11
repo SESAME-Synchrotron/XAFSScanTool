@@ -41,4 +41,4 @@ By choosing "Users Experiment", the scan tool will:
 
 * Ask you to provide the proposal number. 
 * Validate whether the provided proposal number is correct and valid for this beam time. 
-* If the validation result is okay, the tool will import the proposal metadata and include them in the experimental file. If not, user will be alerted!!
+* If the validation result is okay, the tool will import the proposal metadata and include them in the experimental file. If not, user will be alerted and the tool will not be able to continue!!
