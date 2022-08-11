@@ -43,7 +43,7 @@ By choosing "Users Experiment", the scan tool will:
 * Validate whether the provided proposal number is correct and valid for this beam time. 
 * If the validation result is okay, the tool will import the proposal metadata and include them in the experimental file. If not, user will be alerted and the tool will not be able to continue!!
 
-.. note:: metadata of validated proposal number includes but not limited to proposal title, principal investigator name, number of allocated shifts, proposal review committee
+.. note:: The scanning tool is already integrated with the users database. All validation and metadata importing processes are done through such integration. metadata of validated proposal number includes but not limited to proposal title, principal investigator name, number of allocated shifts, proposal review committee
 
- 
+
 
