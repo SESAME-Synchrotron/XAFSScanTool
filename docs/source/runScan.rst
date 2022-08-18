@@ -49,6 +49,45 @@ By choosing "Users Experiment", the scan tool will:
 
 B. Choose **Local Experiment** to run in-house experiment that is not associated with a proposal. 
 
+This scan mode is intended to run “not proposal based” experiments, example of such experiments: 
+
+* Director general beamtime
+* In-house research experiment
+* Testing / commissioning new components at the Beamline 
+
+
 .. warning:: Normally, this option is restricted to beamline scientists.
 .. warning:: Access to experimental data generated out of this kind of experiment is restricted to beamline scientists and authorized SESAME staff only. On the other hand, the generated data will not be **mapped/linked** with any proposal or PI work. 
 
+C. Choose **Energy Calibration** to calibrate the beam energy in reference to the DCM crystal and metal foil you are using. 
+
+The beam energy is linked to the monochromator via the Bragg formula, calibrating the energy means adjusting the Bragg angle (Θ theta) of the monochromator in reference to the crystal and the metal foil you are using.
+
+Currently, the following crystals are available: 
+
+* Si(111) 
+* Si(311)
+
+Also, the following metal foils: 
+  
+1. Ti(4966)
+2. V(5465))
+3. Cr(5989)
+4. Mn(6539)
+5. Fe(7112)
+6. Co(7709)
+7. Ni(8333)
+8. Cu(8979)
+9. Zn(9659)
+10. Se(12658)
+11. Zr(17998)
+12. Nb(18986)
+13. Mo(20000)
+14. Pd(24350)
+15. Ag(25514)
+16. Sn(29200)
+17. Sb(30491)
+18. Ta(9881)
+19. Pt(11564)
+20. Au(11919)
+21. Pb(13035)
