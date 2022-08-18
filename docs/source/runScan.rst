@@ -26,7 +26,9 @@ the main function will validate and execute some procedures and functions, if al
 
 .. warning:: if a PV is disconnected, the scanning tool will show such PV in "red" color (instead of green as shown ubove), this will cause the tool to not run!!.
 
-From the GUI above you can choose the experiment type. Choose **Users Experiment** if there is a schedule beamtime for an accepted proposal. 
+From the GUI above you can choose the experiment type:
+
+A. Choose **Users Experiment** if there is a scheduled beamtime for an accepted proposal. 
 
 Upon choosing Users Experiment, you will be asked to provide scheduled proposal ID as shown in Figure 2 below: 
 
@@ -43,7 +45,10 @@ By choosing "Users Experiment", the scan tool will:
 * Validate whether the provided proposal number is correct and valid for this beam time. 
 * If the validation result is okay, the tool will import the proposal metadata and include them in the experimental file. If not, user will be alerted and the tool will not be able to continue!!
 
-.. note:: The scanning tool is already integrated with the users database. All validation and metadata importing processes are done through such integration. metadata of validated proposal includes but not limited to proposal title, principal investigator information, number of allocated shifts, proposal review committee.
+.. note:: The scanning tool is already integrated with the users database. All validation and metadata importing processes are done through such integration. metadata of a validated proposal includes but not limited to proposal title, principal investigator information, number of allocated shifts, proposal review committee.
 
+B. Choose **Local Experiment** to run in-house experiment that is not associated with a proposal. 
 
+.. warning:: Normally, this option is restricted to beamline scientists.
+.. warning:: Access to experimental data generated out of this kind of experiment is restricted to beamline scientists and authorized SESAME staff only. On the other hand, the generated data will not be **mapped/linked** with any proposal or PI work. 
 
