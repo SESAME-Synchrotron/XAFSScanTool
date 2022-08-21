@@ -97,7 +97,7 @@ The scanning tool allows you to either enter new configuration and thus generate
 .. figure:: /images/choseCFG.png
    :align: center
    :alt: proposal ID 
-   :scale: 70%
+
 
    *Figure 3: configration mode choosing GUI, either to create new config file or load already existed one*
 
