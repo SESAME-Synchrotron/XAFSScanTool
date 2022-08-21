@@ -105,3 +105,7 @@ Next GUI is meant to enter new experiment configurations or see/edit a loaded on
 .. figure:: /images/config.png
    :align: center
    :alt: proposal ID 
+
+The user can enter many intervals, each interval has start energy, end energy , energy move step size and Ionization Chamber (IC) integration time, fluorescence detector integration time, external trigger and step unit. 
+
+The step unit can be  
