@@ -1,5 +1,5 @@
-Installing HESEB scanning tool
-==============================
+Installing XAFS/XRF scanning tool
+=================================
 
 This page includes information about the needed packages to run the scan tool. 
 
