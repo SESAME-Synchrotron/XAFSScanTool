@@ -91,3 +91,12 @@ Also, the following metal foils:
 19. Pt (11564)
 20. Au (11919)
 21. Pb (13035)
+
+The scanning tool allows you to either enter new configuration and thus generate a new configuration file or load an already existed configuration file. These two options can be chosen from this GUI:
+
+.. figure:: /images/choseCFG.png
+   :align: center
+   :alt: proposal ID 
+   :scale: 70%
+
+   *Figure 3: configration mode choosing GUI, either to create new config file or load already existed one*
