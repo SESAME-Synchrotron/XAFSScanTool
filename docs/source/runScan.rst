@@ -102,3 +102,5 @@ The scanning tool allows you to either enter new configuration and thus generate
    *Figure 3: configration mode choosing GUI, either to create new config file or load already existed one*
 
    Next GUI is meant to enter new experiment configurations or see/edit a loaded one. This GUI allows you to move the energy over a range by driving the theta motor of the Double Crystal Monochromator (DCM).
+
+   
