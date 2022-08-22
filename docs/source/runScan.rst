@@ -106,7 +106,78 @@ Next GUI is meant to enter new experiment configurations or see/edit a loaded on
    :align: center
    :alt: proposal ID 
 
+   *Figure 4: Main experiment configration GUI*
 
-The user can enter many intervals, each interval has start energy(eV), end energy(eV), energy move step size and Ionization Chamber (IC) integration time, fluorescence detector integration time, external trigger and step unit. 
+The user can enter many intervals, each interval has start energy(eV), end energy(eV), energy move step size, Ionization Chamber (IC) integration time, fluorescence detector integration time, external trigger and step unit. 
 
-The step unit can be either in eV or K  
+.. figure:: /images/interval.png
+   :align: center
+   :alt: proposal ID 
+
+   *Figure 5: DCM energy equations with K step unit*
+
+The step unit can be either in eV or K. When eV is chosen, the "step" is used as energy incerment value across the interval starting from "start" until reaching the "end" energies. By choosing K as step unit, the energy increase size (step size) increases as the scan moves further above the edge.  
+
+.. note:: "The EXAFS region is most naturally thought of as a function of k. Because E is proportional to the square of K, features will tend to broaden and reduce in amplitude as getting further above the edge. In addition, the signal falls off with increasing energy, further reducing the amplitude of features high above the edge."" reference: XAFS for every one, page 161, point# 3
+
+The equations of calulating DCM energy with K step unit are shown below: 
+
+.. figure:: /images/kEnergy_Eq.png
+   :align: center
+   :alt: proposal ID 
+
+   *Figure 6: DCM energy equations with K step unit*
+
+Where ΔK is energy step size in K, E\ :sub:`a` is the current DCM energy in K, E\ :sub:`c` is the calibrated energy in K and E\ :sub:`n` is the next energy value that the DCM is going to. 
+
+
+You can define many samples and align them with respect to the beam (depending on the number of holders installed on the sample stage). Through this GUI you can change the sample position horizontally and vertically in order to target the right position of the sample. Also, for each sample you must assign name where it will be used as part of the experimental file name.
+
+.. figure:: /images/sampleName.png
+   :align: center
+   :alt: proposal ID 
+
+   *Figure 7: Sample position & name GUI*
+
+.. note:: sample name is added as part of the experimental file name
+
+
+Detectors GUI allows you to choose among the available transmission and florescence detectors. ICs detectors are already chosen by default, you just need to enter the gas mixture that you use in each IC. For the fluorescence detectors, either FICUS or KETEK. For more information about the detectors, please see this page: https://www.sesame.org.jo/beamlines/xafs-xrf#tabs-7
+
+.. figure:: /images/det.png
+   :align: center
+   :alt: proposal ID 
+
+   *Figure 8: Detectors choosing GUI*
+
+Other scan parameters in the main confirmation GUI like “Experiment metadata”, “Mirror coating” and “Comments” sub-boxes are used to provide some experimental meta data. 
+
+.. note:: Some experiment metadata fields are mandatory because they are needed to comply with xdi file format.
+
+Fields that are highlighted in green (refer to Figure 4) are write protected when you run Users Experiment or Local Experiment (refer to Figure 1). This means that the DCM has been already calibrated and has got these values in which can't be changed for this kind of experiments. 
+
+However, to re-calibrate the DCM with different metal foil element and crystal you can choose Energy Calibration (refer to Figure 1), then, such fields are not “write protected” and you will see them highlighted in orange: 
+
+.. figure:: /images/engCalibConf.png
+   :align: center
+   :alt: proposal ID 
+
+   *Figure 9: Main configration GUI that belongs to DCM energy calibration*
+
+By clicking “Next”, if all is fine, the last GUI will pop up as shown below:
+
+.. figure:: /images/finish.png
+   :align: center
+   :alt: proposal ID 
+
+   *Figure 10: Last GUI before triggering the scan to start*
+
+Once scan is started, interactive logs will be printed on the terminal showing exactly what is being processed. Also, an interactive data visualization tool will start plotting the experimental data.
+
+.. figure:: /images/plot.png
+   :align: center
+   :alt: proposal ID 
+
+   *Figure 11: Interactive data visualization GUI*
+
+   ANAS to continue from here on.......
