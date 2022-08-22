@@ -18,8 +18,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'XAFSScanTool'
-copyright = '2022, Data Acquisition and Control teams'
-author = 'Data Acquisition and Control teams'
+copyright = '2022, Data Collection, XAFS/XRF Beamline and Control teams of SESAME'
+author = 'Data Collection, XAFS/XRF Beamline and Control teams SESAME'
 
 
 # -- General configuration ---------------------------------------------------
