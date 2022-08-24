@@ -185,6 +185,9 @@ class energyCalibration:
             if str(self.crystal) == "Si 311":
                 self.offsetSI311()     
 
+        else:
+            CLIMessage("No value chosen, please select a value to continue", "E")
+
     def offsetSI111(self):
         
         self.constantSI111 = 1.9770410767
