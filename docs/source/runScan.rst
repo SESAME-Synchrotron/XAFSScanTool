@@ -118,7 +118,7 @@ The user can enter many intervals, each interval has start energy(eV), end energ
 
 The step unit can be either in eV or K. When eV is chosen, the "step" is used as energy incerment value across the interval starting from "start" until reaching the "end" energies. By choosing K as step unit, the energy increase size (step size) increases as the scan moves further above the edge.  
 
-.. note:: "The EXAFS region is most naturally thought of as a function of k. Because E is proportional to the square of K, features will tend to broaden and reduce in amplitude as getting further above the edge. In addition, the signal falls off with increasing energy, further reducing the amplitude of features high above the edge."" reference: XAFS for every one, page 161, point# 3
+.. note:: "The XAFS region is most naturally thought of as a function of k. Because E is proportional to the square of K, features will tend to broaden and reduce in amplitude as getting further above the edge. In addition, the signal falls off with increasing energy, further reducing the amplitude of features high above the edge."" reference: XAFS for every one, page 161, point# 3
 
 The equations of calulating DCM energy with K step unit are shown below: 
 
@@ -180,4 +180,77 @@ Once scan is started, interactive logs will be printed on the terminal showing e
 
    *Figure 11: Interactive data visualization GUI*
 
-   ANAS to continue from here on.......
+xxxxxxxxxxx, two main GUIs will be started as shown below:
+
+   - Main plots as shown in Figure 12: 
+      It contains the main analysis plots of xdi file:
+      * Normalization (Linear Scalling).
+      * Smoothing (Savitzky-Golay filter with default parameters(W,P):(5,3)).
+      * 1st derivative of normalized data.
+      * All of them including 2nd derviative.
+   
+   .. figure:: /images/mainPlots.png
+   :align: center
+   :alt: Main Plots 
+
+   *Figure 12: Main plots of xdi file*
+
+   - 1st derivative plot as shown in Figure 13:
+      This tool allow the user to select the best peak energy value either by selecting the blue dot, or by selecting any suitable value on the curve.
+
+   .. figure:: /images/1stDer.png
+   :align: center
+   :alt: 1st derivative tool.
+
+   *Figure 13: 1st derivative tool of energy calibration*
+
+   The main functions of this tool are:
+
+   * 1st derivative plot: 1st derivative of normalized data (refer to Figure 13).
+   * Smoothing Parameters: window length and polynomial order of Savitzky-Golay filter.
+   * Confirm button: confirm the chosen value and close the plots.
+
+   .. note:: According to smoothing parameters, please make sure that window length must be greater than ploynomial order, otherwise, an popup alert will be appear as shown in figure 14.
+
+   .. figure:: /images/invalidAlert.png
+   :align: center
+   :alt: Invalid values.
+
+   *Figure 15: Invalid smoothing parameters values*
+
+   Once the peak value is chosen (either the blue dot, or any value on the curve), it will appear on terminal as shown in figure 15.
+
+   .. figure:: /images/peakChosen.png
+   :align: center
+   :alt: Peak value chosen.
+
+   *Figure 15: The chosen value*
+
+   After clicking the confirm button, the results will be shown on the terminal as shown in figure 16.
+
+   .. figure:: /images/energyCalibrationResults.png
+   :align: center
+   :alt: Energy calibration results.
+
+   *Figure 16: Energy calibration results *
+
+   .. warning:: If the *Confirm* button is clicked without choosing a value, an error messages will be shown in the terminal.
+      
+      .. figure:: /images/valueError.png
+      :align: center
+
+   .. note:: To ignore the smoothing filter, smoothing parameters should be zeros. 
+
+   .. note:: To repeat the energy calibration process, type the following command in terminal:
+      ::
+         python main.py --engCalib (xdi path)
+         e.g. python main.py --engCalib /home/XAFSScanTool/DATA/CalibTest_Foil_Scan1_20220725T111439.xdi
+
+
+
+
+   
+
+
+   
+
