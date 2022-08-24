@@ -184,6 +184,7 @@ In addition, two main GUIs will be started as shown below:
 
    - Main plots as shown in Figure 12: 
       It contains the main analysis plots of xdi file:
+
       * Normalization (Linear Scalling).
       * Smoothing (Savitzky-Golay filter with default parameters(W,P):(5,3)).
       * 1st derivative of normalized data.
