@@ -186,9 +186,9 @@ In addition, two main GUIs will be started as shown below:
       It contains the main analysis plots of xdi file:
 
       * Normalization (Linear Scalling).
-      * Smoothing (Savitzky-Golay filter with default parameters(W,P):(5,3)).
+      * Smoothing (Savitzky-Golay filter with default parameters (W,P):(5,3)).
       * 1st derivative of normalized data.
-      * All of them including 2nd derviative.
+      * All of them including 2nd derivative.
    
    .. figure:: /images/mainPlots.png
       :align: center
@@ -217,7 +217,7 @@ In addition, two main GUIs will be started as shown below:
       :align: center
       :alt: Invalid values.
 
-      *Figure 15: Invalid smoothing parameters values*
+      *Figure 14: Invalid smoothing parameters values*
 
    Once the peak value is chosen (either the blue dot, or any value on the curve), it will appear on terminal as shown in figure 15.
 
@@ -227,13 +227,13 @@ In addition, two main GUIs will be started as shown below:
 
       *Figure 15: The chosen value*
 
-   After clicking the confirm button, the results will be shown on the terminal as shown in figure 16.
+   After clicking the confirm button, the results (Crystal type, the old offset, and the new offset) will be shown on the terminal as shown in figure 16.
 
    .. figure:: /images/energyCalibrationResults.png
       :align: center
       :alt: Energy calibration results.
-
-      *Figure 16: Energy calibration results *
+      
+      *Figure 16: Energy calibration results*
 
    .. warning:: If the *Confirm* button is clicked without choosing a value, an error messages will be shown in the terminal.
       

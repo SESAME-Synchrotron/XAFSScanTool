@@ -3,7 +3,7 @@ Current features and future plans
 
 Current featues
 ---------------
-At the moment, the scanning tool has the follwoing features: 
+At the moment, the scanning tool has the following features: 
 
 * User friendly GUI
 * Collect data from detectors simultaneously (currently from three detectors ICs, KETEK and FICUS)

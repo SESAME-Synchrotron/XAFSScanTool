@@ -31,7 +31,7 @@ to create alias of you environment:
 
 	$ vi ~/.bashrc
 
-add the follwoing line to the file:
+add the following line to the file:
 :: 
 
 	alias p3='source /opt/DAQ/venv/bin/activate'
