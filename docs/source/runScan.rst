@@ -180,7 +180,7 @@ Once scan is started, interactive logs will be printed on the terminal showing e
 
    *Figure 11: Interactive data visualization GUI*
 
-xxxxxxxxxxx, two main GUIs will be started as shown below:
+In addition, two main GUIs will be started as shown below:
 
    - Main plots as shown in Figure 12: 
       It contains the main analysis plots of xdi file:
@@ -190,19 +190,19 @@ xxxxxxxxxxx, two main GUIs will be started as shown below:
       * All of them including 2nd derviative.
    
    .. figure:: /images/mainPlots.png
-   :align: center
-   :alt: Main Plots 
+      :align: center
+      :alt: Main Plots 
 
-   *Figure 12: Main plots of xdi file*
+      *Figure 12: Main plots of xdi file*
 
    - 1st derivative plot as shown in Figure 13:
       This tool allow the user to select the best peak energy value either by selecting the blue dot, or by selecting any suitable value on the curve.
 
    .. figure:: /images/1stDer.png
-   :align: center
-   :alt: 1st derivative tool.
+      :align: center
+      :alt: 1st derivative tool.
 
-   *Figure 13: 1st derivative tool of energy calibration*
+      *Figure 13: 1st derivative tool of energy calibration*
 
    The main functions of this tool are:
 
@@ -213,31 +213,31 @@ xxxxxxxxxxx, two main GUIs will be started as shown below:
    .. note:: According to smoothing parameters, please make sure that window length must be greater than ploynomial order, otherwise, an popup alert will be appear as shown in figure 14.
 
    .. figure:: /images/invalidAlert.png
-   :align: center
-   :alt: Invalid values.
+      :align: center
+      :alt: Invalid values.
 
-   *Figure 15: Invalid smoothing parameters values*
+      *Figure 15: Invalid smoothing parameters values*
 
    Once the peak value is chosen (either the blue dot, or any value on the curve), it will appear on terminal as shown in figure 15.
 
    .. figure:: /images/peakChosen.png
-   :align: center
-   :alt: Peak value chosen.
+      :align: center
+      :alt: Peak value chosen.
 
-   *Figure 15: The chosen value*
+      *Figure 15: The chosen value*
 
    After clicking the confirm button, the results will be shown on the terminal as shown in figure 16.
 
    .. figure:: /images/energyCalibrationResults.png
-   :align: center
-   :alt: Energy calibration results.
+      :align: center
+      :alt: Energy calibration results.
 
-   *Figure 16: Energy calibration results *
+      *Figure 16: Energy calibration results *
 
    .. warning:: If the *Confirm* button is clicked without choosing a value, an error messages will be shown in the terminal.
       
       .. figure:: /images/valueError.png
-      :align: center
+         :align: center
 
    .. note:: To ignore the smoothing filter, smoothing parameters should be zeros. 
 
