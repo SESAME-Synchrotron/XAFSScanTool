@@ -211,35 +211,26 @@ In addition, two main GUIs will be started as shown below:
    * Smoothing Parameters: window length and polynomial order of Savitzky-Golay filter.
    * Confirm button: confirm the chosen value and close the plots.
 
-   .. note:: According to smoothing parameters, please make sure that window length must be greater than ploynomial order, otherwise, an popup alert will be appear as shown in figure 14.
+   .. note:: According to smoothing parameters, please make sure that window length must be greater than ploynomial order, otherwise, an popup alert will be shown.
 
-   .. figure:: /images/invalidAlert.png
-      :align: center
-      :alt: Invalid values.
-
-      *Figure 14: Invalid smoothing parameters values*
-
-   Once the peak value is chosen (either the blue dot, or any value on the curve), it will appear on terminal as shown in figure 15.
+   Once the peak value is chosen (either the blue dot, or any value on the curve), it will appear on terminal as shown in figure 14.
 
    .. figure:: /images/peakChosen.png
       :align: center
       :alt: Peak value chosen.
 
-      *Figure 15: The chosen value*
+      *Figure 14: The chosen value for energy calibration*
 
-   After clicking the confirm button, the results (Crystal type, the old offset, and the new offset) will be shown on the terminal as shown in figure 16.
+   After clicking the confirm button, the results (Crystal type, the old offset, and the new offset) will be shown on the terminal as shown in figure 15.
 
    .. figure:: /images/energyCalibrationResults.png
       :align: center
       :alt: Energy calibration results.
       
-      *Figure 16: Energy calibration results*
+      *Figure 15: Energy calibration results*
 
    .. warning:: If the *Confirm* button is clicked without choosing a value, an error messages will be shown in the terminal.
       
-      .. figure:: /images/valueError.png
-         :align: center
-
    .. note:: To ignore the smoothing filter, smoothing parameters should be zeros. 
 
    .. note:: To repeat the energy calibration process, type the following command in terminal:
