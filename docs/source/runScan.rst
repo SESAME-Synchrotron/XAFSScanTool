@@ -199,7 +199,7 @@ In addition, two main GUIs will be started as shown below:
    - 1st derivative plot as shown in Figure 13:
       This tool allow the user to select the best peak energy value either by selecting the blue dot, or by selecting any suitable value on the curve.
 
-   .. figure:: /images/peakChosen.png
+   .. figure:: /images/1stDer.png
       :align: center
       :alt: 1st derivative tool.
 
