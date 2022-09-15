@@ -180,7 +180,7 @@ Once scan is started, interactive logs will be printed on the terminal showing e
 
    *Figure 11: Interactive data visualization GUI*
 
-In case of energy calibration, two main GUIs will be popped up as below:
+In case of energy calibration, two main GUIs will be popped up as soon as the calibration scan is finshed as below:
 
    - Main plots GUI as shown in Figure 12: 
       It contains the main analysis plots of the data imported from xdi data file:
