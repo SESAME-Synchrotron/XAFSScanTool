@@ -207,14 +207,14 @@ In case of energy calibration, two main GUIs will be popped up as below:
 
    The main functions of this GUI are:
 
-   * 1st derivative plot: 1st derivative of the normalized data (refer to Figure 13).
-   * Smoothing parameters: window length and polynomial order of Savitzky-Golay filter.
-   * Interactive ability to choose the best peak energy value.
-   * Confirm button: confirm the chosen value and close the plots.
+   * Shows the 1st derivative of the normalized data (refer to Figure 13).
+   * Allows entering smoothing parameters, window length and polynomial order of Savitzky-Golay filter.
+   * Allows choosing the best peak energy value Interactively. 
+   * Includes confirm button in order to confirm the chosen value and close the plots.
 
    .. note:: According to smoothing parameters, please make sure that window length must be greater than ploynomial order, otherwise, an popup alert will be shown.
 
-   Once the peak value is chosen (either the blue dot, or any value on the curve), it will appear on terminal as shown in figure 14.
+   Once the peak value is chosen (either the blue dot, or any value on the curve), it will be printed on the terminal as shown in figure 14.
 
    .. figure:: /images/peakChosen.png
       :align: center
@@ -222,7 +222,7 @@ In case of energy calibration, two main GUIs will be popped up as below:
 
       *Figure 14: The chosen value for energy calibration*
 
-   After clicking the confirm button, the results (Crystal type, the old offset, and the new calculated offset) will be shown on the terminal as shown in figure 15.
+   After clicking the confirm button, the results (the old offset, and the new calculated offset) will be printed on the terminal as shown in figure 15.
 
    .. figure:: /images/energyCalibrationResults.png
       :align: center
@@ -232,9 +232,9 @@ In case of energy calibration, two main GUIs will be popped up as below:
 
    .. warning:: If the *Confirm* button is clicked without choosing a value, an error messages will be shown in the terminal.
       
-   .. note:: To ignore the smoothing filter, smoothing parameters should be zeros. 
+   .. note:: To ignore the smoothing filter, both smoothing parameters in the GUI should be zeros. 
 
-   .. note:: To repeat the energy calibration process, type the following command in terminal:
+   .. note:: To repeat the energy calibration process without running a scan (or when you already have a calibration xdi file), type the following command in terminal:
       ::
          python main.py --engCalib (xdi path)
          e.g. python main.py --engCalib /home/XAFSScanTool/DATA/CalibTest_Foil_Scan1_20220725T111439.xdi
