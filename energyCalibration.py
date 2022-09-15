@@ -95,7 +95,7 @@ class energyCalibration:
         # plt.title("Original Data", fontsize = 12)
         # plt.grid(color = 'green', linestyle = '--', linewidth = 0.5)
 
-        plt.subplot(2,2,1)
+        plt.subplot(2,2,4)
         plt.plot(self.energy,self.normalization, color = 'blue',label = "Normlization")
         plt.plot(self.energy,self.smoothing, color = 'red',label = "Smoothing")
         plt.plot(self.energy,self.firstDerivative,color = 'black',linewidth = 2,label = "1st derivative")
@@ -103,17 +103,17 @@ class energyCalibration:
         plt.legend(loc="upper right")
         plt.grid(color = 'green', linestyle = '--', linewidth = 0.5)
 
-        plt.subplot(2,2,2)
+        plt.subplot(2,2,1)
         plt.plot(self.energy,self.normalization)
         plt.title("Normalized Data", fontsize = 12)
         plt.grid(color = 'green', linestyle = '--', linewidth = 0.5)
 
-        plt.subplot(2,2,3)
+        plt.subplot(2,2,2)
         plt.plot(self.energy,self.smoothing)
         plt.title("Smoothed Data", fontsize = 12)
         plt.grid(color = 'green', linestyle = '--', linewidth = 0.5)
 
-        plt.subplot(2,2,4)
+        plt.subplot(2,2,3)
         plt.plot(self.energy,self.firstDerivative)
         plt.title("1st Derivative", fontsize = 12)
         plt.grid(color = 'green', linestyle = '--', linewidth = 0.5)
