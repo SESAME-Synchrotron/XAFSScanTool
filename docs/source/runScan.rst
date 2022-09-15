@@ -180,15 +180,15 @@ Once scan is started, interactive logs will be printed on the terminal showing e
 
    *Figure 11: Interactive data visualization GUI*
 
-In addition, two main GUIs will be started as shown below:
+In case of energy calibration, two main GUIs will be popped up as below:
 
-   - Main plots as shown in Figure 12: 
-      It contains the main analysis plots of xdi file:
+   - Main plots GUI as shown in Figure 12: 
+      It contains the main analysis plots of the data imported from xdi data file:
 
-      * Normalization (Linear Scalling).
-      * Smoothing (Savitzky-Golay filter with default parameters (W,P):(5,3)).
-      * 1st derivative of normalized data.
-      * All of them including 2nd derivative.
+      * Upper left corner: Normalization (Linear Scalling).
+      * Upper right corner: Smoothing (Savitzky-Golay filter with default parameters (W,P):(5,3)).
+      * Lower left corner: 1st derivative of normalized data.
+      * Lower right corner: All of the uppove including 2nd derivative.
    
    .. figure:: /images/mainPlots.png
       :align: center
@@ -196,19 +196,20 @@ In addition, two main GUIs will be started as shown below:
 
       *Figure 12: Main plots of xdi file*
 
-   - 1st derivative plot as shown in Figure 13:
-      This tool allow the user to select the best peak energy value either by selecting the blue dot, or by selecting any suitable value on the curve.
+   - 1st derivative plot GUI as shown in Figure 13:
+      This GUI allows user to select the best peak energy value either by selecting the blue dot, or by choosing any other value on the curve.
 
    .. figure:: /images/1stDer.png
       :align: center
       :alt: 1st derivative tool.
 
-      *Figure 13: 1st derivative tool of energy calibration*
+      *Figure 13: 1st derivative GUI of energy calibration*
 
-   The main functions of this tool are:
+   The main functions of this GUI are:
 
-   * 1st derivative plot: 1st derivative of normalized data (refer to Figure 13).
-   * Smoothing Parameters: window length and polynomial order of Savitzky-Golay filter.
+   * 1st derivative plot: 1st derivative of the normalized data (refer to Figure 13).
+   * Smoothing parameters: window length and polynomial order of Savitzky-Golay filter.
+   * Interactive ability to choose the best peak energy value.
    * Confirm button: confirm the chosen value and close the plots.
 
    .. note:: According to smoothing parameters, please make sure that window length must be greater than ploynomial order, otherwise, an popup alert will be shown.
@@ -221,7 +222,7 @@ In addition, two main GUIs will be started as shown below:
 
       *Figure 14: The chosen value for energy calibration*
 
-   After clicking the confirm button, the results (Crystal type, the old offset, and the new offset) will be shown on the terminal as shown in figure 15.
+   After clicking the confirm button, the results (Crystal type, the old offset, and the new calculated offset) will be shown on the terminal as shown in figure 15.
 
    .. figure:: /images/energyCalibrationResults.png
       :align: center
