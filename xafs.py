@@ -567,7 +567,8 @@ class XAFSSCAN:
 			if scanRefNumber != scan:
 				scanRefNumber = scanRefNumber + 1 
 				scanCounter = 0
-				self.creationTime = str(time.strftime("%Y%m%dT%H%M%S"))
+				#self.creationTime = str(time.strftime("%Y%m%dT%H%M%S"))
+				
 
 			for point in points:
 				self.checkPause()
