@@ -105,11 +105,8 @@ class XDIWriter:
 		if not os.path.exists(self.fullFileName): 
 			f = open (self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_XAFS/0.9\n")
-			if self.stepUnit == 1:
-				f.write("# Column.1: energy (KeV)\n")
-				f.write("# Column.1.1: energy (eV)\n")
-			else:
-				f.write("# Column.1: energy (eV)\n")
+			f.write("# Column.1: energy (KeV)\n")
+			f.write("# Column.1.1: energy (eV)\n")
 			f.write("# Column.2: I0\n")
 			f.write("# Column.3: Itrans\n")
 			f.write("# Column.4: Irefer\n")
@@ -171,32 +168,19 @@ class XDIWriter:
 			f.write("# Experiment comments and remarks: {}\n".format(self.expCom))
 			f.write("# User comments and remarks: {}\n".format(self.userCom))
 			f.write("#----\n")
-			if self.stepUnit == 1: 
-				f.write("#(1)energy (KeV)   (1.1)energy (eV)   (2)I0   (3)Itrans   (4)Irefer   (5)mutrans   (6)murefer   (7)KETEK-Ifluor   (8)KETEK-mufluor   (9)KETEK-ROI_0[c/s]   (10)KETEK-ROI_1[c/s]   (11)KETEK-ROI_2[c/s]   (12)KETEK-e-time[sec]   (13)KETEK-DEADTIME[%]   (14)KETEK-INT_TIME[sec]   (15)KETEK-OCR   (16)KETEK-ICR"\
-				"   (17)FICUS-Ifluor   (18)FICUS-mufluor   (19)FICUS-ROI_0[c/s]   (20)FICUS-ROI_1[c/s]   (21)FICUS-ROI_2[c/s]   (22)FICUS-e-time[sec]   (23)FICUS-DEADTIME[%]   (24)FICUS-INT_TIME[sec]\n")
-			else: 
-				f.write("#(1)energy   (2)I0   (3)Itrans   (4)Irefer   (5)mutrans   (6)murefer   (7)KETEK-Ifluor   (8)KETEK-mufluor   (9)KETEK-ROI_0[c/s]   (10)KETEK-ROI_1[c/s]   (11)KETEK-ROI_2[c/s]   (12)KETEK-e-time[sec]   (13)KETEK-DEADTIME[%]   (14)KETEK-INT_TIME[sec]   (15)KETEK-OCR   (16)KETEK-ICR"\
+			f.write("#(1)energy (KeV)   (1.1)energy (eV)   (2)I0   (3)Itrans   (4)Irefer   (5)mutrans   (6)murefer   (7)KETEK-Ifluor   (8)KETEK-mufluor   (9)KETEK-ROI_0[c/s]   (10)KETEK-ROI_1[c/s]   (11)KETEK-ROI_2[c/s]   (12)KETEK-e-time[sec]   (13)KETEK-DEADTIME[%]   (14)KETEK-INT_TIME[sec]   (15)KETEK-OCR   (16)KETEK-ICR"\
 				"   (17)FICUS-Ifluor   (18)FICUS-mufluor   (19)FICUS-ROI_0[c/s]   (20)FICUS-ROI_1[c/s]   (21)FICUS-ROI_2[c/s]   (22)FICUS-e-time[sec]   (23)FICUS-DEADTIME[%]   (24)FICUS-INT_TIME[sec]\n")
 			f.close()
 
 	def fillICKFDataTable(self): # Fill IC, Ketek and FICUS collected data. 
 		f = open (self.fullFileName, "a")
-		if self.stepUnit == 1: 
-			f.write("%10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e \n" 
-			%(float(self.data["ENERGY-RBK"]), float(self.data["ENERGY-RBK"])*1000 ,float(self.data["IC1[V]"]), float(self.data["IC2[V]"]), float(self.data["IC3[V]"]), 
-				float(self.data["TRANS"]), float(self.data["TransRef"]), float(self.data["KETEK-If"]), float(self.data["KETEK-FLUOR"]), float(self.data["KETEK-ROI_0[c/s]"]), float(self.data["KETEK-ROI_1[c/s]"]), float(self.data["KETEK-ROI_2[c/s]"]),
-				float(self.data["KETEK-e-time[sec]"]), float(self.data["KETEK-DEADTIME[%]"]),
-				float(self.data["KETEK-INT_TIME[sec]"]), float(self.data["KETEK-OCR"]), float(self.data["KETEK-ICR"]),
-				float(self.data["FICUS-If"]), float(self.data["FICUS-FLUOR"]), float(self.data["FICUS-ROI_0[c/s]"]), float(self.data["FICUS-ROI_1[c/s]"]), float(self.data["FICUS-ROI_2[c/s]"]),
-				float(self.data["FICUS-e-time[sec]"]), float(self.data["FICUS-DEADTIME[%]"]), float(self.data["FICUS-INT_TIME[sec]"])  ))
-		else:
-			f.write("%10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e \n" 
-			%(float(self.data["ENERGY-RBK"]), float(self.data["IC1[V]"]), float(self.data["IC2[V]"]), float(self.data["IC3[V]"]), 
-				float(self.data["TRANS"]), float(self.data["TransRef"]), float(self.data["KETEK-If"]), float(self.data["KETEK-FLUOR"]), float(self.data["KETEK-ROI_0[c/s]"]), float(self.data["KETEK-ROI_1[c/s]"]), float(self.data["KETEK-ROI_2[c/s]"]),
-				float(self.data["KETEK-e-time[sec]"]), float(self.data["KETEK-DEADTIME[%]"]),
-				float(self.data["KETEK-INT_TIME[sec]"]), float(self.data["KETEK-OCR"]), float(self.data["KETEK-ICR"]),
-				float(self.data["FICUS-If"]), float(self.data["FICUS-FLUOR"]), float(self.data["FICUS-ROI_0[c/s]"]), float(self.data["FICUS-ROI_1[c/s]"]), float(self.data["FICUS-ROI_2[c/s]"]),
-				float(self.data["FICUS-e-time[sec]"]), float(self.data["FICUS-DEADTIME[%]"]), float(self.data["FICUS-INT_TIME[sec]"])  ))
+		f.write("%10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e \n" 
+		%(float(self.data["ENERGY-RBK"]), float(self.data["ENERGY-RBK"])*1000 ,float(self.data["IC1[V]"]), float(self.data["IC2[V]"]), float(self.data["IC3[V]"]), 
+			float(self.data["TRANS"]), float(self.data["TransRef"]), float(self.data["KETEK-If"]), float(self.data["KETEK-FLUOR"]), float(self.data["KETEK-ROI_0[c/s]"]), float(self.data["KETEK-ROI_1[c/s]"]), float(self.data["KETEK-ROI_2[c/s]"]),
+			float(self.data["KETEK-e-time[sec]"]), float(self.data["KETEK-DEADTIME[%]"]),
+			float(self.data["KETEK-INT_TIME[sec]"]), float(self.data["KETEK-OCR"]), float(self.data["KETEK-ICR"]),
+			float(self.data["FICUS-If"]), float(self.data["FICUS-FLUOR"]), float(self.data["FICUS-ROI_0[c/s]"]), float(self.data["FICUS-ROI_1[c/s]"]), float(self.data["FICUS-ROI_2[c/s]"]),
+			float(self.data["FICUS-e-time[sec]"]), float(self.data["FICUS-DEADTIME[%]"]), float(self.data["FICUS-INT_TIME[sec]"])  ))
 		f.close()
 
 	def createICKXDIFile(self):
@@ -204,11 +188,8 @@ class XDIWriter:
 		if not os.path.exists(self.fullFileName): 
 			f = open (self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_XAFS/0.9\n")
-			if self.stepUnit == 1:
-				f.write("# Column.1: energy (KeV)\n")
-				f.write("# Column.1.1: energy (eV)\n")
-			else:
-				f.write("# Column.1: energy (eV)\n")
+			f.write("# Column.1: energy (KeV)\n")
+			f.write("# Column.1.1: energy (eV)\n")
 			f.write("# Column.2: I0\n")
 			f.write("# Column.3: Itrans\n")
 			f.write("# Column.4: Irefer\n")
@@ -261,26 +242,16 @@ class XDIWriter:
 			f.write("# Experiment comments and remarks: {}\n".format(self.expCom))
 			f.write("# User comments and remarks: {}\n".format(self.userCom))
 			f.write("#----\n")
-			if self.stepUnit == 1: 
-				f.write("#(1)energy (KeV)   (1.1)energy (eV)   (2)I0   (3)Itrans   (4)Irefer   (5)mutrans   (6)murefer   (7)KETEK-Ifluor   (8)KETEK-mufluor   (9)KETEK-ROI_0[c/s]   (10)KETEK-ROI_1[c/s]   (11)KETEK-ROI_2[c/s]   (12)KETEK-e-time[sec]   (13)KETEK-DEADTIME[%]   (14)KETEK-INT_TIME[sec]   (15)KETEK-OCR   (16)KETEK-ICR\n")
-			else:
-				f.write("#(1)energy   (2)I0   (3)Itrans   (4)Irefer   (5)mutrans   (6)murefer   (7)KETEK-Ifluor   (8)KETEK-mufluor   (9)KETEK-ROI_0[c/s]   (10)KETEK-ROI_1[c/s]   (11)KETEK-ROI_2[c/s]   (12)KETEK-e-time[sec]   (13)KETEK-DEADTIME[%]   (14)KETEK-INT_TIME[sec]   (15)KETEK-OCR   (16)KETEK-ICR\n")
+			f.write("#(1)energy (KeV)   (1.1)energy (eV)   (2)I0   (3)Itrans   (4)Irefer   (5)mutrans   (6)murefer   (7)KETEK-Ifluor   (8)KETEK-mufluor   (9)KETEK-ROI_0[c/s]   (10)KETEK-ROI_1[c/s]   (11)KETEK-ROI_2[c/s]   (12)KETEK-e-time[sec]   (13)KETEK-DEADTIME[%]   (14)KETEK-INT_TIME[sec]   (15)KETEK-OCR   (16)KETEK-ICR\n")
 			f.close()
 
 	def fillICKDataTable(self):
 		f = open (self.fullFileName, "a")
-		if self.stepUnit == 1: 
-			f.write("%10.6e  %10.6e   %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e \n" 
-			%(float(self.data["ENERGY-RBK"]), float(self.data["ENERGY-RBK"])*1000, float(self.data["IC1[V]"]), float(self.data["IC2[V]"]), float(self.data["IC3[V]"]), 
-				float(self.data["TRANS"]), float(self.data["TransRef"]), float(self.data["KETEK-If"]), float(self.data["KETEK-FLUOR"]), float(self.data["KETEK-ROI_0[c/s]"]), float(self.data["KETEK-ROI_1[c/s]"]), float(self.data["KETEK-ROI_2[c/s]"]),
-				float(self.data["KETEK-e-time[sec]"]), float(self.data["KETEK-DEADTIME[%]"]),
-				float(self.data["KETEK-INT_TIME[sec]"]), float(self.data["KETEK-OCR"]), float(self.data["KETEK-ICR"])))
-		else:
-			f.write("%10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e \n" 
-			%(float(self.data["ENERGY-RBK"]), float(self.data["IC1[V]"]), float(self.data["IC2[V]"]), float(self.data["IC3[V]"]), 
-				float(self.data["TRANS"]), float(self.data["TransRef"]), float(self.data["KETEK-If"]), float(self.data["KETEK-FLUOR"]), float(self.data["KETEK-ROI_0[c/s]"]), float(self.data["KETEK-ROI_1[c/s]"]), float(self.data["KETEK-ROI_2[c/s]"]),
-				float(self.data["KETEK-e-time[sec]"]), float(self.data["KETEK-DEADTIME[%]"]),
-				float(self.data["KETEK-INT_TIME[sec]"]), float(self.data["KETEK-OCR"]), float(self.data["KETEK-ICR"])))
+		f.write("%10.6e  %10.6e   %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e \n" 
+		%(float(self.data["ENERGY-RBK"]), float(self.data["ENERGY-RBK"])*1000, float(self.data["IC1[V]"]), float(self.data["IC2[V]"]), float(self.data["IC3[V]"]), 
+			float(self.data["TRANS"]), float(self.data["TransRef"]), float(self.data["KETEK-If"]), float(self.data["KETEK-FLUOR"]), float(self.data["KETEK-ROI_0[c/s]"]), float(self.data["KETEK-ROI_1[c/s]"]), float(self.data["KETEK-ROI_2[c/s]"]),
+			float(self.data["KETEK-e-time[sec]"]), float(self.data["KETEK-DEADTIME[%]"]),
+			float(self.data["KETEK-INT_TIME[sec]"]), float(self.data["KETEK-OCR"]), float(self.data["KETEK-ICR"])))
 		f.close()
 
 	def createICXDIFile(self):
@@ -288,11 +259,8 @@ class XDIWriter:
 		if not os.path.exists(self.fullFileName): 
 			f = open (self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_XAFS/0.9\n")
-			if self.stepUnit == 1:
-				f.write("# Column.1: energy (KeV)\n")
-				f.write("# Column.1.1: energy (eV)\n")
-			else:
-				f.write("# Column.1: energy (eV)\n")
+			f.write("# Column.1: energy (KeV)\n")
+			f.write("# Column.1.1: energy (eV)\n")
 			f.write("# Column.2: I0\n")
 			f.write("# Column.3: Itrans\n")
 			f.write("# Column.4: Irefer\n")
@@ -334,23 +302,15 @@ class XDIWriter:
 			f.write("# Experiment comments and remarks: {}\n".format(self.expCom))
 			f.write("# User comments and remarks: {}\n".format(self.userCom))
 			f.write("#----\n")
-			if self.stepUnit == 1: 
-				f.write("#(1)energy (KeV)  (1.1)energy (eV)   (2)I0   (3)Itrans   (4)Irefer   (5)mutrans   (6)murefer\n")
-			else: 
-				f.write("#(1)energy   (2)I0   (3)Itrans   (4)Irefer   (5)mutrans   (6)murefer\n")
+			f.write("#(1)energy (KeV)  (1.1)energy (eV)   (2)I0   (3)Itrans   (4)Irefer   (5)mutrans   (6)murefer\n")
 			f.close()
 
 
 	def fillICDataTable(self):
 		f = open (self.fullFileName, "a")
-		if self.stepUnit == 1: 
-			f.write("%10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e \n" 
-			%(float(self.data["ENERGY-RBK"]), float(self.data["ENERGY-RBK"])*1000, float(self.data["IC1[V]"]), float(self.data["IC2[V]"]), float(self.data["IC3[V]"]), 
-				float(self.data["TRANS"]), float(self.data["TransRef"])))
-		else:
-			f.write("%10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e \n" 
-			%(float(self.data["ENERGY-RBK"]), float(self.data["IC1[V]"]), float(self.data["IC2[V]"]), float(self.data["IC3[V]"]), 
-				float(self.data["TRANS"]), float(self.data["TransRef"])))
+		f.write("%10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e \n" 
+		%(float(self.data["ENERGY-RBK"]), float(self.data["ENERGY-RBK"])*1000, float(self.data["IC1[V]"]), float(self.data["IC2[V]"]), float(self.data["IC3[V]"]), 
+			float(self.data["TRANS"]), float(self.data["TransRef"])))
 		f.close()
 
 
@@ -358,11 +318,8 @@ class XDIWriter:
 		if not os.path.exists(self.fullFileName): 
 			f = open (self.fullFileName, "w")
 			f.write("# XDI/1.0 SED_XAFS/0.9\n")
-			if self.stepUnit == 1:
-				f.write("# Column.1: energy (KeV)\n")
-				f.write("# Column.1.1: energy (eV)\n")
-			else:
-				f.write("# Column.1: energy (eV)\n")
+			f.write("# Column.1: energy (KeV)\n")
+			f.write("# Column.1.1: energy (eV)\n")
 			f.write("# Column.2: I0\n")
 			f.write("# Column.3: Itrans\n")
 			f.write("# Column.4: Irefer\n")
@@ -413,30 +370,18 @@ class XDIWriter:
 			f.write("# Experiment comments and remarks: {}\n".format(self.expCom))
 			f.write("# User comments and remarks: {}\n".format(self.userCom))
 			f.write("#----\n")
-			if self.stepUnit == 1: 
-				f.write("#(1)energy (KeV)   (1.1)energy (eV)   (2)I0   (3)Itrans   (4)Irefer   (5)mutrans   (6)murefer   "\
-					"(7)FICUS-Ifluor   (8)FICUS-mufluor (9)FICUS-ROI_0[c/s]   (10)FICUS-ROI_1[c/s]   (11)FICUS-ROI_2[c/s]   "\
-					"(12)FICUS-e-time[sec]   (13)FICUS-DEADTIME[%]   (14)FICUS-INT_TIME[sec]\n")
-			else:
-				f.write("#(1)energy   (2)I0   (3)Itrans   (4)Irefer   (5)mutrans   (6)murefer   "\
-					"(7)FICUS-Ifluor   (8)FICUS-mufluor (9)FICUS-ROI_0[c/s]   (10)FICUS-ROI_1[c/s]   (11)FICUS-ROI_2[c/s]   "\
-					"(12)FICUS-e-time[sec]   (13)FICUS-DEADTIME[%]   (14)FICUS-INT_TIME[sec]\n")
+			f.write("#(1)energy (KeV)   (1.1)energy (eV)   (2)I0   (3)Itrans   (4)Irefer   (5)mutrans   (6)murefer   "\
+				"(7)FICUS-Ifluor   (8)FICUS-mufluor (9)FICUS-ROI_0[c/s]   (10)FICUS-ROI_1[c/s]   (11)FICUS-ROI_2[c/s]   "\
+				"(12)FICUS-e-time[sec]   (13)FICUS-DEADTIME[%]   (14)FICUS-INT_TIME[sec]\n")
 			f.close()
 
 	def fillICFDataTable(self): # create IC KETEk xdi data file 
 		f = open (self.fullFileName, "a")
-		if self.stepUnit == 1: 
-			f.write("%10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e \n" 
-			%(float(self.data["ENERGY-RBK"]),float(self.data["ENERGY-RBK"])*1000, float(self.data["IC1[V]"]), float(self.data["IC2[V]"]), float(self.data["IC3[V]"]), 
-				float(self.data["TRANS"]), float(self.data["TransRef"]), 
-				float(self.data["FICUS-If"]), float(self.data["FICUS-FLUOR"]), float(self.data["FICUS-ROI_0[c/s]"]), float(self.data["FICUS-ROI_1[c/s]"]), float(self.data["FICUS-ROI_2[c/s]"]),
-				float(self.data["FICUS-e-time[sec]"]), float(self.data["FICUS-DEADTIME[%]"]), float(self.data["FICUS-INT_TIME[sec]"]) ))
-		else:
-			f.write("%10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e \n" 
-			%(float(self.data["ENERGY-RBK"]), float(self.data["IC1[V]"]), float(self.data["IC2[V]"]), float(self.data["IC3[V]"]), 
-				float(self.data["TRANS"]), float(self.data["TransRef"]), 
-				float(self.data["FICUS-If"]), float(self.data["FICUS-FLUOR"]), float(self.data["FICUS-ROI_0[c/s]"]), float(self.data["FICUS-ROI_1[c/s]"]), float(self.data["FICUS-ROI_2[c/s]"]),
-				float(self.data["FICUS-e-time[sec]"]), float(self.data["FICUS-DEADTIME[%]"]), float(self.data["FICUS-INT_TIME[sec]"]) ))
+		f.write("%10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e  %10.6e \n" 
+		%(float(self.data["ENERGY-RBK"]),float(self.data["ENERGY-RBK"])*1000, float(self.data["IC1[V]"]), float(self.data["IC2[V]"]), float(self.data["IC3[V]"]), 
+			float(self.data["TRANS"]), float(self.data["TransRef"]), 
+			float(self.data["FICUS-If"]), float(self.data["FICUS-FLUOR"]), float(self.data["FICUS-ROI_0[c/s]"]), float(self.data["FICUS-ROI_1[c/s]"]), float(self.data["FICUS-ROI_2[c/s]"]),
+			float(self.data["FICUS-e-time[sec]"]), float(self.data["FICUS-DEADTIME[%]"]), float(self.data["FICUS-INT_TIME[sec]"]) ))
 		f.close()
 
 	def onClose(self): 
