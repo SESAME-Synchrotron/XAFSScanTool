@@ -1,5 +1,5 @@
 {
-  "users_data_path": "/home/SED-Data/XAFS/SEM_2/20190139/ExpData/",
+  "users_data_path": "/home/SED-Data/XAFS/SEM_1/20185020/ExpData/",
   "local_data_path": "/home/control/XAFSScanTool/DATA",
   "ficus_workstation_data_path": "D:\\DATA",
   "log_file": "/tmp/xafscan.log",
