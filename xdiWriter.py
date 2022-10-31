@@ -33,7 +33,6 @@ class XDIWriter:
 		self.numIntervals = self.cfg["NIntervals"]
 		self.numSamples = self.cfg["Nsamples"]
 		self.settlingTime = self.cfg["settlingTime"]
-		self.stepUnit = self.cfg["stepUnit"]
 
 		self.scanNum = self.curentScanInfo[1]["Scan"]
 		self.intervalNum = self.curentScanInfo[2]["Interval"]
