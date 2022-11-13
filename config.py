@@ -67,7 +67,8 @@ class ConfigGUI:
 		self.guiObj.configureDetectors.clicked.connect(self.Detectors)
 
 		#self.guiObj.sampleName.textChanged.connect(self.getFoilElementEnergy(self.guiObj.edge.currentText(), self.guiObj.sampleName.text()))
-		self.guiObj.sampleName.textChanged.connect(self.getFoilElementEnergy("K", "Cu"))
+		self.guiObj.sampleName.textChanged.connect(self.getFoilElementEnergy)
+		self.guiObj.edge.currentTextChanged.connect(self.getFoilElementEnergy)
 
 		self.Qwiz.exec_()
 	def onClose(self): 
@@ -515,18 +516,25 @@ class ConfigGUI:
 			print ("Check config")
 			return self.WizardPages.editCfg.value
 			
-	def getFoilElementEnergy(self, edge, foilElement):
-		 if edge == "":
+	def getFoilElementEnergy(self):
+		edge = self.guiObj.edge.currentText()
+		foilElement = self.guiObj.sampleName.text()
+		print(edge)
+		print(foilElement)
+		if edge == "":
 			edge = "K" # goes to default 
-
+			print("HERE ============")
 		if foilElement == "":
 			print("HERE ============")
 			self.guiObj.energy.setText(None)
 		
 		elif electronBindingEnergies(foilElement).elementExist():
+			print("OOOOOOOOOOOOO========================")
 
 			elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
+			print(elementEnergy, "EEEEEEEEEEEEEEEEEEEEEEEE")
 			self.guiObj.energy.setText(str(elementEnergy)) 
+			print(elementEnergy, "EEEEEEEEEEEEEEEEEEEEEEEE")
 
 		else: 
 			self.guiObj.energy.setText(None)
@@ -575,6 +583,8 @@ class ConfigGUI:
 		# 	self.guiObj.energy.setText(str(13035))
 		# else:
 		# 	self.guiObj.energy.setText(None)
+
+
 	def start(self):
 		NIntervals = self.guiObj.setNumofIterv.text()
 		if NIntervals == '' or not Common.validate(
