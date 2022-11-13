@@ -560,6 +560,7 @@ class XAFSSCAN:
 			stepUnit = currentInterval["stepUnit"]
 			
 			if stepUnit == 1: 
+				print ("=======================", "startpoint ::", startpoint, "endpoint ::", endpoint,"stepsize::", stepsize)
 				points = self.drangeK(startpoint,endpoint,stepsize)
 			else:
 				points = self.drange(startpoint,endpoint,stepsize)
