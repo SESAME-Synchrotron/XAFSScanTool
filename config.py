@@ -522,7 +522,7 @@ class ConfigGUI:
 		if foilElement == "":
 			self.guiObj.energy.setText(None)
 		
-		elif: electronBindingEnergies(foilElement).elementExist():
+		elif electronBindingEnergies(foilElement).elementExist():
 			elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
 			self.guiObj.energy.setText(str(elementEnergy)) 
 
