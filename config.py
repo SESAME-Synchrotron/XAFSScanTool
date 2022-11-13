@@ -417,8 +417,8 @@ class ConfigGUI:
 			#if Common.regexvalidation("sampleName", self.guiObj.sampleName.text()):
 			if electronBindingEnergies(self.guiObj.sampleName.text()).elementExist():
 				
-				self.getFoilElementEnergy(self.guiObj.edge.currentText(), self.guiObj.sampleName.text())
-				elementEnergy = electronBindingEnergies(self.guiObj.sampleName.text()).getEdgeEnergy(self.guiObj.edge.currentText())	
+				self.getFoilElementEnergy()
+				#elementEnergy = electronBindingEnergies(self.guiObj.sampleName.text()).getEdgeEnergy(self.guiObj.edge.currentText())	
 				expMetaData.append({"sampleName":self.guiObj.sampleName.text()})
 				caput(self.PVs["PV"]["ENGCAL:FoilElement"]["pvname"], self.guiObj.sampleName.text())
 				caput(self.PVs["PV"]["ENGCAL:RealFoilEng"]["pvname"], self.guiObj.energy.text())
