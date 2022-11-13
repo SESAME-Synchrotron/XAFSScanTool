@@ -275,232 +275,232 @@ class ConfigGUI:
 
 	def checkConfig(self):
 		expMetaData = []
-		# try:
-		NIntervals = self.guiObj.setNumofIterv.text()
-		#print(NIntervals, type(NIntervals), "<-")
-		if NIntervals == '' or not Common.regexvalidation("NIntervals",NIntervals):
-			CLIMessage("Please enter valid Number of intervals","W")
-			return self.WizardPages.editCfg.value
-		self.IntervalsGUI.setIntervalsNumber(self.cfg)
-		Nsamples = self.guiObj.setNumofSamples.text()
-		if Nsamples == '' or not Common.regexvalidation("Nsample", Nsamples):
-			CLIMessage("Please enter valid number of Samples","W")
-			return self.WizardPages.editCfg.value
+		try:
+			NIntervals = self.guiObj.setNumofIterv.text()
+			#print(NIntervals, type(NIntervals), "<-")
+			if NIntervals == '' or not Common.regexvalidation("NIntervals",NIntervals):
+				CLIMessage("Please enter valid Number of intervals","W")
+				return self.WizardPages.editCfg.value
+			self.IntervalsGUI.setIntervalsNumber(self.cfg)
+			Nsamples = self.guiObj.setNumofSamples.text()
+			if Nsamples == '' or not Common.regexvalidation("Nsample", Nsamples):
+				CLIMessage("Please enter valid number of Samples","W")
+				return self.WizardPages.editCfg.value
 
-		Nscans = self.guiObj.setNumofExafsScans.text()
-		if Nscans == '' or not Common.regexvalidation("Nscans", Nscans):
-			CLIMessage("Please enter valid number of scans","W")
-			return self.WizardPages.editCfg.value
+			Nscans = self.guiObj.setNumofExafsScans.text()
+			if Nscans == '' or not Common.regexvalidation("Nscans", Nscans):
+				CLIMessage("Please enter valid number of scans","W")
+				return self.WizardPages.editCfg.value
 
-		DataFileName = self.guiObj.setDataFileName.text()
-		if DataFileName == '' or not Common.regexvalidation("DataFileName", DataFileName):
-			CLIMessage("Please enter a valid data file name", "W")
-			return self.WizardPages.editCfg.value
+			DataFileName = self.guiObj.setDataFileName.text()
+			if DataFileName == '' or not Common.regexvalidation("DataFileName", DataFileName):
+				CLIMessage("Please enter a valid data file name", "W")
+				return self.WizardPages.editCfg.value
 
-		settlingTime = self.guiObj.settlingTime.text()
-		if settlingTime == '' or not Common.regexvalidation("settlingTime", settlingTime):
-			CLIMessage("Please enter valid settling time", "W")
-			return self.WizardPages.editCfg.value
+			settlingTime = self.guiObj.settlingTime.text()
+			if settlingTime == '' or not Common.regexvalidation("settlingTime", settlingTime):
+				CLIMessage("Please enter valid settling time", "W")
+				return self.WizardPages.editCfg.value
 
 
 
-		intervals = [{} for i in range(int(NIntervals))]
-		for interval in range(int(NIntervals)):#range(self.IntervalsGUI.interval_UI.tableWidget.rowCount()):
-			"""
-			without try and except, the script will try to check the linedit text before inisialization 
-			and thus generat errors 
-			"""
-			try: 
-				start = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 0).text()
-				if start == '' or not Common.validate("Startpoint", start, "Please enter valid start point"):
+			intervals = [{} for i in range(int(NIntervals))]
+			for interval in range(int(NIntervals)):#range(self.IntervalsGUI.interval_UI.tableWidget.rowCount()):
+				"""
+				without try and except, the script will try to check the linedit text before inisialization 
+				and thus generat errors 
+				"""
+				try: 
+					start = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 0).text()
+					if start == '' or not Common.validate("Startpoint", start, "Please enter valid start point"):
+						CLIMessage("Please check/enter the start point for interval number {}".format(interval), "W") 
+						return self.WizardPages.editCfg.value
+
+				except: 
 					CLIMessage("Please check/enter the start point for interval number {}".format(interval), "W") 
-					return self.WizardPages.editCfg.value
 
-			except: 
-				CLIMessage("Please check/enter the start point for interval number {}".format(interval), "W") 
-
-			try: 
-				end = self.IntervalsGUI.interval_UI.tableWidget.item(interval,1).text()
-				if end == '' or not Common.validate("Endpoint", end, "Please enter valid end point"):
+				try: 
+					end = self.IntervalsGUI.interval_UI.tableWidget.item(interval,1).text()
+					if end == '' or not Common.validate("Endpoint", end, "Please enter valid end point"):
+						CLIMessage("Please check/enter the end point for interval number {}".format(interval), "W") 
+						return self.WizardPages.editCfg.value
+				except:
 					CLIMessage("Please check/enter the end point for interval number {}".format(interval), "W") 
-					return self.WizardPages.editCfg.value
-			except:
-				CLIMessage("Please check/enter the end point for interval number {}".format(interval), "W") 
 
-			try: 
-				stepsize = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 2).text()
-				if stepsize == '' or not Common.validate("Stepsize", end, "Please enter valid step size"):
+				try: 
+					stepsize = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 2).text()
+					if stepsize == '' or not Common.validate("Stepsize", end, "Please enter valid step size"):
+						CLIMessage("Please check/enter the step-size for interval number {}".format(interval), "W") 
+						return self.WizardPages.editCfg.value
+				except: 
 					CLIMessage("Please check/enter the step-size for interval number {}".format(interval), "W") 
-					return self.WizardPages.editCfg.value
-			except: 
-				CLIMessage("Please check/enter the step-size for interval number {}".format(interval), "W") 
 
-			try:
-				IcIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 3).text()
-				if IcIntTime == '' or not Common.validate("IcsIntTime", end,"Please enter valid IC integration time for "\
-					"interval number {}".format(interval)):
+				try:
+					IcIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 3).text()
+					if IcIntTime == '' or not Common.validate("IcsIntTime", end,"Please enter valid IC integration time for "\
+						"interval number {}".format(interval)):
+						CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W") 
+						return self.WizardPages.editCfg.value
+				except: 
 					CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W") 
+
+				#intervals[interval]["DetIntTime"] = self.IntervalsGUI._AcqTimes[interval]
+				intervals[interval]["DetIntTime"] = self.IntervalsGUI.FicusIntTimeDic[interval]
+				intervals[interval]["stepUnit"] = self.IntervalsGUI.stepUnitDic[interval]
+
+				isExtTrigger = self.IntervalsGUI._AcqTimes[interval]
+				if isExtTrigger == 15:
+					ExtTriggerIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 5).text()
+					if ExtTriggerIntTime == '' or not Common.validate(
+							"ExtTriggerIntTime", ExtTriggerIntTime,"Please enter valid External Trigger duration"):
+						return self.WizardPages.editCfg.value
+
+			SamplePositions = [{} for i in range(int(Nsamples))]
+			for sample in range(self.SamplesGUI.sample_UI.samplepositions.rowCount()):
+				try: 
+					Xposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 0).text()
+					if Xposition == '' or not Common.validate("Xposition", Xposition,"Please enter valid sample x position"):
+						CLIMessage("Please check/enter (x) position for sample number {}".format(sample), "W") 
+						return self.WizardPages.editCfg.value
+
+
+
+					Yposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 1).text()
+					if Yposition == '' or not Common.validate("Yposition", Yposition,"Please enter valid sample y position"):
+						CLIMessage("Please check/enter (y) position for sample number {}".format(sample), "W") 
+						return self.WizardPages.editCfg.value
+				except: 
+					CLIMessage("Please check/enter (x,y) position for sample number {}".format(sample), "W")
+
+				try:
+					sampleTitle = self.SamplesGUI.sample_UI.samplepositions.item(sample, 2).text()
+					if sampleTitle == '' or not Common.validate("sampleTitle", sampleTitle,"Please enter valid sample name"):
+						CLIMessage("Please check/enter sample name in the Samples dialog for the sameple number: {}".format(sample), "W") 
+						return self.WizardPages.editCfg.value
+				except:
+					CLIMessage("Please check/enter the sample name in the Samples dialog", "W")
 					return self.WizardPages.editCfg.value
-			except: 
-				CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W") 
-
-			#intervals[interval]["DetIntTime"] = self.IntervalsGUI._AcqTimes[interval]
-			intervals[interval]["DetIntTime"] = self.IntervalsGUI.FicusIntTimeDic[interval]
-			intervals[interval]["stepUnit"] = self.IntervalsGUI.stepUnitDic[interval]
-
-			isExtTrigger = self.IntervalsGUI._AcqTimes[interval]
-			if isExtTrigger == 15:
-				ExtTriggerIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 5).text()
-				if ExtTriggerIntTime == '' or not Common.validate(
-						"ExtTriggerIntTime", ExtTriggerIntTime,"Please enter valid External Trigger duration"):
-					return self.WizardPages.editCfg.value
-
-		SamplePositions = [{} for i in range(int(Nsamples))]
-		for sample in range(self.SamplesGUI.sample_UI.samplepositions.rowCount()):
-			try: 
-				Xposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 0).text()
-				if Xposition == '' or not Common.validate("Xposition", Xposition,"Please enter valid sample x position"):
-					CLIMessage("Please check/enter (x) position for sample number {}".format(sample), "W") 
-					return self.WizardPages.editCfg.value
 
 
+			####################### Metadata section ##############################
 
-				Yposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 1).text()
-				if Yposition == '' or not Common.validate("Yposition", Yposition,"Please enter valid sample y position"):
-					CLIMessage("Please check/enter (y) position for sample number {}".format(sample), "W") 
-					return self.WizardPages.editCfg.value
-			except: 
-				CLIMessage("Please check/enter (x,y) position for sample number {}".format(sample), "W")
-
-			try:
-				sampleTitle = self.SamplesGUI.sample_UI.samplepositions.item(sample, 2).text()
-				if sampleTitle == '' or not Common.validate("sampleTitle", sampleTitle,"Please enter valid sample name"):
-					CLIMessage("Please check/enter sample name in the Samples dialog for the sameple number: {}".format(sample), "W") 
-					return self.WizardPages.editCfg.value
-			except:
-				CLIMessage("Please check/enter the sample name in the Samples dialog", "W")
+			if self.DetectorsGUI.detectors_UI.IC1GasMix.text() == "":
+				CLIMessage("Please enter the IC1 gas being used", "W")
 				return self.WizardPages.editCfg.value
+			else:
+				expMetaData.append({"IC1GasMix":self.DetectorsGUI.detectors_UI.IC1GasMix.text()})
 
+			if self.DetectorsGUI.detectors_UI.IC2GasMix.text() == "":
+				CLIMessage("Please enter the IC2 gas being used", "W")
+				return self.WizardPages.editCfg.value
+			else:
+				expMetaData.append({"IC2GasMix":self.DetectorsGUI.detectors_UI.IC2GasMix.text()})
 
-		####################### Metadata section ##############################
+			if self.DetectorsGUI.detectors_UI.IC3GasMix.text() == "":
+				CLIMessage("Please enter the IC3 gas being used", "W")
+				return self.WizardPages.editCfg.value
+			else:
+				expMetaData.append({"IC3GasMix":self.DetectorsGUI.detectors_UI.IC3GasMix.text()})
 
-		if self.DetectorsGUI.detectors_UI.IC1GasMix.text() == "":
-			CLIMessage("Please enter the IC1 gas being used", "W")
-			return self.WizardPages.editCfg.value
-		else:
-			expMetaData.append({"IC1GasMix":self.DetectorsGUI.detectors_UI.IC1GasMix.text()})
+			if self.guiObj.edge.currentText() == "":
+				CLIMessage("Please choose the element edge", "W")
+				return self.WizardPages.editCfg.value
+			else:
+				#senderIndex = self.guiObj.edge.sender().index
+				#print(senderIndex)
+				expMetaData.append({"edge":self.guiObj.edge.currentText()})
 
-		if self.DetectorsGUI.detectors_UI.IC2GasMix.text() == "":
-			CLIMessage("Please enter the IC2 gas being used", "W")
-			return self.WizardPages.editCfg.value
-		else:
-			expMetaData.append({"IC2GasMix":self.DetectorsGUI.detectors_UI.IC2GasMix.text()})
+			if self.guiObj.sampleName.text() == "":
+				CLIMessage("Please enter the periodic element for this experiment", "W")
+				return self.WizardPages.editCfg.value
+			else:
+				#if Common.regexvalidation("sampleName", self.guiObj.sampleName.text()):
+				if electronBindingEnergies(self.guiObj.sampleName.text()).elementExist():
+					
+					self.getFoilElementEnergy()
+					#elementEnergy = electronBindingEnergies(self.guiObj.sampleName.text()).getEdgeEnergy(self.guiObj.edge.currentText())	
+					expMetaData.append({"sampleName":self.guiObj.sampleName.text()})
+					caput(self.PVs["PV"]["ENGCAL:FoilElement"]["pvname"], self.guiObj.sampleName.text())
+					caput(self.PVs["PV"]["ENGCAL:RealFoilEng"]["pvname"], self.guiObj.energy.text())
+				else:
+					Common.show_message(QtWidgets.QMessageBox.Critical,
+						"""Enter a valid format of the foil element being used!! \n Allowed elements are: 
+						Ti, V, Cr, Mn, Fe, Co, Ni, Cu, Zn, Se, Zr, Nb, Mo, Pd, Ag, Sn, Sb, Ta, Pt, Au, Pb""","XAFS/XRF Scan tool",
+						QtWidgets.QMessageBox.Ok)
+					return self.WizardPages.editCfg.value
+			##################################
+			energyVal = self.guiObj.energy.text()
+			#print (energyVal, type(energyVal))
+			if energyVal == "":
+				CLIMessage("Please enter energy", "W")
+				return self.WizardPages.editCfg.value
+			else:
+				if Common.regexvalidation("energy", energyVal):
+					expMetaData.append({"energy":self.guiObj.energy.text()})
+				else:
+					Common.show_message(QtWidgets.QMessageBox.Critical,
+						"Enter a valid energy please !!","XAFS/XRF Scan tool",
+						QtWidgets.QMessageBox.Ok)
+					return self.WizardPages.editCfg.value
+			###################################
 
-		if self.DetectorsGUI.detectors_UI.IC3GasMix.text() == "":
-			CLIMessage("Please enter the IC3 gas being used", "W")
-			return self.WizardPages.editCfg.value
-		else:
-			expMetaData.append({"IC3GasMix":self.DetectorsGUI.detectors_UI.IC3GasMix.text()})
+			if self.guiObj.stoichiometry.text() == "":
+				expMetaData.append({"stoichiometry":"NONE"})
+				#return self.WizardPages.editCfg.value
+			else:
+				expMetaData.append({"stoichiometry":self.guiObj.stoichiometry.text()})
 
-		if self.guiObj.edge.currentText() == "":
-			CLIMessage("Please choose the element edge", "W")
-			return self.WizardPages.editCfg.value
-		else:
-			#senderIndex = self.guiObj.edge.sender().index
-			#print(senderIndex)
-			expMetaData.append({"edge":self.guiObj.edge.currentText()})
+			if self.guiObj.samplePrep.text() == "":
+				CLIMessage("Please enter the sample preperation for this experiment", "W")
+				return self.WizardPages.editCfg.value
+			else:
+				expMetaData.append({"samplePrep":self.guiObj.samplePrep.text()})
 
-		if self.guiObj.sampleName.text() == "":
-			CLIMessage("Please enter the periodic element for this experiment", "W")
-			return self.WizardPages.editCfg.value
-		else:
-			#if Common.regexvalidation("sampleName", self.guiObj.sampleName.text()):
-			if electronBindingEnergies(self.guiObj.sampleName.text()).elementExist():
+			if self.guiObj.vcm.currentText() == "":
+				CLIMessage("Mirror coating | Please choose vcm element", "W")
+				return self.WizardPages.editCfg.value
+			else:
+				expMetaData.append({"vcm":self.guiObj.vcm.currentText()})
+
+			if self.guiObj.vfm.currentText() == "":
+				CLIMessage("Mirror coating | Please choose vfm element", "W")
+				return self.WizardPages.editCfg.value
+			else:
+				expMetaData.append({"vfm":self.guiObj.vfm.currentText()})
+
+			if self.guiObj.Mono.currentText() == "":
+				CLIMessage("Mirror coating | Please choose the Mono Crystal", "W")
+				return self.WizardPages.editCfg.value
+			else:
+				expMetaData.append({"Mono":self.guiObj.Mono.currentText()})
+				caput(self.PVs["PV"]["BLSetup:Crystal"]["pvname"], self.guiObj.Mono.currentText())
+
+			if self.guiObj.userCom.text() == "":
+				expMetaData.append({"userCom":"NONE"})
+			else:
+				expMetaData.append({"userCom":self.guiObj.userCom.text()})
+
+			if self.guiObj.expCom.text() == "":
+				expMetaData.append({"expCom":"NONE"})
+			else:
+				expMetaData.append({"expCom":self.guiObj.expCom.text()})
+
 				
-				self.getFoilElementEnergy()
-				#elementEnergy = electronBindingEnergies(self.guiObj.sampleName.text()).getEdgeEnergy(self.guiObj.edge.currentText())	
-				expMetaData.append({"sampleName":self.guiObj.sampleName.text()})
-				caput(self.PVs["PV"]["ENGCAL:FoilElement"]["pvname"], self.guiObj.sampleName.text())
-				caput(self.PVs["PV"]["ENGCAL:RealFoilEng"]["pvname"], self.guiObj.energy.text())
-			else:
-				Common.show_message(QtWidgets.QMessageBox.Critical,
-					"""Enter a valid format of the foil element being used!! \n Allowed elements are: 
-					Ti, V, Cr, Mn, Fe, Co, Ni, Cu, Zn, Se, Zr, Nb, Mo, Pd, Ag, Sn, Sb, Ta, Pt, Au, Pb""","XAFS/XRF Scan tool",
-					QtWidgets.QMessageBox.Ok)
+			detectors = []
+			for d in self.DetectorsGUI.detectors:
+				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, d)
+				if detCheckbox.isChecked():
+					detectors.append(d)
+
+			self.cfg["ExpMetaData"] = expMetaData
+
+			if not detectors:
 				return self.WizardPages.editCfg.value
-		##################################
-		energyVal = self.guiObj.energy.text()
-		#print (energyVal, type(energyVal))
-		if energyVal == "":
-			CLIMessage("Please enter energy", "W")
+
+			return self.WizardPages.startscan.value
+		except:
+			print ("Check config")
 			return self.WizardPages.editCfg.value
-		else:
-			if Common.regexvalidation("energy", energyVal):
-				expMetaData.append({"energy":self.guiObj.energy.text()})
-			else:
-				Common.show_message(QtWidgets.QMessageBox.Critical,
-					"Enter a valid energy please !!","XAFS/XRF Scan tool",
-					QtWidgets.QMessageBox.Ok)
-				return self.WizardPages.editCfg.value
-		###################################
-
-		if self.guiObj.stoichiometry.text() == "":
-			expMetaData.append({"stoichiometry":"NONE"})
-			#return self.WizardPages.editCfg.value
-		else:
-			expMetaData.append({"stoichiometry":self.guiObj.stoichiometry.text()})
-
-		if self.guiObj.samplePrep.text() == "":
-			CLIMessage("Please enter the sample preperation for this experiment", "W")
-			return self.WizardPages.editCfg.value
-		else:
-			expMetaData.append({"samplePrep":self.guiObj.samplePrep.text()})
-
-		if self.guiObj.vcm.currentText() == "":
-			CLIMessage("Mirror coating | Please choose vcm element", "W")
-			return self.WizardPages.editCfg.value
-		else:
-			expMetaData.append({"vcm":self.guiObj.vcm.currentText()})
-
-		if self.guiObj.vfm.currentText() == "":
-			CLIMessage("Mirror coating | Please choose vfm element", "W")
-			return self.WizardPages.editCfg.value
-		else:
-			expMetaData.append({"vfm":self.guiObj.vfm.currentText()})
-
-		if self.guiObj.Mono.currentText() == "":
-			CLIMessage("Mirror coating | Please choose the Mono Crystal", "W")
-			return self.WizardPages.editCfg.value
-		else:
-			expMetaData.append({"Mono":self.guiObj.Mono.currentText()})
-			caput(self.PVs["PV"]["BLSetup:Crystal"]["pvname"], self.guiObj.Mono.currentText())
-
-		if self.guiObj.userCom.text() == "":
-			expMetaData.append({"userCom":"NONE"})
-		else:
-			expMetaData.append({"userCom":self.guiObj.userCom.text()})
-
-		if self.guiObj.expCom.text() == "":
-			expMetaData.append({"expCom":"NONE"})
-		else:
-			expMetaData.append({"expCom":self.guiObj.expCom.text()})
-
-			
-		detectors = []
-		for d in self.DetectorsGUI.detectors:
-			detCheckbox = getattr(self.DetectorsGUI.detectors_UI, d)
-			if detCheckbox.isChecked():
-				detectors.append(d)
-
-		self.cfg["ExpMetaData"] = expMetaData
-
-		if not detectors:
-			return self.WizardPages.editCfg.value
-
-		return self.WizardPages.startscan.value
-		# except:
-		# 	print ("Check config")
-		# 	return self.WizardPages.editCfg.value
 			
 	def getFoilElementEnergy(self):
 		edge = self.guiObj.edge.currentText()
