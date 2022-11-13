@@ -428,20 +428,6 @@ class ConfigGUI:
 						Ti, V, Cr, Mn, Fe, Co, Ni, Cu, Zn, Se, Zr, Nb, Mo, Pd, Ag, Sn, Sb, Ta, Pt, Au, Pb""","XAFS/XRF Scan tool",
 						QtWidgets.QMessageBox.Ok)
 					return self.WizardPages.editCfg.value
-
-				# if self.guiObj.sampleName.text() in {"Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Se", "Zr", "Nb", "Mo", "Pd", "Ag", "Sn", "Sb", "Ta", "Pt", "Au", "Pb"}:
-				# 	self.getFoilElementEnergy (self.guiObj.sampleName.text())
-				# 	expMetaData.append({"sampleName":self.guiObj.sampleName.text()})
-				# 	caput(self.PVs["PV"]["ENGCAL:FoilElement"]["pvname"], self.guiObj.sampleName.text())
-				# 	caput(self.PVs["PV"]["ENGCAL:RealFoilEng"]["pvname"], self.guiObj.energy.text())
-
-				# else:
-				# 	Common.show_message(QtWidgets.QMessageBox.Critical,
-				# 		"""Enter a valid format of the foil element being used!! \n Allowed elements are: 
-				# 		Ti, V, Cr, Mn, Fe, Co, Ni, Cu, Zn, Se, Zr, Nb, Mo, Pd, Ag, Sn, Sb, Ta, Pt, Au, Pb""","XAFS/XRF Scan tool",
-				# 		QtWidgets.QMessageBox.Ok)
-				# 	return self.WizardPages.editCfg.value
-
 			##################################
 			energyVal = self.guiObj.energy.text()
 			#print (energyVal, type(energyVal))
@@ -519,71 +505,15 @@ class ConfigGUI:
 	def getFoilElementEnergy(self):
 		edge = self.guiObj.edge.currentText()
 		foilElement = self.guiObj.sampleName.text()
-		print(edge)
-		print(foilElement)
 		if edge == "":
 			edge = "K" # goes to default 
-			print("HERE ============")
 		if foilElement == "":
-			print("HERE ============")
 			self.guiObj.energy.setText(None)
-		
 		elif electronBindingEnergies(foilElement).elementExist():
-			print("OOOOOOOOOOOOO========================")
-
 			elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
-			print(elementEnergy, "EEEEEEEEEEEEEEEEEEEEEEEE")
 			self.guiObj.energy.setText(str(elementEnergy)) 
-			print(elementEnergy, "EEEEEEEEEEEEEEEEEEEEEEEE")
-
 		else: 
 			self.guiObj.energy.setText(None)
-
-		# if foilElement == "Ti": 
-		# 	self.guiObj.energy.setText(str(4966))
-		# elif foilElement == "V": 
-		# 	self.guiObj.energy.setText(str(5465))
-		# elif foilElement == "Cr": 
-		# 	self.guiObj.energy.setText(str(5989))
-		# elif foilElement == "Mn": 
-		# 	self.guiObj.energy.setText(str(6539))
-		# elif foilElement == "Fe": 
-		# 	self.guiObj.energy.setText(str(7112))
-		# elif foilElement == "Co": 
-		# 	self.guiObj.energy.setText(str(7709))
-		# elif foilElement == "Ni": 
-		# 	self.guiObj.energy.setText(str(8333))
-		# elif foilElement == "Cu": 
-		# 	self.guiObj.energy.setText(str(8979))	
-		# elif foilElement == "Zn": 
-		# 	self.guiObj.energy.setText(str(9659))
-		# elif foilElement == "Se": 
-		# 	self.guiObj.energy.setText(str(12658))
-		# elif foilElement == "Zr": 
-		# 	self.guiObj.energy.setText(str(17998))
-		# elif foilElement == "Nb": 
-		# 	self.guiObj.energy.setText(str(18986))
-		# elif foilElement == "Mo": 
-		# 	self.guiObj.energy.setText(str(20000))
-		# elif foilElement == "Pd": 
-		# 	self.guiObj.energy.setText(str(24350))
-		# elif foilElement == "Ag": 
-		# 	self.guiObj.energy.setText(str(25514))
-		# elif foilElement == "Sn": 
-		# 	self.guiObj.energy.setText(str(29200))
-		# elif foilElement == "Sb": 
-		# 	self.guiObj.energy.setText(str(30491))
-		# elif foilElement == "Ta": 
-		# 	self.guiObj.energy.setText(str(9881))
-		# elif foilElement == "Pt": 
-		# 	self.guiObj.energy.setText(str(11564))
-		# elif foilElement == "Au": 
-		# 	self.guiObj.energy.setText(str(11919))
-		# elif foilElement == "Pb": 
-		# 	self.guiObj.energy.setText(str(13035))
-		# else:
-		# 	self.guiObj.energy.setText(None)
-
 
 	def start(self):
 		NIntervals = self.guiObj.setNumofIterv.text()
