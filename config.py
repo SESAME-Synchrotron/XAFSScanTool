@@ -516,11 +516,18 @@ class ConfigGUI:
 			return self.WizardPages.editCfg.value
 			
 	def getFoilElementEnergy(self, edge, foilElement):
-		if edge == "":
-			edge = "K" # goes to default 
-		if electronBindingEnergies(foilElement).elementExist():
+		# if edge == "":
+		# 	edge = "K" # goes to default 
+
+		if foilElement == "":
+			self.guiObj.energy.setText(None)
+		
+		elif: electronBindingEnergies(foilElement).elementExist():
 			elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
 			self.guiObj.energy.setText(str(elementEnergy)) 
+
+		else: 
+			self.guiObj.energy.setText(None)
 
 		# if foilElement == "Ti": 
 		# 	self.guiObj.energy.setText(str(4966))
