@@ -66,7 +66,7 @@ class ConfigGUI:
 		self.guiObj.editSample.clicked.connect(self.editSamples)
 		self.guiObj.configureDetectors.clicked.connect(self.Detectors)
 
-		self.guiObj.sampleName.textChanged.connect(self.getFoilElementEnergy)
+		self.guiObj.sampleName.textChanged.connect(self.getFoilElementEnergy(self.guiObj.edge.currentText(), self.guiObj.sampleName.text()))
 
 		self.Qwiz.exec_()
 	def onClose(self): 
@@ -415,7 +415,7 @@ class ConfigGUI:
 				#if Common.regexvalidation("sampleName", self.guiObj.sampleName.text()):
 				if electronBindingEnergies(self.guiObj.sampleName.text()).elementExist():
 					
-					getFoilElementEnergy(self.guiObj.edge.currentText(), self.guiObj.sampleName.text())
+					self.getFoilElementEnergy(self.guiObj.edge.currentText(), self.guiObj.sampleName.text())
 					elementEnergy = electronBindingEnergies(self.guiObj.sampleName.text()).getEdgeEnergy(self.guiObj.edge.currentText())	
 					expMetaData.append({"sampleName":self.guiObj.sampleName.text()})
 					caput(self.PVs["PV"]["ENGCAL:FoilElement"]["pvname"], self.guiObj.sampleName.text())
