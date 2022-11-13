@@ -66,7 +66,8 @@ class ConfigGUI:
 		self.guiObj.editSample.clicked.connect(self.editSamples)
 		self.guiObj.configureDetectors.clicked.connect(self.Detectors)
 
-		self.guiObj.sampleName.textChanged.connect(self.getFoilElementEnergy(self.guiObj.edge.currentText(), self.guiObj.sampleName.text()))
+		#self.guiObj.sampleName.textChanged.connect(self.getFoilElementEnergy(self.guiObj.edge.currentText(), self.guiObj.sampleName.text()))
+		self.guiObj.sampleName.textChanged.connect(self.getFoilElementEnergy("K", "Cu"))
 
 		self.Qwiz.exec_()
 	def onClose(self): 
