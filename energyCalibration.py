@@ -180,43 +180,31 @@ class energyCalibration:
             plt.close("all")
         
             if str(self.crystal) == "Si 111":
-                self.offsetSI111()
+                self.constantSI111 = 1.9770410767
+                self.calcOffset(str(self.crystal),self.constantSI111)
             
             if str(self.crystal) == "Si 311":
-                self.offsetSI311()     
+                self.constantSI311 = 3.7860083059
+                self.calcOffset(str(self.crystal),self.constantSI311)
 
         else:
             CLIMessage("No value chosen, please select a value to continue", "E")
 
-    def offsetSI111(self):
-        
-        self.constantSI111 = 1.9770410767
+    def calcOffset(self,crystal,SI):
 
-        self.thetaReal = math.asin(self.constantSI111 / self.energyReal) * (180 / self.PI)
-        self.thetaExp  = math.asin(self.constantSI111 / self.energyPeak) * (180 / self.PI)
+        self.crystalType = crystal
+        self.constantSI = SI
 
-        self.newOffset = self.oldOffset + (self.thetaReal - self.thetaExp)
-        
-        CLIMessage(f"Crystal setup: {self.crystal}", "I")
-        CLIMessage(f"The old offset is: {self.oldOffset}", "W")
-        CLIMessage(f"The new offset is: {self.newOffset}", "I")
-
-        epics.PV(self.offsetPV).put(self.newOffset)
-
-    def offsetSI311(self):
-
-        self.constantSI311 = 3.7860083059
-
-        self.thetaReal = math.asin(self.constantSI311 / self.energyReal) * (180 / self.PI)
-        self.thetaExp  = math.asin(self.constantSI311 / self.energyPeak) * (180 / self.PI)
+        self.thetaReal = math.asin(self.constantSI / self.energyReal) * (180 / self.PI)
+        self.thetaExp  = math.asin(self.constantSI / self.energyPeak) * (180 / self.PI)
 
         self.newOffset = self.oldOffset + (self.thetaReal - self.thetaExp)
         
-        CLIMessage(f"Crystal setup: {self.crystal}", "I")
+        CLIMessage(f"Crystal setup: {self.crystalType}", "I")
         CLIMessage(f"The old offset is: {self.oldOffset}", "W")
         CLIMessage(f"The new offset is: {self.newOffset}", "I")
 
-        epics.PV(self.offsetPV).put(self.newOffset)
+        epics.PV(self.offsetPV).put(self.newOffset)       
 
     def getWindowLength(self, windowLength = "5"):
         # return the input value of window length
