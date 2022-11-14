@@ -1,4 +1,19 @@
 ---
+
+# Electron binding energies data base, in electron 
+# volts, for the elements in their natural form.
+# Data base has been entred by: 
+#   - Duha Alzubi (alzubiduha4@gmail.com) 
+# During her tranning at SESAME on Nov 14, 2022
+# The refrence for this DB is "X-RAY DATA BOOKLET, 
+# Center for X-ray Optics and Advanced Light Source, 
+# Lawrence Berkeley National Laboratory: 
+# https://physics.uwo.ca/~lgonchar/courses/p9826/xdb.pdf
+#=======================================================
+# Usage: 
+# This DB is used by the DAQ system of XAFS/XRF beamline
+# in order to calibrate the beam energy. 
+
 H : {K: 13.6  , L1: NA    , L2: NA    , L3:  NA   }
 He: {K: 24.6  , L1: NA    , L2: NA    , L3:  NA   }
 Li: {K: 54.7  , L1: NA    , L2: NA    , L3:  NA   }
