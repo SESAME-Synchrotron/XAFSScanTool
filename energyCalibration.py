@@ -31,7 +31,7 @@ class energyCalibration:
             for l in lines:
                 if not l.startswith('#'):                                # exclude the lines start with (#)
                     self.energy.append(float(l.split('  ')[0]))          # extract the energy column by index 0, column 1
-                    self.ImutransData.append(float(l.split('  ')[4]))    # extract the imutrans by index 4, column 5
+                    self.ImutransData.append(float(l.split('  ')[5]))    # extract the imutrans by index 4, column 5
 
             f.close()
 
