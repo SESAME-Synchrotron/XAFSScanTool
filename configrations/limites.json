@@ -1,11 +1,11 @@
 {
 	"checkLimitesEvery":0.5,
-	"SRLowerCurrent":50,
+	"SRLowerCurrent":20,
 	"SRUpperCurrent":300,
 	"ICI0LowerLimit":0,
 	"KetekROI0LowerLimit":0,
 	"FicusROI0LowerLimit":0,
-	"KetekReadoutAvrageTime":0.00365, 
+	"KetekReadoutAvrageTime":0.0036, 
 	"ScanPointsToBeIgnored": [0],
 	"FicusReadOutTime":	1.5
 }
