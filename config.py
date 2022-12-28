@@ -81,14 +81,14 @@ class ConfigGUI:
 		"""
 		if self.guiObj.EnergyCal.isChecked(): 
 			
-			# self.guiObj.sampleName.setReadOnly(False) # commented by MZ to allow users changing calibrated energy in normal scan. 
+			self.guiObj.sampleName.setReadOnly(False)
 			self.guiObj.sampleName.setStyleSheet("QLineEdit {background : orange;}")
 			self.guiObj.energy.setStyleSheet("QLineEdit {background : orange;}")
 			self.guiObj.Mono.setEnabled(True)
 			self.guiObj.Mono.setStyleSheet("QComboBox {background : orange;}")
 
 		else: 
-			#self.guiObj.sampleName.setReadOnly(True) # commented by MZ to allow users changing calibrated energy in normal scan. 
+			self.guiObj.sampleName.setReadOnly(False)
 			self.guiObj.sampleName.setStyleSheet("QLineEdit {background : green;}")
 			self.guiObj.sampleName.setText(caget(self.PVs["PV"]["ENGCAL:FoilElement"]["pvname"]))
 			self.guiObj.energy.setStyleSheet("QLineEdit {background : green;}")
@@ -111,7 +111,7 @@ class ConfigGUI:
 			self.masterExpType = "EnergyCalibration"
 			self.cfg["expType"] = self.expType
 
-			#self.guiObj.sampleName.setEnabled(True)
+			self.guiObj.sampleName.setEnabled(True)
 			self.guiObj.Mono.setEnabled(True)
 			return self.WizardPages.CfgFile.value # Go to load or enter a new config file 
 
