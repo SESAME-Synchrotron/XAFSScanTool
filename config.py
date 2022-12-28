@@ -111,7 +111,7 @@ class ConfigGUI:
 			self.masterExpType = "EnergyCalibration"
 			self.cfg["expType"] = self.expType
 
-			self.guiObj.sampleName.setEnabled(True)
+			#self.guiObj.sampleName.setEnabled(True)
 			self.guiObj.Mono.setEnabled(True)
 			return self.WizardPages.CfgFile.value # Go to load or enter a new config file 
 
