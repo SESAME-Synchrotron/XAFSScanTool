@@ -2,7 +2,7 @@
 This class returns the electron binding energy of a given 
 element in electron volts (eV) in thier natural forms. 
 """
-from SEDSS.SEDSupplements import CLIMessage
+from SEDSS.CLIMessage import CLIMessage
 import yaml 
 from nob import Nob
 

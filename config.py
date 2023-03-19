@@ -15,8 +15,12 @@ import re
 import os
 import epics
 from epics import caget, caput 
-from SEDSS.SEDSupport import readFile
-from SEDSS.SEDSupplements import CLIMessage, UIMessage
+from SEDSS.SEDFileManager import readFile
+from SEDSS.CLIMessage import CLIMessage
+from SEDSS.UIMessage import UIMessage
+from SEDSS.SEDValueValidate import CSVProposal
+from SEDSS.SEDFileManager import path
+
 from electronBindingEnergies import electronBindingEnergies
 
 
@@ -131,7 +135,7 @@ class ConfigGUI:
 			return self.WizardPages.ExperimentType.value
 		else:
 			SedObj = SED()
-			result = SedObj.init(proposal_ID)
+			result = SedObj.init(proposal_ID, self.paths)
 			if result:
 				self.cfg["proposalID"] = SedObj.proposalID
 				return self.WizardPages.CfgFile.value
@@ -947,6 +951,20 @@ class stepUnitItems(QtWidgets.QComboBox):
 class SED:
 	Header = ['Proposal', 'Title', 'Proposer', 'Email', 'Beamline', 'Begin', 'End', 'Assigned shifts', 'Assigned hours', 'Semester', 'Experimental_Data_Path']
 
+	def init(self, proposalID, paths):
+		self.proposalID = proposalID
+		self.paths = paths
+		todayProposal = os.path.exists("metadata/Scanning_Tool.csv")
+		if todayProposal:
+			if self.getPropsalData(proposalID):
+				return True
+			else:
+				return False
+		else:
+			UIMessage("Error reading today's metadata file",
+					"Scanning_Tool.csv files is not exist", 
+					"Try to start the experiment again, if the problem continues please contact the DCA Group").showCritical()
+			CLIMessage("Error reading today's metadata file","E")
 	def parsePropsalFile(self, filename):
 		data = {}
 		ProposalData = csv.reader(open(filename, 'r'))
@@ -988,49 +1006,48 @@ class SED:
 		return result,propsal_data
 
 	def getPropsalData(self,proposal_ID):
+		found = None
 		if Common.regexvalidation("Proposal", proposal_ID):
 			proposal_ID = int(proposal_ID)
 			propsal_data = self.parsePropsalFile("metadata/Scanning_Tool.csv")
 			if int(propsal_data["Proposal"]) == proposal_ID:
-				try:
-					UsersinfoFile = open('configrations/userinfo.json','w')
-					json.dump(propsal_data,UsersinfoFile, indent=2)
-					UsersinfoFile.close()
-					PathsFile = open('configrations/paths.json', 'r+')
-					PathsFileData = json.load(PathsFile)
-					PathsFileData["users_data_path"] = propsal_data["Experimental_Data_Path"]
-					PathsFile.close()
-					PathsFile = open('configrations/paths.json', 'w')
-					json.dump(PathsFileData,PathsFile, indent=2)
-					PathsFile.close()
-					return True
-				except Exception as e:
-					Common.show_message(QtWidgets.QMessageBox.Critical,"local configuration files missing","XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
-				return False	
+				found = 'ScheduledToday'
 			else:
-				Common.show_message(QtWidgets.QMessageBox.Critical,"wrong proposal ID or not scheduled","Proposal ID vedrification",QtWidgets.QMessageBox.Ok)
-				return False
+				propsal_data = CSVProposal('metadata/XAFSScheduledProposals.csv', proposal_ID).lookup()
+				if not propsal_data == False:
+					found = 'NotScheduledToday'
+					# print(propsal_data)
+					propPath = path(beamline='XAFS', semester = propsal_data['Semester'], proposal = propsal_data['Proposal'], path=self.paths['SED_TOP'])
+					propsal_data["Experimental_Data_Path"] = propPath.getPropPath()
+					confirmation = UIMessage('XAFS/XRF scan tool | proposal is not scheduled for today!!', "The proposal {} is not "\
+						"scheduled for today!!. Proposal ID is a unique SED dataset identifier, it is important to make sure that it is your's"\
+						" as PI or you are a member in this proposal,"\
+						" otherwise, you would not have access to the data associated with this scan.".format(proposal_ID), "Only authorised people (i.e. beamline scientists "\
+						"or DCA team members), proposal PI or proposal participant can procceed with this proposal ({}). "\
+						" Do you want to continue?".format(proposal_ID)).showYNQuestion()
+					if not confirmation:
+						return False
+					
 		else:
 			Common.show_message(QtWidgets.QMessageBox.Critical,"invalid proposal ID","XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
 			return False
 
-	def init(self, proposalID):
-		self.proposalID = proposalID
-		#FNULL = open(os.devnull, 'w')
-		#getMetaDataResult = subprocess.call(["./get-metadata.sh"], stdout=FNULL)
-
-		todayProposal = os.path.exists("metadata/Scanning_Tool.csv")
-		if todayProposal:
-			if self.getPropsalData(proposalID):
+		if not found == None:
+			try:
+				UsersinfoFile = open('configrations/userinfo.json','w')
+				json.dump(propsal_data,UsersinfoFile, indent=2)
+				UsersinfoFile.close()
+				PathsFile = open('configrations/paths.json', 'r+')
+				PathsFileData = json.load(PathsFile)
+				PathsFileData["users_data_path"] = propsal_data["Experimental_Data_Path"]
+				PathsFile.close()
+				PathsFile = open('configrations/paths.json', 'w')
+				json.dump(PathsFileData,PathsFile, indent=2)
+				PathsFile.close()
 				return True
-			else:
-				return False
+			except Exception as e:
+				Common.show_message(QtWidgets.QMessageBox.Critical,"local configuration files missing","XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
+				return False 
 		else:
-			UIMessage("Error reading today's metadata file",
-					"Scanning_Tool.csv files is not exist", 
-					"Try to start the experiment again, if the problem continues please contact the DCA Group").showCritical()
-			CLIMessage("Error reading today's metadata file","E")
-			#Common.show_message(QtWidgets.QMessageBox.Critical,"Metadata gathering error","XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
-			#sys.exit()
-
-		#FNULL.close()
+			Common.show_message(QtWidgets.QMessageBox.Critical,"wrong proposal ID or not scheduled","Proposal ID vedrification",QtWidgets.QMessageBox.Ok)
+			return False

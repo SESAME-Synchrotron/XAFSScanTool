@@ -23,8 +23,11 @@ from common import Common
 from detectors.ficus import FICUS
 from detectors.ketek import KETEK
 from detectors.ic import IC
-from SEDSS.SEDSupplements import CLIMessage, UIMessage
-from SEDSS.SEDSupport import readFile, dataTransfer, timeModule 
+from SEDSS.CLIMessage import CLIMessage
+from SEDSS.UIMessage import UIMessage
+from SEDSS.SEDFileManager import readFile
+from SEDSS.SEDTransfer import SEDTransfer
+from SEDSS.SEDSupport import timeModule 
 import threading
 from xdiWriter import XDIWriter
 import threading
@@ -513,7 +516,7 @@ class XAFSSCAN:
 
 		self.clearPlot()
 
-		log.info("Start data collection ...")
+		log.info("Start data collection ...{}".format(self.userinfo))
 		self.PVs["USERINFO:Proposal"].put(self.userinfo["Proposal"])
 		self.PVs["USERINFO:Email"].put(self.userinfo["Email"])
 		self.PVs["USERINFO:Beamline"].put(self.userinfo["Beamline"])
@@ -720,9 +723,9 @@ class XAFSSCAN:
 		
 	def dataTransfer(self):
 		try:
-			dataTransfer(self.localDataPath, self.paths["AutoCopyDS"]).scp()
+			SEDTransfer(self.localDataPath, self.paths["AutoCopyDS"]).scp()
 			if self.cfg["expType"] == "proposal":
-				dataTransfer(self.localDataPath, self.paths["DS"]+":"+self.userinfo["Experimental_Data_Path"]).scp()
+				SEDTransfer(self.localDataPath, self.paths["DS"]+":"+self.userinfo["Experimental_Data_Path"]).scp()
 			log.info("Data transfer is done")
 		except:
 			log.error("Problem transfering the data")

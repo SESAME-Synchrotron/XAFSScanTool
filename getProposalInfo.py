@@ -4,8 +4,9 @@ import sys
 import csv
 import re
 import os
-from SEDSS.SEDSupport import readFile
-from SEDSS.SEDSupplements import CLIMessage, UIMessage
+from SEDSS.SEDFileManager import readFile
+from SEDSS.CLIMessage import CLIMessage
+from SEDSS.UIMessage import UIMessage
 
 from  common import Common
 from PyQt5 import QtWidgets, QtCore

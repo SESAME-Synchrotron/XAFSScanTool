@@ -1,7 +1,7 @@
 import math
 import sys
 import epics
-from SEDSS.SEDSupplements import CLIMessage
+from SEDSS.CLIMessage import CLIMessage
 
 sys.path.append("..")
 from common import Common

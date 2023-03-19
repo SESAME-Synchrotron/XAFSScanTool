@@ -5,7 +5,7 @@ import PyQt5
 import sys
 import time
 from datetime import datetime 
-from SEDSS.SEDSupplements import CLIMessage
+from SEDSS.CLIMessage import CLIMessage
 
 from .base import Base
 

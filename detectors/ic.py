@@ -3,8 +3,8 @@ import sys
 import time
 import numpy as np
 from datetime import datetime
-from SEDSS.SEDSupplements import CLIMessage
-from SEDSS.SEDSupport import readFile
+from SEDSS.CLIMessage import CLIMessage
+from SEDSS.SEDFileManager import readFile
 from .base import Base
 
 class IC(Base):

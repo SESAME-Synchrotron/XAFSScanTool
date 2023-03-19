@@ -1,10 +1,12 @@
 import epics 
 import os
 import time
-from SEDSS.SEDSupplements import CLIMessage
+from SEDSS.CLIMessage import CLIMessage
 import fileinput
 import sys
-from SEDSS.SEDSupport import readFile, dataTransfer, timeModule 
+from SEDSS.SEDSupport import timeModule
+from SEDSS.SEDFileManager import readFile
+
 import re 
 
 class XDIWriter: 

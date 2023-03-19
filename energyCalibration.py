@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 from scipy.signal import savgol_filter
 from matplotlib.widgets import Button, TextBox
 import epics
-from SEDSS.SEDSupplements import CLIMessage, UIMessage
+from SEDSS.CLIMessage import CLIMessage
+from SEDSS.UIMessage import UIMessage
 
 class energyCalibration:
     

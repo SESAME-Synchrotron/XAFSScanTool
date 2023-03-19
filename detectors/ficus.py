@@ -2,11 +2,11 @@ import PyQt5
 import sys
 import time
 import numpy as np
-from SEDSS.SEDSupplements import CLIMessage
+from SEDSS.CLIMessage import CLIMessage
 from common import Common
 from .base import Base
 import epics
-from SEDSS.SEDSupport import readFile
+from SEDSS.SEDFileManager import readFile
 
 
 
