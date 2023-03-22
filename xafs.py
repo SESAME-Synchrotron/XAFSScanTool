@@ -25,7 +25,7 @@ from detectors.ketek import KETEK
 from detectors.ic import IC
 from SEDSS.CLIMessage import CLIMessage
 from SEDSS.UIMessage import UIMessage
-from SEDSS.SEDFileManager import readFile
+from SEDSS.SEDFileManager import readFile, path
 from SEDSS.SEDTransfer import SEDTransfer
 from SEDSS.SEDSupport import timeModule 
 import threading
@@ -719,13 +719,15 @@ class XAFSSCAN:
 			else:
 				CLIMessage("More than one xdi files are found in the exp. folder, however only one is expected","E")
 				log.error("More than one xdi files are found in the exp. folder, however only one is expected")
-
 		
 	def dataTransfer(self):
 		try:
 			SEDTransfer(self.localDataPath, self.paths["AutoCopyDS"]).scp()
 			if self.cfg["expType"] == "proposal":
 				SEDTransfer(self.localDataPath, self.paths["DS"]+":"+self.userinfo["Experimental_Data_Path"]).scp()
+			else: 
+				IHPath = path(self.paths['SED_TOP'], beamline = 'XAFS').getIHPath()
+				SEDTransfer(self.localDataPath, self.paths["DS"]+":"+IHPath).scp()
 			log.info("Data transfer is done")
 		except:
 			log.error("Problem transfering the data")
@@ -739,5 +741,3 @@ class XAFSSCAN:
 			shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 			self.dataTransfer()
 			sys.exit()
-
-			
