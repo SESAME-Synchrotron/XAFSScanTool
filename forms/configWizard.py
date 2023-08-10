@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'configWizard.ui'
+# Form implementation generated from reading ui file 'ui/configWizard.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Wizard(object):
     def setupUi(self, Wizard):
         Wizard.setObjectName("Wizard")
-        Wizard.resize(744, 718)
+        Wizard.resize(470, 718)
         self.experimentType = QtWidgets.QWizardPage()
         self.experimentType.setObjectName("experimentType")
         self.groupBox = QtWidgets.QGroupBox(self.experimentType)
@@ -813,13 +813,3 @@ class Ui_Wizard(object):
         self.mapMono.setItemText(1, _translate("Wizard", "Si 111"))
         self.mapMono.setItemText(2, _translate("Wizard", "Si 311"))
         self.label_2.setText(_translate("Wizard", "Press Finish to start scan"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Wizard = QtWidgets.QWizard()
-    ui = Ui_Wizard()
-    ui.setupUi(Wizard)
-    Wizard.show()
-    sys.exit(app.exec_())
