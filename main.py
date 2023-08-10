@@ -1,8 +1,9 @@
 #!/usr/bin/python3.9
-
 import sys
 import argparse
 import energyCalibration
+import config
+from common import Common
 
 try:
 	import numpy as np
@@ -13,8 +14,9 @@ except ImportError as error:
 	print("pyepics\nnumpy\nPyQt5\n")
 	sys.exit()
 
-import xafs
-
+# import xafs
+from engScan import ENGSCAN
+from mapScan import MAPSCAN
 app = QtWidgets.QApplication(sys.argv)
 
 #########################################################
@@ -29,10 +31,23 @@ engCalib = args.engCalib
 
 
 if __name__ == "__main__":
+
+	paths	= Common.loadjson("configrations/paths.json")
+	cfg		= config.ConfigGUI(paths).cfg
+
+	print(cfg)
 	
 	if engCalib != None:
 		x = energyCalibration.energyCalibration(engCalib)
-	else:
-		xafs.XAFSSCAN(testingMode = tMode)
-
+	elif cfg['scanType'] == 'stepEngScan':
+		ENGSCAN(paths = paths, cfg = cfg, testingMode = tMode)
+	elif cfg['scanType'] == 'stepMapScan':
+		MAPSCAN(paths = paths, cfg = cfg, testingMode = tMode)
+	
 	sys.exit(app.exit())
+
+	# if engCalib != None:
+	# 	x = energyCalibration.energyCalibration(engCalib)
+	# else:
+	# 	xafs.XAFSSCAN(testingMode = tMode)
+	# sys.exit(app.exit())
