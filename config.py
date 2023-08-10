@@ -1,7 +1,7 @@
 
 #!/usr/bin/python3
 
-from forms import configWizard, samplespositionForm, intervalsForm, detectorsForm
+from forms import configWizard, samplespositionForm, intervalsForm, detectorsForm, mapRIOSettingsForm, mapDetectorsForm
 from enum import Enum
 from PyQt5 import QtWidgets, QtCore
 
@@ -20,20 +20,19 @@ from SEDSS.CLIMessage import CLIMessage
 from SEDSS.UIMessage import UIMessage
 from SEDSS.SEDValueValidate import CSVProposal
 from SEDSS.SEDFileManager import path
-
 from electronBindingEnergies import electronBindingEnergies
-
-
 from  common import Common
 
 class ConfigGUI:
 	class WizardPages(Enum):
-		ExperimentType = 0
-		SED = 1
-		CfgFile = 2
-		LoadCfg = 3
-		editCfg = 4
-		startscan = 5
+		experimentType 		  = 0
+		PROPID    	   		  = 1
+		scanType  	   		  = 2
+		cfgFile   	   		  = 3
+		loadCfg   	   		  = 4
+		stepEngScanParameters = 5
+		stepMapScanParameters = 6
+		startScan 	   		  = 7
 
 	def __init__(self,paths):
 		self.Qwiz = QtWidgets.QWizard()
@@ -42,37 +41,44 @@ class ConfigGUI:
 		self.guiObj.setupUi(self.Qwiz)
 
 		self.paths = paths
+		self.scanTypeValue = 'stepEngScan' # default scan type
 
 		self.PVs = readFile("pvlist/xafs.json").readJSON()
 
 		self.cfg = {}
 		self.expType = "users"
-		self.masterExpType = "proposal" #this is a master exp type to avoid overwriting by loading config file 
+		self.masterExpType   = "proposal" #this is a master exp type to avoid overwriting by loading config file 
+		self.IntervalsGUI    = IntervalGUI()
+		self.SamplesGUI      = SamplePosGUI()
+		self.DetectorsGUI    = DetectorsGUI()
+		self.MapDefineROIGUI = MapDefineROIGUI()
+		self.mapDetectorGUI	 = mapDetectorGUI()
 
-		self.IntervalsGUI   = IntervalGUI()
-		self.SamplesGUI     = SamplePosGUI()
-		self.DetectorsGUI   = DetectorsGUI()
-
-		self.guiObj.ExpType.nextId = self.CheckExptype
-		self.guiObj.SED.nextId = self.checkPropsalID
-		self.guiObj.CfgFile.nextId = self.cfgfile
-		self.guiObj.CfgPath.nextId = self.loadcfg
-		self.guiObj.scan_params.nextId = self.checkConfig
+		self.guiObj.experimentType.nextId = self.CheckExptype
+		self.guiObj.PROPID.nextId = self.checkPropsalID
+		self.guiObj.scanType.nextId = self.checkScanType
+		self.guiObj.cfgFile.nextId = self.cfgfile
+		self.guiObj.loadCfg.nextId = self.loadcfg
+		self.guiObj.stepEngScanParameters.nextId = self.checkStepEngScanConfig
+		self.guiObj.stepMapScanParameters.nextId = self.checkStepMapScanConfig
 		self.Qwiz.button(QtWidgets.QWizard.FinishButton).clicked.connect(self.start)
 		self.Qwiz.button(QtWidgets.QWizard.CancelButton).clicked.connect(self.onClose)
-		self.Qwiz.button(QtWidgets.QWizard.BackButton).clicked.connect(self.energyCalConstraintsCheck)
+		self.Qwiz.button(QtWidgets.QWizard.BackButton).clicked.connect(self.energyCalConstraintsCheck) # AN: why it is checked with each next and back buttons??
 		self.Qwiz.button(QtWidgets.QWizard.NextButton).clicked.connect(self.energyCalConstraintsCheck)
 		self.Qwiz.setWindowFlag(QtCore.Qt.CustomizeWindowHint) # Need to be set firstly before dealing with windows buttons
 		self.Qwiz.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, False)
 
-		self.guiObj.Browse.clicked.connect(self.BrowseCfgFile)
+		self.guiObj.Browse.clicked.connect(self.browseCfgFile)
 		self.guiObj.editIntrv.clicked.connect(self.editIntervals)
 		self.guiObj.editSample.clicked.connect(self.editSamples)
+		self.guiObj.mapDefineROI.clicked.connect(self.mapDefineROI)
 		self.guiObj.configureDetectors.clicked.connect(self.Detectors)
+		self.guiObj.mapConfigureDetectors.clicked.connect(self.mapDetectors)
 
-		#self.guiObj.sampleName.textChanged.connect(self.getFoilElementEnergy(self.guiObj.edge.currentText(), self.guiObj.sampleName.text()))
 		self.guiObj.sampleName.textChanged.connect(self.getFoilElementEnergy)
 		self.guiObj.edge.currentTextChanged.connect(self.getFoilElementEnergy)
+		self.guiObj.mapEdgeElement.textChanged.connect(self.getFoilElementEnergy)
+		self.guiObj.mapEdge.currentTextChanged.connect(self.getFoilElementEnergy)
 
 		self.Qwiz.exec_()
 	def onClose(self): 
@@ -94,21 +100,22 @@ class ConfigGUI:
 		else: 
 			self.guiObj.sampleName.setReadOnly(False)
 			self.guiObj.sampleName.setStyleSheet("QLineEdit {background : green;}")
+			self.guiObj.mapEdgeElement.setStyleSheet("QLineEdit {background : green;}")
 			self.guiObj.sampleName.setText(caget(self.PVs["PV"]["ENGCAL:FoilElement"]["pvname"]))
 			self.guiObj.energy.setStyleSheet("QLineEdit {background : green;}")
+			self.guiObj.mapEdgeEnergy.setStyleSheet("QLineEdit {background : green;}")
 			self.guiObj.energy.setText(str(caget(self.PVs["PV"]["ENGCAL:RealFoilEng"]["pvname"])))
 			self.guiObj.Mono.setEnabled(False)
 			self.guiObj.Mono.setStyleSheet("QComboBox {background : green;}")
-			self.guiObj.Mono.setCurrentText(caget(self.PVs["PV"]["BLSetup:Crystal"]["pvname"]))
-
-		
+			self.guiObj.mapMono.setStyleSheet("QComboBox {background : green;}")
+			self.guiObj.Mono.setCurrentText(caget(self.PVs["PV"]["BLSetup:Crystal"]["pvname"]))	
 
 	def CheckExptype(self):
 		if self.guiObj.UsersExp.isChecked():
 			self.expType = "proposal"
 			self.masterExpType = "proposal"
 			self.cfg["expType"] = self.expType
-			return self.WizardPages.SED.value
+			return self.WizardPages.PROPID.value
 
 		elif self.guiObj.EnergyCal.isChecked(): # when choosing energy calibration
 			self.expType = "EnergyCalibration"
@@ -117,49 +124,65 @@ class ConfigGUI:
 
 			self.guiObj.sampleName.setEnabled(True)
 			self.guiObj.Mono.setEnabled(True)
-			return self.WizardPages.CfgFile.value # Go to load or enter a new config file 
+			return self.WizardPages.cfgFile.value # Go to load or enter a new config file 
 
 		else:
 			self.expType = "local"
 			self.masterExpType = "local"
 			self.cfg["expType"] = self.expType
-			return self.WizardPages.CfgFile.value
+			return self.WizardPages.scanType.value
 	
 	def getExpType(self):
+		CLIMessage("getExpType")
 		return self.masterExpType
-
 
 	def checkPropsalID(self):
 		proposal_ID = self.guiObj.PropsalID.text()
 		if proposal_ID == '':
-			return self.WizardPages.ExperimentType.value
+			return self.WizardPages.PROPID.value
 		else:
 			SedObj = SED()
 			result = SedObj.init(proposal_ID, self.paths)
 			if result:
 				self.cfg["proposalID"] = SedObj.proposalID
-				return self.WizardPages.CfgFile.value
+				return self.WizardPages.scanType.value
 			else:
-				return self.WizardPages.SED.value
+				return self.WizardPages.PROPID.value
+	
+	def checkScanType(self):
+		if self.guiObj.stepEngScan.isChecked():
+			self.scanTypeValue = 'stepEngScan'
+			self.cfg['scanType'] = 'stepEngScan'
+			return self.WizardPages.cfgFile.value
+		elif self.guiObj.stepMapScan.isChecked():
+			self.scanTypeValue = 'stepMapScan'
+			self.cfg['scanType'] = 'stepMapScan'
+			return self.WizardPages.cfgFile.value
+		else:
+			# CLIMessage ("Please choose scan type", "W")
+			return self.WizardPages.scanType.value
 
 	def cfgfile(self):
 		if self.guiObj.Create.isChecked():
 			self.cfg["loadedConfig"] = "No"
-			return self.WizardPages.editCfg.value
-			
+			if self.scanTypeValue == 'stepEngScan':
+				return self.WizardPages.stepEngScanParameters.value
+			else:
+				return self.WizardPages.stepMapScanParameters.value
 		else:
 			self.cfg["loadedConfig"] = "Yes"
-			return self.WizardPages.LoadCfg.value
-			
+			return self.WizardPages.loadCfg.value		
 
 	def loadcfg(self):
 		path = self.guiObj.filePath.text()
 		if not path == "":
 			self.cfg["loadedConfig"] = "Yes"
-			return self.WizardPages.editCfg.value
-			
+			if self.scanTypeValue == 'stepEngScan':
+				return self.WizardPages.stepEngScanParameters.value
+			else:
+				return self.WizardPages.stepMapScanParameters.value
 		else:
-			return self.WizardPages.LoadCfg.value
+			return self.WizardPages.loadCfg.value
 
 	def editIntervals(self):
 		Nintrv = self.guiObj.setNumofIterv.text()
@@ -179,6 +202,13 @@ class ConfigGUI:
 				det = getattr(self.DetectorsGUI.detectors_UI, Detector)
 				det.setChecked(True)
 		self.DetectorsGUI.detectorsDialog.exec_()
+
+	def mapDetectors(self):
+		if "detectors" in self.cfg.keys():
+			for Detector in self.cfg["detectors"]:
+				det = getattr(self.mapDetectorsGUI.mapDetectorGUI_UI, Detector)
+				det.setChecked(True)
+		self.mapDetectorGUI.mapDetectorGUI_Dialog.exec_()
 	
 	def editSamples(self):
 		Nsamples = self.guiObj.setNumofSamples.text()
@@ -191,8 +221,69 @@ class ConfigGUI:
 			Common.show_message(QtWidgets.QMessageBox.Critical,
 								"Please enter Number of samples",
 								"XAFS/XRF scan tool", QtWidgets.QMessageBox.Ok)
+	def mapDefineROI(self):
+		self.MapDefineROIGUI.mapDefineROIGUI_Dialog.exec_()
+		
+	def browseCfgFile(self):
+		if self.scanTypeValue == 'stepEngScan': 
+			self.browseStepEngScanCfgFile()
+		else:
+			self.browseStepMapScanCfgFile()
 
-	def BrowseCfgFile(self):
+	def browseStepMapScanCfgFile(self):
+		self.MapDefineROIGUI = MapDefineROIGUI()
+		self.mapDetectorGUI	 = mapDetectorGUI()
+
+		self.cfgpath = QtWidgets.QFileDialog.getOpenFileName(self.Qwiz, "choose a mapping scan configuration file", "~","*.cfg")[0]
+		try:
+			self.guiObj.filePath.setText(self.cfgpath)
+			self.cfg = self.loadcfgfile(self.cfgpath)
+		except:
+			CLIMessage("Could not locate the config file", "W")
+
+		try:
+			if self.cfg['scanType'] != 'stepMapScan': 
+				CLIMessage("The system can't import non mapping config file to mapping scan", "W")
+				self.guiObj.filePath.clear() # to avoid moving to next page 
+				return self.WizardPages.loadCfg.value
+		except: 
+			CLIMessage('Incompatible configuration file, please try loading another mapping scan config file', 'W')
+			self.guiObj.filePath.clear() # to avoid moving to next page 
+		
+		self.guiObj.mapEnergy.setText(str(self.cfg['Energy']))
+		self.guiObj.mapIntTime.setText(str(self.cfg['IntTime']))
+		self.guiObj.mapSettlingTime.setText(str(self.cfg['settlingTime']))
+		self.guiObj.mapResX.setText(str(self.cfg['ResX']))
+		self.guiObj.mapResY.setText(str(self.cfg['ResY']))
+		self.guiObj.mapSetDataFileName.setText(str(self.cfg['DataFileName']))
+		self.guiObj.mapSampleName.setText(str(self.cfg['SampleName']))
+		if "FICUS" in self.cfg["detectors"]:
+			detCheckbox = getattr(self.mapDetectorGUI.mapDetectorGUI_UI, "FICUS")
+			detCheckbox.setChecked(True)
+		if "KETEK" in self.cfg["detectors"]:
+			detCheckbox = getattr(self.mapDetectorGUI.mapDetectorGUI_UI, "KETEK")
+			detCheckbox.setChecked(True)
+		self.guiObj.mapEdge.setCurrentText(str(self.cfg["ExpMetaData"][0]["edge"]))
+		self.guiObj.mapEdgeElement.setText(str(self.cfg["ExpMetaData"][1]["mapEdgeElement"]))
+
+		self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIXStart.setText(str(self.cfg['ROIXStart']))
+		self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIXEnd.setText(str(self.cfg['ROIXEnd']))
+		self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIYStart.setText(str(self.cfg['ROIYStart']))
+		self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIYEnd.setText(str(self.cfg['ROIYEnd']))
+		self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIZ.setText(str(self.cfg['ROIZ']))
+		self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIRot.setText(str(self.cfg['ROIRot']))
+
+		self.guiObj.mapStoichiometry.setText(str(self.cfg['ExpMetaData'][2]['stoichiometry']))
+		self.guiObj.mapSamplePrep.setText(str(self.cfg['ExpMetaData'][3]['samplePrep']))
+		self.guiObj.mapVCM.setCurrentText(str(self.cfg['ExpMetaData'][4]['vcm']))
+		self.guiObj.mapVFM.setCurrentText(str(self.cfg['ExpMetaData'][5]['vfm']))
+		self.guiObj.mapMono.setCurrentText(str(self.cfg['ExpMetaData'][6]['Mono']))
+		self.guiObj.mapUserCom.setText(str(self.cfg['ExpMetaData'][7]['userCom']))
+		self.guiObj.mapExpCom.setText(str(self.cfg['ExpMetaData'][8]['expCom']))
+
+
+		
+	def browseStepEngScanCfgFile(self):
 		try:
 			self.IntervalsGUI	= IntervalGUI()
 			self.SamplesGUI		= SamplePosGUI()
@@ -202,9 +293,10 @@ class ConfigGUI:
 			try:
 				self.guiObj.filePath.setText(self.cfgpath)
 				self.cfg = self.loadcfgfile(self.cfgpath)
+				self.cfg['scanType'] = 'stepEngScan'
 			except:
 				CLIMessage("Could not locate the config file", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 	
 			try: 
 				NIntervals = self.cfg["NIntervals"]
@@ -216,7 +308,8 @@ class ConfigGUI:
 					"Unable to read from configration file", 
 					"Try to load another file").showCritical()
 				CLIMessage("Unable to read configuration file, scanning can not continue!!","E")
-				sys.exit()
+				self.guiObj.filePath.clear() # to avoid moving to next page
+				#sys.exit()
 	
 			self.guiObj.setNumofIterv.setText(str(NIntervals))
 			self.guiObj.setNumofSamples.setText(str(Nsamples))
@@ -233,15 +326,9 @@ class ConfigGUI:
 			self.guiObj.Mono.setCurrentText(str(self.cfg["ExpMetaData"][10]["Mono"]))
 			self.guiObj.userCom.setText(str(self.cfg["ExpMetaData"][11]["userCom"]))
 			self.guiObj.expCom.setText(str(self.cfg["ExpMetaData"][12]["expCom"]))
-	
-	
-	
-	
-	
 			self.DetectorsGUI.detectors_UI.IC1GasMix.setText(str(self.cfg["ExpMetaData"][0]["IC1GasMix"]))
 			self.DetectorsGUI.detectors_UI.IC2GasMix.setText(str(self.cfg["ExpMetaData"][1]["IC2GasMix"]))
 			self.DetectorsGUI.detectors_UI.IC3GasMix.setText(str(self.cfg["ExpMetaData"][2]["IC3GasMix"]))
-	
 	
 			for interval in range(len(self.cfg["Intervals"])):
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.start.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["Startpoint"]),0))
@@ -274,37 +361,219 @@ class ConfigGUI:
 			self.cfg["expType"] = self.masterExpType # to avoid overwriting the choosen exp type when load a config file
 		except:
 			CLIMessage("Problem reading the config file. Try another one","E")
-			return self.WizardPages.editCfg.value
+			return self.WizardPages.stepEngScanParameters.value
 
+	def checkStepMapScanConfig(self):
+		self.mapDetectorsGUI = mapDetectorGUI()
+		# self.MapDefineROIGUI = MapDefineROIGUI()
+		expMetaData = []
 
-	def checkConfig(self):
+		try:
+			mapEnergy = self.guiObj.mapEnergy.text()
+			if mapEnergy == '' or not Common.regexvalidation('energy', mapEnergy):
+				CLIMessage('Please enter a valid energy value', 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			self.cfg['Energy'] = float(mapEnergy)
+
+			mapIntTime = self.guiObj.mapIntTime.text()
+			if mapIntTime == '' or not Common.regexvalidation('IntTime', mapIntTime):
+				CLIMessage('Please enter a valid detector integration time', 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			self.cfg['IntTime'] = mapIntTime
+
+			mapSettlingTime = self.guiObj.mapSettlingTime.text()
+			if mapSettlingTime == '' or not Common.regexvalidation('settlingTime', mapSettlingTime):
+				CLIMessage ('Please enter a valid settling time format', 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			self.cfg['settlingTime'] = float(mapSettlingTime)
+			######### ROI Setup -- Start Section ############
+			mapROIXStart = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIXStart.text()
+			if mapROIXStart == '' or not Common.regexvalidation('MapROI', mapROIXStart): 
+				CLIMessage ("Please enter a valid value for ROI X -- Start --", 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			self.cfg['ROIXStart'] = float(mapROIXStart)
+
+			mapROIXEnd = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIXEnd.text()
+			if mapROIXEnd == '' or not Common.regexvalidation('MapROI', mapROIXEnd): 
+				CLIMessage ("Please enter a valid value for ROI X -- End --", 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			self.cfg['ROIXEnd'] = float(mapROIXEnd)
+
+			mapROIYStart = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIYStart.text()
+			if mapROIYStart == '' or not Common.regexvalidation('MapROI', mapROIYStart): 
+				CLIMessage ("Please enter a valid value for ROI Y -- Start --", 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			self.cfg['ROIYStart'] = float(mapROIYStart)
+
+			mapROIYEnd = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIYEnd.text()
+			if mapROIYEnd == '' or not Common.regexvalidation('MapROI', mapROIYEnd): 
+				CLIMessage ("Please enter a valid value for ROI Y -- End --", 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			self.cfg['ROIYEnd'] = float(mapROIYEnd)
+
+			mapROIZ = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIZ.text()
+			if mapROIZ == '' or not Common.regexvalidation('MapROI', mapROIZ): 
+				CLIMessage ("Please enter a valid value for ROI Z axis ", 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			self.cfg['ROIZ'] = mapROIYEnd
+
+			mapROIRot = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIRot.text()
+			if mapROIRot == '' or not Common.regexvalidation('MapROI', mapROIRot): 
+				CLIMessage ("Please enter a valid value for ROI Rotation axis ", 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			self.cfg['ROIRot'] = mapROIRot
+
+			######### ROI Setup -- End Section ############
+
+			mapResX = self.guiObj.mapResX.text()
+			if mapResX == '' or not Common.regexvalidation('Resolution', mapResX): 
+				CLIMessage('Please enter a vlid X resolution value', 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			self.cfg['ResX'] = float(mapResX)
+
+			mapResY = self.guiObj.mapResY.text()
+			if mapResY == '' or not Common.regexvalidation('Resolution', mapResY): 
+				CLIMessage('Please enter a vlid Y resolution value', 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			self.cfg['ResY'] = float(mapResY)
+
+			mapSetDataFileName = self.guiObj.mapSetDataFileName.text()
+			if mapSetDataFileName == '' or not Common.regexvalidation('DataFileName',mapSetDataFileName):
+				CLIMessage('Please enter a valid data file name', 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			self.cfg['DataFileName'] = mapSetDataFileName
+
+			mapSampleName = self.guiObj.mapSampleName.text()
+			if mapSampleName == '' or not Common.regexvalidation('sampleName',mapSampleName):
+				CLIMessage('Please enter a valid sample name', 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			self.cfg['SampleName'] = mapSampleName
+
+			detectors = []
+			for d in self.mapDetectorGUI.mapDetectors:
+				detCheckbox = getattr(self.mapDetectorGUI.mapDetectorGUI_UI, d)
+				if detCheckbox.isChecked():
+					detectors.append(d)
+			if not detectors:
+				CLIMessage('Please choose at least one detector', 'W')
+				return self.WizardPages.stepMapScanParameters.value
+
+			if self.guiObj.mapEdge.currentText() == "":
+				CLIMessage("Please choose the element edge", "W")
+				return self.WizardPages.stepMapScanParameters.value
+			else:
+				expMetaData.append({"edge":self.guiObj.mapEdge.currentText()})
+
+			if self.guiObj.mapEdgeElement.text() == "":
+				CLIMessage("Please enter the periodic element for this experiment", "W")
+				return self.WizardPages.stepMapScanParameters.value
+			else:
+				if electronBindingEnergies(self.guiObj.mapEdgeElement.text()).elementExist():
+					self.getFoilElementEnergy()
+					expMetaData.append({"mapEdgeElement":self.guiObj.mapEdgeElement.text()})
+				else:
+					Common.show_message(QtWidgets.QMessageBox.Critical,
+						"""Enter a valid format of the foil element being used!! \n Allowed elements are: 
+						H, He, Li, Be, B, C, N, O, F, Ne, Na, Mg, Al, Si, P, S, Cl, Ar, K, Ca, Sc, Ti
+						V, Cr, Mn, Fe, Co, Ni, Cu, Zn, Ga, Ge, As, Se, Br, Kr, Rb, Sr, Y, Zr, Nb, Mo, Tc, 
+						Ru, Rh, Pd, Ag, Cd, In, Sn, Sb, Te, I, Xe, Cs, Ba, La, Ce, Pr, Nd, Pm, Sm, Eu, Gd,
+						Tb, Dy, Ho, Er, Tm, Yb, Lu, Hf, Ta, W, Re, Os, Ir, Pt, Au, Hg, Tl, Pb, Bi, Po, At,
+						Rn, Fr, Ra, Ac, Th, Pa, U ""","XAFS/XRF Scan tool",
+						QtWidgets.QMessageBox.Ok)
+					return self.WizardPages.stepMapScanParameters.value
+
+			if self.guiObj.mapStoichiometry.text() == "":
+				expMetaData.append({"stoichiometry":"NONE"})
+			else:
+				expMetaData.append({"stoichiometry":self.guiObj.mapStoichiometry.text()})
+
+			if self.guiObj.mapSamplePrep.text() == "":
+				CLIMessage("Please enter the sample preperation for this experiment", "W")
+				return self.WizardPages.stepMapScanParameters.value
+			else:
+				expMetaData.append({"samplePrep":self.guiObj.mapSamplePrep.text()})
+
+			if self.guiObj.mapVCM.currentText() == "":
+				CLIMessage("Mirror coating | Please choose vcm element", "W")
+				return self.WizardPages.stepMapScanParameters.value
+			else:
+				expMetaData.append({"vcm":self.guiObj.mapVCM.currentText()})
+
+			if self.guiObj.mapVFM.currentText() == "":
+				CLIMessage("Mirror coating | Please choose VFM element", "W")
+				return self.WizardPages.stepMapScanParameters.value
+			else:
+				expMetaData.append({"vfm":self.guiObj.mapVFM.currentText()})
+
+			if self.guiObj.mapMono.currentText() == "":
+				CLIMessage("Mirror coating | Please choose the Mono Crystal", "W")
+				return self.WizardPages.stepMapScanParameters.value
+			else:
+				expMetaData.append({"Mono":self.guiObj.mapMono.currentText()})
+
+			if self.guiObj.mapUserCom.text() == "":
+				expMetaData.append({"userCom":"NONE"})
+			else:
+				expMetaData.append({"userCom":self.guiObj.mapUserCom.text()})
+
+			if self.guiObj.mapExpCom.text() == "":
+				expMetaData.append({"expCom":"NONE"})
+			else:
+				expMetaData.append({"expCom":self.guiObj.mapExpCom.text()})
+
+			############ Check resolution vs ROI ###################
+			xDistance = abs (float (self.cfg['ROIXEnd']) - float(self.cfg['ROIXStart']))
+			print("xDistance xDistance xDistance xDistance xDistance ",xDistance)
+			if float (self.cfg['ResX']) >= xDistance:
+				CLIMessage ('X resolution movment is exceeding the ROI area, please correct the X resolution value', 'W')
+				return self.WizardPages.stepMapScanParameters.value
+
+			yDistance = abs (float(self.cfg['ROIYEnd']) - float(self.cfg['ROIYStart']))
+			print(yDistance)
+			if float(self.cfg['ResY']) >= yDistance:
+				CLIMessage ('Y resolution movment is exceeding the ROI area, please correct the Y resolution value', 'W')
+				return self.WizardPages.stepMapScanParameters.value
+			
+
+			self.cfg['detectors']   = detectors
+			self.cfg['ExpMetaData'] = expMetaData 
+			CLIMessage("----ioer::: {}".format(self.cfg), 'E')
+			return self.WizardPages.startScan.value
+
+		except:
+			print ("Check mapping scan parameters ...")
+			return self.WizardPages.stepMapScanParameters.value
+
+		
+
+	def checkStepEngScanConfig(self):
 		expMetaData = []
 		try:
 			NIntervals = self.guiObj.setNumofIterv.text()
 			#print(NIntervals, type(NIntervals), "<-")
 			if NIntervals == '' or not Common.regexvalidation("NIntervals",NIntervals):
 				CLIMessage("Please enter valid Number of intervals","W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			self.IntervalsGUI.setIntervalsNumber(self.cfg)
 			Nsamples = self.guiObj.setNumofSamples.text()
 			if Nsamples == '' or not Common.regexvalidation("Nsample", Nsamples):
 				CLIMessage("Please enter valid number of Samples","W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 
 			Nscans = self.guiObj.setNumofExafsScans.text()
 			if Nscans == '' or not Common.regexvalidation("Nscans", Nscans):
 				CLIMessage("Please enter valid number of scans","W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 
 			DataFileName = self.guiObj.setDataFileName.text()
 			if DataFileName == '' or not Common.regexvalidation("DataFileName", DataFileName):
 				CLIMessage("Please enter a valid data file name", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 
 			settlingTime = self.guiObj.settlingTime.text()
 			if settlingTime == '' or not Common.regexvalidation("settlingTime", settlingTime):
 				CLIMessage("Please enter valid settling time", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 
 
 
@@ -318,7 +587,7 @@ class ConfigGUI:
 					start = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 0).text()
 					if start == '' or not Common.validate("Startpoint", start, "Please enter valid start point"):
 						CLIMessage("Please check/enter the start point for interval number {}".format(interval), "W") 
-						return self.WizardPages.editCfg.value
+						return self.WizardPages.stepEngScanParameters.value
 
 				except: 
 					CLIMessage("Please check/enter the start point for interval number {}".format(interval), "W") 
@@ -327,7 +596,7 @@ class ConfigGUI:
 					end = self.IntervalsGUI.interval_UI.tableWidget.item(interval,1).text()
 					if end == '' or not Common.validate("Endpoint", end, "Please enter valid end point"):
 						CLIMessage("Please check/enter the end point for interval number {}".format(interval), "W") 
-						return self.WizardPages.editCfg.value
+						return self.WizardPages.stepEngScanParameters.value
 				except:
 					CLIMessage("Please check/enter the end point for interval number {}".format(interval), "W") 
 
@@ -335,7 +604,7 @@ class ConfigGUI:
 					stepsize = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 2).text()
 					if stepsize == '' or not Common.validate("Stepsize", end, "Please enter valid step size"):
 						CLIMessage("Please check/enter the step-size for interval number {}".format(interval), "W") 
-						return self.WizardPages.editCfg.value
+						return self.WizardPages.stepEngScanParameters.value
 				except: 
 					CLIMessage("Please check/enter the step-size for interval number {}".format(interval), "W") 
 
@@ -344,7 +613,7 @@ class ConfigGUI:
 					if IcIntTime == '' or not Common.validate("IcsIntTime", end,"Please enter valid IC integration time for "\
 						"interval number {}".format(interval)):
 						CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W") 
-						return self.WizardPages.editCfg.value
+						return self.WizardPages.stepEngScanParameters.value
 				except: 
 					CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W") 
 
@@ -357,7 +626,7 @@ class ConfigGUI:
 					ExtTriggerIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 5).text()
 					if ExtTriggerIntTime == '' or not Common.validate(
 							"ExtTriggerIntTime", ExtTriggerIntTime,"Please enter valid External Trigger duration"):
-						return self.WizardPages.editCfg.value
+						return self.WizardPages.stepEngScanParameters.value
 
 			SamplePositions = [{} for i in range(int(Nsamples))]
 			for sample in range(self.SamplesGUI.sample_UI.samplepositions.rowCount()):
@@ -365,14 +634,13 @@ class ConfigGUI:
 					Xposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 0).text()
 					if Xposition == '' or not Common.validate("Xposition", Xposition,"Please enter valid sample x position"):
 						CLIMessage("Please check/enter (x) position for sample number {}".format(sample), "W") 
-						return self.WizardPages.editCfg.value
-
+						return self.WizardPages.stepEngScanParameters.value
 
 
 					Yposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 1).text()
 					if Yposition == '' or not Common.validate("Yposition", Yposition,"Please enter valid sample y position"):
 						CLIMessage("Please check/enter (y) position for sample number {}".format(sample), "W") 
-						return self.WizardPages.editCfg.value
+						return self.WizardPages.stepEngScanParameters.value
 				except: 
 					CLIMessage("Please check/enter (x,y) position for sample number {}".format(sample), "W")
 
@@ -380,35 +648,35 @@ class ConfigGUI:
 					sampleTitle = self.SamplesGUI.sample_UI.samplepositions.item(sample, 2).text()
 					if sampleTitle == '' or not Common.validate("sampleTitle", sampleTitle,"Please enter valid sample name"):
 						CLIMessage("Please check/enter sample name in the Samples dialog for the sameple number: {}".format(sample), "W") 
-						return self.WizardPages.editCfg.value
+						return self.WizardPages.stepEngScanParameters.value
 				except:
 					CLIMessage("Please check/enter the sample name in the Samples dialog", "W")
-					return self.WizardPages.editCfg.value
+					return self.WizardPages.stepEngScanParameters.value
 
 
 			####################### Metadata section ##############################
 
 			if self.DetectorsGUI.detectors_UI.IC1GasMix.text() == "":
 				CLIMessage("Please enter the IC1 gas being used", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				expMetaData.append({"IC1GasMix":self.DetectorsGUI.detectors_UI.IC1GasMix.text()})
 
 			if self.DetectorsGUI.detectors_UI.IC2GasMix.text() == "":
 				CLIMessage("Please enter the IC2 gas being used", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				expMetaData.append({"IC2GasMix":self.DetectorsGUI.detectors_UI.IC2GasMix.text()})
 
 			if self.DetectorsGUI.detectors_UI.IC3GasMix.text() == "":
 				CLIMessage("Please enter the IC3 gas being used", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				expMetaData.append({"IC3GasMix":self.DetectorsGUI.detectors_UI.IC3GasMix.text()})
 
 			if self.guiObj.edge.currentText() == "":
 				CLIMessage("Please choose the element edge", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				#senderIndex = self.guiObj.edge.sender().index
 				#print(senderIndex)
@@ -416,7 +684,7 @@ class ConfigGUI:
 
 			if self.guiObj.sampleName.text() == "":
 				CLIMessage("Please enter the periodic element for this experiment", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				#if Common.regexvalidation("sampleName", self.guiObj.sampleName.text()):
 				if electronBindingEnergies(self.guiObj.sampleName.text()).elementExist():
@@ -435,13 +703,13 @@ class ConfigGUI:
 						Tb, Dy, Ho, Er, Tm, Yb, Lu, Hf, Ta, W, Re, Os, Ir, Pt, Au, Hg, Tl, Pb, Bi, Po, At,
 						Rn, Fr, Ra, Ac, Th, Pa, U ""","XAFS/XRF Scan tool",
 						QtWidgets.QMessageBox.Ok)
-					return self.WizardPages.editCfg.value
+					return self.WizardPages.stepEngScanParameters.value
 			##################################
 			energyVal = self.guiObj.energy.text()
 			#print (energyVal, type(energyVal))
 			if energyVal == "":
 				CLIMessage("Please enter energy", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				if Common.regexvalidation("energy", energyVal):
 					expMetaData.append({"energy":self.guiObj.energy.text()})
@@ -449,36 +717,36 @@ class ConfigGUI:
 					Common.show_message(QtWidgets.QMessageBox.Critical,
 						"Enter a valid energy please !!","XAFS/XRF Scan tool",
 						QtWidgets.QMessageBox.Ok)
-					return self.WizardPages.editCfg.value
+					return self.WizardPages.stepEngScanParameters.value
 			###################################
 
 			if self.guiObj.stoichiometry.text() == "":
 				expMetaData.append({"stoichiometry":"NONE"})
-				#return self.WizardPages.editCfg.value
+				#return self.WizardPages.stepEngScanParameters.value
 			else:
 				expMetaData.append({"stoichiometry":self.guiObj.stoichiometry.text()})
 
 			if self.guiObj.samplePrep.text() == "":
 				CLIMessage("Please enter the sample preperation for this experiment", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				expMetaData.append({"samplePrep":self.guiObj.samplePrep.text()})
 
 			if self.guiObj.vcm.currentText() == "":
 				CLIMessage("Mirror coating | Please choose vcm element", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				expMetaData.append({"vcm":self.guiObj.vcm.currentText()})
 
 			if self.guiObj.vfm.currentText() == "":
 				CLIMessage("Mirror coating | Please choose vfm element", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				expMetaData.append({"vfm":self.guiObj.vfm.currentText()})
 
 			if self.guiObj.Mono.currentText() == "":
 				CLIMessage("Mirror coating | Please choose the Mono Crystal", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				expMetaData.append({"Mono":self.guiObj.Mono.currentText()})
 				caput(self.PVs["PV"]["BLSetup:Crystal"]["pvname"], self.guiObj.Mono.currentText())
@@ -503,59 +771,76 @@ class ConfigGUI:
 			self.cfg["ExpMetaData"] = expMetaData
 
 			if not detectors:
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 
-			return self.WizardPages.startscan.value
+			return self.WizardPages.startScan.value
 		except:
 			print ("Check config")
-			return self.WizardPages.editCfg.value
+			return self.WizardPages.stepEngScanParameters.value
 			
 	def getFoilElementEnergy(self):
-		edge = self.guiObj.edge.currentText()
-		foilElement = self.guiObj.sampleName.text()
-		if edge == "":
-			edge = "K" # goes to default 
-		if foilElement == "":
-			self.guiObj.energy.setText(None)
-		elif electronBindingEnergies(foilElement).elementExist():
-			elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
-			self.guiObj.energy.setText(str(elementEnergy)) 
-		else: 
-			self.guiObj.energy.setText(None)
+		try: 
+			if self.cfg['scanType'] == 'stepEngScan': 
+				edge = self.guiObj.edge.currentText()
+				foilElement = self.guiObj.sampleName.text()
+				if edge == "":
+					edge = "K" # goes to default 
+				if foilElement == "":
+					self.guiObj.energy.setText(None)
+				elif electronBindingEnergies(foilElement).elementExist():
+					elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
+					self.guiObj.energy.setText(str(elementEnergy)) 
+				else: 
+					self.guiObj.energy.setText(None)
+			elif self.cfg['scanType'] == 'stepMapScan': 
+				edge = self.guiObj.mapEdge.currentText()
+				foilElement = self.guiObj.mapEdgeElement.text()
+				if edge == "":
+					edge = "K" # goes to default 
+				if foilElement == "":
+					self.guiObj.mapEdgeEnergy.setText(None)
+				elif electronBindingEnergies(foilElement).elementExist():
+					elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
+					self.guiObj.mapEdgeEnergy.setText(str(elementEnergy)) 
+				else: 
+					self.guiObj.energy.setText(None)
+		except: 
+			pass 
+
 
 	def start(self):
 		NIntervals = self.guiObj.setNumofIterv.text()
 		if NIntervals == '' or not Common.validate(
 				"NIntervals", NIntervals,"Please enter valid Number of INtervals"):
 			CLIMessage("Please enter valid Number of intervals", "W")
-			return self.WizardPages.editCfg.value
+			return self.WizardPages.stepEngScanParameters.value
 		else:
 			self.cfg["NIntervals"] = int(NIntervals)
 
 		Nsamples = self.guiObj.setNumofSamples.text()
 		if Nsamples == '' or not Common.validate("Nsample", Nsamples, "Please enter valid Number of Samples"):
 			CLIMessage("Please enter a valid number of Samples, and, make sure to click on the Samples button to keep or change the default values","W")
-			return self.WizardPages.editCfg.value
+			return self.WizardPages.stepEngScanParameters.value
 		else:
 			self.cfg["Nsamples"] = int(Nsamples)
 
 		Nscans = self.guiObj.setNumofExafsScans.text()
 		if Nscans == '' or not Common.validate("Nscans", Nscans, "Please enter valid Number of scans"):
 			CLIMessage("Pleae enter a valid number of scans", "W")
-			return self.WizardPages.editCfg.value
+			return self.WizardPages.stepEngScanParameters.value
 		else:
 			self.cfg["Nscans"] = int(Nscans)
 		DataFileName = self.cfg["DataFileName"] = self.guiObj.setDataFileName.text()
 		if DataFileName == '' or not Common.validate("DataFileName", DataFileName,"Please enter valid data file name"):
 			CLIMessage("Please enter a valid data file name","W")
-			return self.WizardPages.editCfg.value
+			return self.WizardPages.stepEngScanParameters.value
 		else:
 			self.cfg["DataFileName"] = DataFileName
 
 		settlingTime = self.guiObj.settlingTime.text()
 		if settlingTime == '' or not Common.regexvalidation("settlingTime", settlingTime):
 			CLIMessage("Please enter valid settling time", "W")
-			return self.WizardPages.editCfg.value
+			return self.WizardPages.stepEngScanParameters.value
 		else:
 			self.cfg["settlingTime"]=float(settlingTime)
 
@@ -565,28 +850,28 @@ class ConfigGUI:
 			start = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 0).text()
 			if start == '' or not Common.validate("Startpoint", start, "Please enter valid start point"):
 				CLIMessage("Intervals | Please enter a valid start point", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				intervals[interval]["Startpoint"] = float(start)
 
 			end = self.IntervalsGUI.interval_UI.tableWidget.item(interval,1).text()
 			if end == '' or not Common.validate("Endpoint", end, "Please enter valid end point"):
 				CLIMessage("Intervals | Please enter a valid end point", "W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				intervals[interval]["Endpoint"] = float(end)
 
 			stepsize = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 2).text()
 			if stepsize == '' or not Common.validate("Stepsize", end, "Please enter valid step size"):
 				CLIMessage("Intervals | Please enter a valid step size","W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				intervals[interval]["Stepsize"] = float(stepsize)
 
 			IcIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 3).text()
 			if IcIntTime == '' or not Common.validate("IcsIntTime", end,"Please enter valid IC integration time"):
 				CLIMessage("Intervals | Please enter a valid IC integration time","W")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				intervals[interval]["IcsIntTime"] = float(IcIntTime)
 
@@ -600,7 +885,7 @@ class ConfigGUI:
 				if ExtTriggerIntTime == '' or not Common.validate(
 						"ExtTriggerIntTime", ExtTriggerIntTime,"Please enter valid External Trigger duration"):
 					CLIMessage("Intervals | Please enter a valid External Trigger duration")
-					return self.WizardPages.editCfg.value
+					return self.WizardPages.stepEngScanParameters.value
 				else:
 					intervals[interval]["ExtTrig"] = float(ExtTriggerIntTime)
 
@@ -609,20 +894,20 @@ class ConfigGUI:
 			Xposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 0).text()
 			if Xposition == '' or not Common.validate("Xposition", Xposition,"Please enter valid sample x position"):
 				CLIMessage("Samples | Please enter a valid sample X position")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				SamplePositions[sample]["Xposition"] = Xposition
 			Yposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 1).text()
 			if Yposition == '' or not Common.validate("Yposition", Yposition,"Please enter valid sample y position"):
 				CLIMessage("Samples | Please enter a valid sample Y position")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				SamplePositions[sample]["Yposition"] = Yposition
 			
 			sampleTitle = self.SamplesGUI.sample_UI.samplepositions.item(sample, 2).text()
 			if sampleTitle == '' or not Common.validate("sampleTitle", sampleTitle,"Please enter valid sample name in the Samples dialog"):
 				CLIMessage("Samples | Please enter a valid sample name in the Samples dialog")
-				return self.WizardPages.editCfg.value
+				return self.WizardPages.stepEngScanParameters.value
 			else:
 				SamplePositions[sample]["sampleTitle"] = sampleTitle
 				
@@ -907,6 +1192,21 @@ class DetectorsGUI:
 		self.detectorsDialog = QtWidgets.QDialog()
 		self.detectors_UI = detectorsForm.Ui_Dialog()
 		self.detectors_UI.setupUi(self.detectorsDialog)
+
+class MapDefineROIGUI:
+	def __init__(self):
+		self.mapDefineROIGUI_Dialog  = QtWidgets.QDialog()
+		self.mapDefineROIGUI_UI 	 = mapRIOSettingsForm.Ui_Dialog()
+		self.mapDefineROIGUI_UI.setupUi(self.mapDefineROIGUI_Dialog)
+
+class mapDetectorGUI: 
+	def __init__(self):
+		self.mapDetectors = ["IC1", "IC2", "IC3", "FICUS", "KETEK"]
+		self.mapDetectorGUI_Dialog 	= QtWidgets.QDialog()
+		self.mapDetectorGUI_UI 		= mapDetectorsForm.Ui_Dialog()
+		self.mapDetectorGUI_UI.setupUi(self.mapDetectorGUI_Dialog)
+
+
 
 class AcqTime(QtWidgets.QComboBox):
    def __init__(self, index,value, parent = None):

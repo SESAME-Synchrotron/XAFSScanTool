@@ -103,10 +103,10 @@
 			"pvname":"D08R1-MO-MC2:OH-DCM-STP-TRSY1"
 		},
 		"SMP:X":{
-			"pvname":"D08-ES-SMP-STP-X"
+			"pvname":"IOC:m3"
 		},
 		"SMP:Y":{
-			"pvname":"D08-ES-SMP-STP-Y"
+			"pvname":"IOC:m4"
 		}
 	}
 }
