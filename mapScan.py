@@ -35,10 +35,10 @@ class MAPSCAN (XAFS_XRFSTEP):
 		self.h5cfg = readFile(h5CfgFile).readJSON()
 
 		""" create zmq socket as publisher """
-		ZMQType = self.h5cfg["ZMQSettings"]["ZMQSenderSettings"]["ZMQType"]
-		ZMQSender = self.h5cfg["ZMQSettings"]["ZMQSenderSettings"]["ZMQSender"]
-		ZMQSPort = self.h5cfg["ZMQSettings"]["ZMQSenderSettings"]["ZMQPort"]
-		ZMQSProtocol = self.h5cfg["ZMQSettings"]["ZMQSenderSettings"]["ZMQProtocol"]
+		ZMQSettings = self.h5cfg["ZMQSettings"]["ZMQSenderSettings"]
+		ZMQSender = ZMQSettings["ZMQSender"]
+		ZMQSPort = ZMQSettings["ZMQPort"]
+		ZMQSProtocol = ZMQSettings["ZMQProtocol"]
 		ZMQSender = ZMQSProtocol + "://" + ZMQSender + ":" + ZMQSPort
 
 		context = zmq.Context()
@@ -168,8 +168,8 @@ class MAPSCAN (XAFS_XRFSTEP):
 				self.MoveSmpX(x)
 				log.info('Collecting data for the scan point: ({},{})'.format(x,y))
 				try:
-					self.sock.send_pyobj(list(range(0,2048)))
-					# self.sock.send_pyobj(PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get())
+					# self.sock.send_pyobj(list(range(0,2048)))
+					self.sock.send_pyobj(PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get())
 
 				except:
 					self.sock.send_pyobj("timeout")
