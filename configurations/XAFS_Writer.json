@@ -6,12 +6,18 @@
 		"EPICSandIOCs":
 		{
 			"EPICSPVTimeout": 0.5,
-			"KETEKNumChannels": "D08-ES-SDD1:mca1.NORD"
+			"KETEKNumChannels": "D08-ES-SDD1:mca1.NORD",
+		    "writingNewFileTrigger":"BEATS:WRITER:NewFileTrigger",
+		    "writerStatus":"BEATS:WRITER:Status",
+		    "writerFileReady":"BEATS:WRITER:FileCreated",
+		    "writerRecivingTime": "BEATS:Writer:RecivingTime",
+		    "writerOverallTime" : "BEATS:Writer:OverallTime",
+		    "SEDTimeStamp" : "BEATS:SEDTimeStamp"
 		},
 		"formatSettings":
 		{
-			"layout": "XAFS_Writer_Layout.xml",
-			"attribute": "XAFS_Writer_Attributes.xml"
+			"layout": "configurations/XAFS_Writer_Layout.xml",
+			"attribute": "configurations/XAFS_Writer_Attributes.xml"
 		},
 		"fileCreator": "SESAME | DCA | XAFS/XRF_H5Writer",
 
@@ -36,7 +42,7 @@
 				"ZMQSender": "127.0.0.1",
 				"ZMQPort": "1919",
 				"ZMQProtocol": "tcp",
-				"ZMQType": "zmq.PUB"
+				"ZMQType": "PUB"
 			},
 
 			"streamedDatasets":

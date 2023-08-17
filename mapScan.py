@@ -36,13 +36,13 @@ class MAPSCAN (XAFS_XRFSTEP):
 
 		""" create zmq socket as publisher """
 		ZMQType = self.h5cfg["ZMQSettings"]["ZMQSenderSettings"]["ZMQType"]
-		ZMQSender = self.ZMQSettings["ZMQSenderSettings"]["ZMQSender"]
-		ZMQSPort = self.ZMQSettings["ZMQSenderSettings"]["ZMQPort"]
-		ZMQSProtocol = self.ZMQSettings["ZMQSenderSettings"]["ZMQProtocol"]
+		ZMQSender = self.h5cfg["ZMQSettings"]["ZMQSenderSettings"]["ZMQSender"]
+		ZMQSPort = self.h5cfg["ZMQSettings"]["ZMQSenderSettings"]["ZMQPort"]
+		ZMQSProtocol = self.h5cfg["ZMQSettings"]["ZMQSenderSettings"]["ZMQProtocol"]
 		ZMQSender = ZMQSProtocol + "://" + ZMQSender + ":" + ZMQSPort
 
 		context = zmq.Context()
-		self.sock = context.socket(ZMQType)
+		self.sock = context.socket(zmq.PUB)
 		self.sock.connect(ZMQSender)  	# Connect instead of bind for the server
 
 		""" setup h5 file layout """
@@ -168,18 +168,18 @@ class MAPSCAN (XAFS_XRFSTEP):
 				self.MoveSmpX(x)
 				log.info('Collecting data for the scan point: ({},{})'.format(x,y))
 				try:
-					# self.sock.send_pyobj(list(range(0,2048)))
-					self.sock.send_pyobj(PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get())
+					self.sock.send_pyobj(list(range(0,2048)))
+					# self.sock.send_pyobj(PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get())
 
 				except:
 					self.sock.send_pyobj("timeout")
 
 	def startZMQ(self):
-		self.writer.reciveData()
+		self.writer.reciveData(len(self.xRange), len(self.yRange))
 		self.writer.closeFile()
 
 	def setupH5DXLayout(self):
-		self.writer = ZMQWriter(self.dataFileName, self.BasePath, h5CfgFile, len(self.xRange), len(self.yRange))
+		self.writer = ZMQWriter(self.h5FileName, self.BasePath, h5CfgFile)
 		self.writer.createH5File()
 		self.writer.setupH5DXLayout()
 
