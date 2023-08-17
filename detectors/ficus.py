@@ -1,13 +1,8 @@
-import PyQt5
-import sys
 import time
 import numpy as np
 from SEDSS.CLIMessage import CLIMessage
-from common import Common
 from .base import Base
-import epics
 from SEDSS.SEDFileManager import readFile
-
 
 
 class FICUS(Base):
@@ -21,7 +16,7 @@ class FICUS(Base):
 		FicusBaseDir = self.paths["ficus_workstation_data_path"]
 		self.PVs["Ficus:Basedir"].put(FicusBaseDir)
 		self.PVs["Ficus_ExpID"].put(userinfo["Proposal"])
-		self.scanLimites = readFile("configrations/limites.json").readJSON()
+		self.scanLimites = readFile("configurations/limites.json").readJSON()
 		self.FicusReadOutTime = self.scanLimites["FicusReadOutTime"] 
 	
 	def ACQ(self,args):

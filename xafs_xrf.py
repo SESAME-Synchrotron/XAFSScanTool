@@ -7,14 +7,11 @@ When installing at xafs/xrf bl:
 2. change fixed directory to experimint directory when finding xdi files
 3. Add Offset PV 
 """
-import config
-import csv
 import datetime
 import decimal
 import json
 import math
 import os
-import re
 import sys
 import time
 import itertools
@@ -30,7 +27,6 @@ import threading
 import log
 import shutil 
 import signal
-import glob
 
 try:
 	import PyQt5
@@ -47,7 +43,7 @@ class XAFS_XRF:
 		self.loadPVS("xafs")
 		self.paths = paths
 		self.cfg = cfg
-		self.scanLimites = readFile("configrations/limites.json").readJSON()
+		self.scanLimites = readFile("configurations/limites.json").readJSON()
 		log.info("Experiment configurations: ({})".format(json.dumps(self.cfg, indent=2, sort_keys=True)))
 		log.info("Experiment scan limites: ({})".format(json.dumps(self.scanLimites, indent=2, sort_keys=True)))
 		CLIMessage("Configurations to be implemented: {}".format(self.cfg), "M")
@@ -65,7 +61,7 @@ class XAFS_XRF:
 			log.info("Testing mode: Yes")
 	
 	def updateUserInfo(self): 
-		self.userinfo	= Common.loadjson("configrations/userinfo.json")
+		self.userinfo	= Common.loadjson("configurations/userinfo.json")
 		self.PVs["USERINFO:Proposal"].put(self.userinfo["Proposal"])
 		self.PVs["USERINFO:Email"].put(self.userinfo["Email"])
 		self.PVs["USERINFO:Beamline"].put(self.userinfo["Beamline"])
@@ -477,7 +473,7 @@ class XAFS_XRF:
 	def signal_handler(self, sig, frame):
 		"""Calls abort_scan when ^C is typed"""
 		if sig == signal.SIGINT:
-			log.warning("Ctrl + C (^C) has been pressed, runinig scan is terminated !!")
+			log.warning("Ctrl + C (^C) has been pressed, runnnig scan is terminated !!")
 			os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 			shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 			self.dataTransfer()

@@ -32,7 +32,7 @@ engCalib = args.engCalib
 
 if __name__ == "__main__":
 
-	paths	= Common.loadjson("configrations/paths.json")
+	paths	= Common.loadjson("configurations/paths.json")
 	cfg		= config.ConfigGUI(paths).cfg
 
 	print(cfg)

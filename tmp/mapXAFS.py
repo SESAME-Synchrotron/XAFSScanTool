@@ -8,13 +8,11 @@ When installing at xafs/xrf bl:
 3. Add Offset PV 
 """
 import config
-import csv
 import datetime
 import decimal
 import json
 import math
 import os
-import re
 import sys
 import time
 import itertools
@@ -50,15 +48,15 @@ class XAFSSCAN:
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
 		self.loadPVS("xafs")
-		self.paths		= Common.loadjson("configrations/paths.json")
+		self.paths		= Common.loadjson("configurations/paths.json")
 		self.cfg		= config.ConfigGUI(self.paths).cfg ## gets the cfg file -- strange !!
 		#self.cfg["expType"] = config.ConfigGUI(self.paths).masterExpType
-		self.scanLimites = readFile("configrations/limites.json").readJSON()
+		self.scanLimites = readFile("configurations/limites.json").readJSON()
 		log.info("Experiment configurations: ({})".format(json.dumps(self.cfg, indent=2, sort_keys=True)))
 		log.info("Experiment scan limites: ({})".format(json.dumps(self.scanLimites, indent=2, sort_keys=True)))
-		CLIMessage(" Confegrations to be implemented: {}".format(self.cfg), "M")
+		CLIMessage(" Configurations to be implemented: {}".format(self.cfg), "M")
 		self.detChosen = None 
-		self.userinfo	= Common.loadjson("configrations/userinfo.json")
+		self.userinfo	= Common.loadjson("configurations/userinfo.json")
 		self.initPaths()
 		self.initDCM()
 		self.initDetectors()

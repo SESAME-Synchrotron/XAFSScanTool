@@ -1,0 +1,50 @@
+{
+		"beamline": "XAFS",
+		"detector": "KETEK",
+		"fileType": "hdf5",
+		"fileFormat": "DX",
+		"EPICSandIOCs":
+		{
+			"EPICSPVTimeout": 0.5,
+			"KETEKNumChannels": "D08-ES-SDD1:mca1.NORD"
+		},
+		"formatSettings":
+		{
+			"layout": "XAFS_Writer_Layout.xml",
+			"attribute": "XAFS_Writer_Attributes.xml"
+		},
+		"fileCreator": "SESAME | DCA | XAFS/XRF_H5Writer",
+
+		"hdf5FixedAtt":
+		{
+			"detector":
+			{
+				"EPICSPVs":
+				{
+
+				},
+				"fixed":
+				{
+					"XXX": "YYY"
+				}
+			}
+		},
+		"ZMQSettings":
+		{
+			"ZMQSenderSettings":
+			{
+				"ZMQSender": "127.0.0.1",
+				"ZMQPort": "1919",
+				"ZMQProtocol": "tcp",
+				"ZMQType": "zmq.PUB"
+			},
+
+			"streamedDatasets":
+			{
+				"NDArrayUniqueId":
+				{
+					"dataset": "/defaults/NDArrayUniqueId"
+				}
+			}
+		}
+	}

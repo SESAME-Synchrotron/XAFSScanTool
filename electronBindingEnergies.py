@@ -6,7 +6,7 @@ from SEDSS.CLIMessage import CLIMessage
 import yaml 
 from nob import Nob
 
-electronBindingEngDBPath = "configrations/electronBindingEnergyDB.yaml"
+electronBindingEngDBPath = "configurations/electronBindingEnergyDB.yaml"
 
 class electronBindingEnergies(): 
 	def __init__(self, element): 

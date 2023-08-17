@@ -1,15 +1,12 @@
 import json
 import sys
-#import subprocess
 import csv
-import re
 import os
-from SEDSS.SEDFileManager import readFile
 from SEDSS.CLIMessage import CLIMessage
 from SEDSS.UIMessage import UIMessage
 
 from  common import Common
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets
 
 class SED:
 	def __init__(self, proposalID):
@@ -77,14 +74,14 @@ class SED:
 			propsal_data = self.parsePropsalFile("metadata/Scanning_Tool.csv")
 			if int(propsal_data["Proposal"]) == proposal_ID:
 				try:
-					UsersinfoFile = open('configrations/userinfo.json','w')
+					UsersinfoFile = open('configurations/userinfo.json','w')
 					json.dump(propsal_data,UsersinfoFile, indent=2)
 					UsersinfoFile.close()
-					PathsFile = open('configrations/paths.json', 'r+')
+					PathsFile = open('configurations/paths.json', 'r+')
 					PathsFileData = json.load(PathsFile)
 					PathsFileData["users_data_path"] = propsal_data["Experimental_Data_Path"]
 					PathsFile.close()
-					PathsFile = open('configrations/paths.json', 'w')
+					PathsFile = open('configurations/paths.json', 'w')
 					json.dump(PathsFileData,PathsFile, indent=2)
 					PathsFile.close()
 					return True

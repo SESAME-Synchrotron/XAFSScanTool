@@ -5,8 +5,6 @@ this class is to include all common step scan methods.
 
 from xafs_xrf import XAFS_XRF
 import log
-from SEDSS.CLIMessage import CLIMessage
-import time
 
 class XAFS_XRFSTEP(XAFS_XRF):
 	def __init__(self, paths, cfg, testingMode):
