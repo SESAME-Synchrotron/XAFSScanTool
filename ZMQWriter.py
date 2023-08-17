@@ -1,16 +1,9 @@
 from H5Writer import H5Writer
 from SEDSS.CLIMessage import CLIMessage
-from SEDSS.SEDSupport import timeModule
 import sys
 import zmq
-import json
-import numpy
 import h5py
-from multiprocessing import Process, Queue, Value
 import time
-from PIL import Image as im #_AN: check if it is still used ??
-import os
-import traceback
 from epics import PV
 import log
 GfullH5Path = None # Global(G) full h5 path
@@ -100,5 +93,5 @@ class ZMQWriter (H5Writer):
 					CLIMessage(f"Total Points: {self.numXPoints * self.numYPoints} | current index point: {i, j} | remaining points: {self.numXPoints * self.numYPoints - totalPoints}", "I")
 					log.info(f"Total Points: {self.numXPoints * self.numYPoints} | current index point: {i, j} | remaining points: {self.numXPoints * self.numYPoints - totalPoints}")
 		h5file.close()
-		CLIMessage(f"total recieved points: {(i+1) * (j+1) - len(missedPoints)} | missed points index: {print('No missed points') if len(missedPoints) == 0 else print(missedPoints)}", "I")
-		log.info(f"total recieved points: {(i+1) * (j+1) - len(missedPoints)} | missed points index: {print('No missed points') if len(missedPoints) == 0 else print(missedPoints)}")
+		CLIMessage(f"total recieved points: {(i+1) * (j+1) - len(missedPoints)} | missed points index: {'No missed points' if len(missedPoints) == 0 else missedPoints}", "I")
+		log.info(f"total recieved points: {(i+1) * (j+1) - len(missedPoints)} | missed points index: {'No missed points' if len(missedPoints) == 0 else missedPoints}")
