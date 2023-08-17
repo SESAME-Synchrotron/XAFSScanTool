@@ -7,14 +7,11 @@ When installing at xafs/xrf bl:
 2. change fixed directory to experimint directory when finding xdi files
 3. Add Offset PV 
 """
-import config
-import csv
 import datetime
 import decimal
 import json
 import math
 import os
-import re
 import sys
 import time
 import itertools
@@ -30,7 +27,6 @@ import threading
 import log
 import shutil 
 import signal
-import glob
 
 
 try:
@@ -48,12 +44,12 @@ class XAFS_XRF:
 		self.loadPVS("xafs")
 		self.paths = paths
 		self.cfg = cfg
-		self.scanLimites = readFile("configrations/limites.json").readJSON()
+		self.scanLimites = readFile("configurations/limites.json").readJSON()
 		log.info("Experiment configurations: ({})".format(json.dumps(self.cfg, indent=2, sort_keys=True)))
 		log.info("Experiment scan limites: ({})".format(json.dumps(self.scanLimites, indent=2, sort_keys=True)))
 		CLIMessage("Configurations to be implemented: {}".format(self.cfg), "M")
 		self.detChosen = None 
-		self.userinfo	= Common.loadjson("configrations/userinfo.json")
+		self.userinfo	= Common.loadjson("configurations/userinfo.json")
 		self.initPaths()
 		self.initDCM()
 		self.initDetectors()

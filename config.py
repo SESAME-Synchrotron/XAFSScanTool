@@ -7,14 +7,10 @@ from PyQt5 import QtWidgets, QtCore
 
 #import SED
 import json
-import datetime
 import sys
-import subprocess
 import csv
-import re
 import os
-import epics
-from epics import caget, caput 
+from epics import caget, caput
 from SEDSS.SEDFileManager import readFile
 from SEDSS.CLIMessage import CLIMessage
 from SEDSS.UIMessage import UIMessage
@@ -47,7 +43,7 @@ class ConfigGUI:
 
 		self.cfg = {}
 		self.expType = "users"
-		self.masterExpType   = "proposal" #this is a master exp type to avoid overwriting by loading config file 
+		self.masterExpType   = "proposal" #this is a master exp type to avoid overwriting by loading config file
 		self.IntervalsGUI    = IntervalGUI()
 		self.SamplesGUI      = SamplePosGUI()
 		self.DetectorsGUI    = DetectorsGUI()
@@ -81,23 +77,23 @@ class ConfigGUI:
 		self.guiObj.mapEdge.currentTextChanged.connect(self.getFoilElementEnergy)
 
 		self.Qwiz.exec_()
-	def onClose(self): 
+	def onClose(self):
 		CLIMessage("===========    Close the scanning tool    ===========","W")
 		sys.exit()
-	
-	def energyCalConstraintsCheck(self): 
+
+	def energyCalConstraintsCheck(self):
 		"""
 		This method applies some GUI settings when choosing energy calibration option
 		"""
-		if self.guiObj.EnergyCal.isChecked(): 
-			
+		if self.guiObj.EnergyCal.isChecked():
+
 			self.guiObj.sampleName.setReadOnly(False)
 			self.guiObj.sampleName.setStyleSheet("QLineEdit {background : orange;}")
 			self.guiObj.energy.setStyleSheet("QLineEdit {background : orange;}")
 			self.guiObj.Mono.setEnabled(True)
 			self.guiObj.Mono.setStyleSheet("QComboBox {background : orange;}")
 
-		else: 
+		else:
 			self.guiObj.sampleName.setReadOnly(False)
 			self.guiObj.sampleName.setStyleSheet("QLineEdit {background : green;}")
 			self.guiObj.mapEdgeElement.setStyleSheet("QLineEdit {background : green;}")
@@ -108,7 +104,7 @@ class ConfigGUI:
 			self.guiObj.Mono.setEnabled(False)
 			self.guiObj.Mono.setStyleSheet("QComboBox {background : green;}")
 			self.guiObj.mapMono.setStyleSheet("QComboBox {background : green;}")
-			self.guiObj.Mono.setCurrentText(caget(self.PVs["PV"]["BLSetup:Crystal"]["pvname"]))	
+			self.guiObj.Mono.setCurrentText(caget(self.PVs["PV"]["BLSetup:Crystal"]["pvname"]))
 
 	def CheckExptype(self):
 		if self.guiObj.UsersExp.isChecked():
@@ -124,14 +120,14 @@ class ConfigGUI:
 
 			self.guiObj.sampleName.setEnabled(True)
 			self.guiObj.Mono.setEnabled(True)
-			return self.WizardPages.cfgFile.value # Go to load or enter a new config file 
+			return self.WizardPages.cfgFile.value # Go to load or enter a new config file
 
 		else:
 			self.expType = "local"
 			self.masterExpType = "local"
 			self.cfg["expType"] = self.expType
 			return self.WizardPages.scanType.value
-	
+
 	def getExpType(self):
 		CLIMessage("getExpType")
 		return self.masterExpType
@@ -148,7 +144,7 @@ class ConfigGUI:
 				return self.WizardPages.scanType.value
 			else:
 				return self.WizardPages.PROPID.value
-	
+
 	def checkScanType(self):
 		if self.guiObj.stepEngScan.isChecked():
 			self.scanTypeValue = 'stepEngScan'
@@ -171,7 +167,7 @@ class ConfigGUI:
 				return self.WizardPages.stepMapScanParameters.value
 		else:
 			self.cfg["loadedConfig"] = "Yes"
-			return self.WizardPages.loadCfg.value		
+			return self.WizardPages.loadCfg.value
 
 	def loadcfg(self):
 		path = self.guiObj.filePath.text()
@@ -190,7 +186,7 @@ class ConfigGUI:
 			Nintrv = int(Nintrv)
 			self.cfg["NIntervals"] = Nintrv
 			self.IntervalsGUI.setIntervalsNumber(self.cfg)
-			self.IntervalsGUI.intervalDialog.exec()				
+			self.IntervalsGUI.intervalDialog.exec()
 		else:
 			Common.show_message(QtWidgets.QMessageBox.Critical,
 								"Please enter Number of Intervals",
@@ -209,7 +205,7 @@ class ConfigGUI:
 				det = getattr(self.mapDetectorsGUI.mapDetectorGUI_UI, Detector)
 				det.setChecked(True)
 		self.mapDetectorGUI.mapDetectorGUI_Dialog.exec_()
-	
+
 	def editSamples(self):
 		Nsamples = self.guiObj.setNumofSamples.text()
 		if Common.regexvalidation("Nsample", Nsamples):
@@ -223,9 +219,9 @@ class ConfigGUI:
 								"XAFS/XRF scan tool", QtWidgets.QMessageBox.Ok)
 	def mapDefineROI(self):
 		self.MapDefineROIGUI.mapDefineROIGUI_Dialog.exec_()
-		
+
 	def browseCfgFile(self):
-		if self.scanTypeValue == 'stepEngScan': 
+		if self.scanTypeValue == 'stepEngScan':
 			self.browseStepEngScanCfgFile()
 		else:
 			self.browseStepMapScanCfgFile()
@@ -242,14 +238,14 @@ class ConfigGUI:
 			CLIMessage("Could not locate the config file", "W")
 
 		try:
-			if self.cfg['scanType'] != 'stepMapScan': 
+			if self.cfg['scanType'] != 'stepMapScan':
 				CLIMessage("The system can't import non mapping config file to mapping scan", "W")
-				self.guiObj.filePath.clear() # to avoid moving to next page 
+				self.guiObj.filePath.clear() # to avoid moving to next page
 				return self.WizardPages.loadCfg.value
-		except: 
+		except:
 			CLIMessage('Incompatible configuration file, please try loading another mapping scan config file', 'W')
-			self.guiObj.filePath.clear() # to avoid moving to next page 
-		
+			self.guiObj.filePath.clear() # to avoid moving to next page
+
 		self.guiObj.mapEnergy.setText(str(self.cfg['Energy']))
 		self.guiObj.mapIntTime.setText(str(self.cfg['IntTime']))
 		self.guiObj.mapSettlingTime.setText(str(self.cfg['settlingTime']))
@@ -282,13 +278,13 @@ class ConfigGUI:
 		self.guiObj.mapExpCom.setText(str(self.cfg['ExpMetaData'][8]['expCom']))
 
 
-		
+
 	def browseStepEngScanCfgFile(self):
 		try:
 			self.IntervalsGUI	= IntervalGUI()
 			self.SamplesGUI		= SamplePosGUI()
 			self.DetectorsGUI	= DetectorsGUI()
-	
+
 			self.cfgpath = QtWidgets.QFileDialog.getOpenFileName(self.Qwiz, "choose configuration file", "~","*.cfg")[0]
 			try:
 				self.guiObj.filePath.setText(self.cfgpath)
@@ -297,20 +293,20 @@ class ConfigGUI:
 			except:
 				CLIMessage("Could not locate the config file", "W")
 				return self.WizardPages.stepEngScanParameters.value
-	
-			try: 
+
+			try:
 				NIntervals = self.cfg["NIntervals"]
 				Nsamples = self.cfg["Nsamples"]
 				Nscans = self.cfg["Nscans"]
 				settlingTime = self.cfg["settlingTime"]
 			except:
 				UIMessage("Error reading config file",
-					"Unable to read from configration file", 
+					"Unable to read from configration file",
 					"Try to load another file").showCritical()
 				CLIMessage("Unable to read configuration file, scanning can not continue!!","E")
 				self.guiObj.filePath.clear() # to avoid moving to next page
 				#sys.exit()
-	
+
 			self.guiObj.setNumofIterv.setText(str(NIntervals))
 			self.guiObj.setNumofSamples.setText(str(Nsamples))
 			self.guiObj.setNumofExafsScans.setText(str(Nscans))
@@ -329,13 +325,13 @@ class ConfigGUI:
 			self.DetectorsGUI.detectors_UI.IC1GasMix.setText(str(self.cfg["ExpMetaData"][0]["IC1GasMix"]))
 			self.DetectorsGUI.detectors_UI.IC2GasMix.setText(str(self.cfg["ExpMetaData"][1]["IC2GasMix"]))
 			self.DetectorsGUI.detectors_UI.IC3GasMix.setText(str(self.cfg["ExpMetaData"][2]["IC3GasMix"]))
-	
+
 			for interval in range(len(self.cfg["Intervals"])):
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.start.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["Startpoint"]),0))
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.end.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["Endpoint"]),0))
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.step.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["Stepsize"]),0))
 				self.IntervalsGUI.interval_UI.tableWidget.setItem(interval, IntervalGUI.IntervalCols.ICInt.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["IcsIntTime"]),0))
-	
+
 				cbox = AcqTime(interval,self.cfg["Intervals"][interval]["DetIntTime"])
 				self.IntervalsGUI.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,cbox)
 
@@ -344,16 +340,16 @@ class ConfigGUI:
 
 				if "ExtTrig" in self.cfg["Intervals"][interval].keys():
 					self.IntervalsGUI.interval_UI.tableWidget.setItem(interval,IntervalGUI.IntervalCols.ExtTrig.value,QtWidgets.QTableWidgetItem(str(self.cfg["Intervals"][interval]["ExtTrig"]), 0))
-	
+
 			for sample in range(len(self.cfg["Samplespositions"])):
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.X.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Xposition"]), 0))
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Y.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["Yposition"]), 0))
 				self.SamplesGUI.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Title.value,QtWidgets.QTableWidgetItem(str(self.cfg["Samplespositions"][sample]["sampleTitle"]), 0))
-			
+
 			if "FICUS" in self.cfg["detectors"]:
 				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "FICUS")
 				detCheckbox.setChecked(True)
-			
+
 			if "KETEK" in self.cfg["detectors"]:
 				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, "KETEK")
 				detCheckbox.setChecked(True)
@@ -388,37 +384,37 @@ class ConfigGUI:
 			self.cfg['settlingTime'] = float(mapSettlingTime)
 			######### ROI Setup -- Start Section ############
 			mapROIXStart = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIXStart.text()
-			if mapROIXStart == '' or not Common.regexvalidation('MapROI', mapROIXStart): 
+			if mapROIXStart == '' or not Common.regexvalidation('MapROI', mapROIXStart):
 				CLIMessage ("Please enter a valid value for ROI X -- Start --", 'W')
 				return self.WizardPages.stepMapScanParameters.value
 			self.cfg['ROIXStart'] = float(mapROIXStart)
 
 			mapROIXEnd = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIXEnd.text()
-			if mapROIXEnd == '' or not Common.regexvalidation('MapROI', mapROIXEnd): 
+			if mapROIXEnd == '' or not Common.regexvalidation('MapROI', mapROIXEnd):
 				CLIMessage ("Please enter a valid value for ROI X -- End --", 'W')
 				return self.WizardPages.stepMapScanParameters.value
 			self.cfg['ROIXEnd'] = float(mapROIXEnd)
 
 			mapROIYStart = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIYStart.text()
-			if mapROIYStart == '' or not Common.regexvalidation('MapROI', mapROIYStart): 
+			if mapROIYStart == '' or not Common.regexvalidation('MapROI', mapROIYStart):
 				CLIMessage ("Please enter a valid value for ROI Y -- Start --", 'W')
 				return self.WizardPages.stepMapScanParameters.value
 			self.cfg['ROIYStart'] = float(mapROIYStart)
 
 			mapROIYEnd = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIYEnd.text()
-			if mapROIYEnd == '' or not Common.regexvalidation('MapROI', mapROIYEnd): 
+			if mapROIYEnd == '' or not Common.regexvalidation('MapROI', mapROIYEnd):
 				CLIMessage ("Please enter a valid value for ROI Y -- End --", 'W')
 				return self.WizardPages.stepMapScanParameters.value
 			self.cfg['ROIYEnd'] = float(mapROIYEnd)
 
 			mapROIZ = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIZ.text()
-			if mapROIZ == '' or not Common.regexvalidation('MapROI', mapROIZ): 
+			if mapROIZ == '' or not Common.regexvalidation('MapROI', mapROIZ):
 				CLIMessage ("Please enter a valid value for ROI Z axis ", 'W')
 				return self.WizardPages.stepMapScanParameters.value
 			self.cfg['ROIZ'] = mapROIYEnd
 
 			mapROIRot = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIRot.text()
-			if mapROIRot == '' or not Common.regexvalidation('MapROI', mapROIRot): 
+			if mapROIRot == '' or not Common.regexvalidation('MapROI', mapROIRot):
 				CLIMessage ("Please enter a valid value for ROI Rotation axis ", 'W')
 				return self.WizardPages.stepMapScanParameters.value
 			self.cfg['ROIRot'] = mapROIRot
@@ -426,13 +422,13 @@ class ConfigGUI:
 			######### ROI Setup -- End Section ############
 
 			mapResX = self.guiObj.mapResX.text()
-			if mapResX == '' or not Common.regexvalidation('Resolution', mapResX): 
+			if mapResX == '' or not Common.regexvalidation('Resolution', mapResX):
 				CLIMessage('Please enter a vlid X resolution value', 'W')
 				return self.WizardPages.stepMapScanParameters.value
 			self.cfg['ResX'] = float(mapResX)
 
 			mapResY = self.guiObj.mapResY.text()
-			if mapResY == '' or not Common.regexvalidation('Resolution', mapResY): 
+			if mapResY == '' or not Common.regexvalidation('Resolution', mapResY):
 				CLIMessage('Please enter a vlid Y resolution value', 'W')
 				return self.WizardPages.stepMapScanParameters.value
 			self.cfg['ResY'] = float(mapResY)
@@ -473,9 +469,9 @@ class ConfigGUI:
 					expMetaData.append({"mapEdgeElement":self.guiObj.mapEdgeElement.text()})
 				else:
 					Common.show_message(QtWidgets.QMessageBox.Critical,
-						"""Enter a valid format of the foil element being used!! \n Allowed elements are: 
+						"""Enter a valid format of the foil element being used!! \n Allowed elements are:
 						H, He, Li, Be, B, C, N, O, F, Ne, Na, Mg, Al, Si, P, S, Cl, Ar, K, Ca, Sc, Ti
-						V, Cr, Mn, Fe, Co, Ni, Cu, Zn, Ga, Ge, As, Se, Br, Kr, Rb, Sr, Y, Zr, Nb, Mo, Tc, 
+						V, Cr, Mn, Fe, Co, Ni, Cu, Zn, Ga, Ge, As, Se, Br, Kr, Rb, Sr, Y, Zr, Nb, Mo, Tc,
 						Ru, Rh, Pd, Ag, Cd, In, Sn, Sb, Te, I, Xe, Cs, Ba, La, Ce, Pr, Nd, Pm, Sm, Eu, Gd,
 						Tb, Dy, Ho, Er, Tm, Yb, Lu, Hf, Ta, W, Re, Os, Ir, Pt, Au, Hg, Tl, Pb, Bi, Po, At,
 						Rn, Fr, Ra, Ac, Th, Pa, U ""","XAFS/XRF Scan tool",
@@ -533,10 +529,10 @@ class ConfigGUI:
 			if float(self.cfg['ResY']) >= yDistance:
 				CLIMessage ('Y resolution movment is exceeding the ROI area, please correct the Y resolution value', 'W')
 				return self.WizardPages.stepMapScanParameters.value
-			
+
 
 			self.cfg['detectors']   = detectors
-			self.cfg['ExpMetaData'] = expMetaData 
+			self.cfg['ExpMetaData'] = expMetaData
 			CLIMessage("----ioer::: {}".format(self.cfg), 'E')
 			return self.WizardPages.startScan.value
 
@@ -544,7 +540,7 @@ class ConfigGUI:
 			print ("Check mapping scan parameters ...")
 			return self.WizardPages.stepMapScanParameters.value
 
-		
+
 
 	def checkStepEngScanConfig(self):
 		expMetaData = []
@@ -580,42 +576,42 @@ class ConfigGUI:
 			intervals = [{} for i in range(int(NIntervals))]
 			for interval in range(int(NIntervals)):#range(self.IntervalsGUI.interval_UI.tableWidget.rowCount()):
 				"""
-				without try and except, the script will try to check the linedit text before inisialization 
-				and thus generat errors 
+				without try and except, the script will try to check the linedit text before inisialization
+				and thus generat errors
 				"""
-				try: 
+				try:
 					start = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 0).text()
 					if start == '' or not Common.validate("Startpoint", start, "Please enter valid start point"):
-						CLIMessage("Please check/enter the start point for interval number {}".format(interval), "W") 
+						CLIMessage("Please check/enter the start point for interval number {}".format(interval), "W")
 						return self.WizardPages.stepEngScanParameters.value
 
-				except: 
-					CLIMessage("Please check/enter the start point for interval number {}".format(interval), "W") 
+				except:
+					CLIMessage("Please check/enter the start point for interval number {}".format(interval), "W")
 
-				try: 
+				try:
 					end = self.IntervalsGUI.interval_UI.tableWidget.item(interval,1).text()
 					if end == '' or not Common.validate("Endpoint", end, "Please enter valid end point"):
-						CLIMessage("Please check/enter the end point for interval number {}".format(interval), "W") 
+						CLIMessage("Please check/enter the end point for interval number {}".format(interval), "W")
 						return self.WizardPages.stepEngScanParameters.value
 				except:
-					CLIMessage("Please check/enter the end point for interval number {}".format(interval), "W") 
+					CLIMessage("Please check/enter the end point for interval number {}".format(interval), "W")
 
-				try: 
+				try:
 					stepsize = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 2).text()
 					if stepsize == '' or not Common.validate("Stepsize", end, "Please enter valid step size"):
-						CLIMessage("Please check/enter the step-size for interval number {}".format(interval), "W") 
+						CLIMessage("Please check/enter the step-size for interval number {}".format(interval), "W")
 						return self.WizardPages.stepEngScanParameters.value
-				except: 
-					CLIMessage("Please check/enter the step-size for interval number {}".format(interval), "W") 
+				except:
+					CLIMessage("Please check/enter the step-size for interval number {}".format(interval), "W")
 
 				try:
 					IcIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 3).text()
 					if IcIntTime == '' or not Common.validate("IcsIntTime", end,"Please enter valid IC integration time for "\
 						"interval number {}".format(interval)):
-						CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W") 
+						CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W")
 						return self.WizardPages.stepEngScanParameters.value
-				except: 
-					CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W") 
+				except:
+					CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W")
 
 				#intervals[interval]["DetIntTime"] = self.IntervalsGUI._AcqTimes[interval]
 				intervals[interval]["DetIntTime"] = self.IntervalsGUI.FicusIntTimeDic[interval]
@@ -630,24 +626,24 @@ class ConfigGUI:
 
 			SamplePositions = [{} for i in range(int(Nsamples))]
 			for sample in range(self.SamplesGUI.sample_UI.samplepositions.rowCount()):
-				try: 
+				try:
 					Xposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 0).text()
 					if Xposition == '' or not Common.validate("Xposition", Xposition,"Please enter valid sample x position"):
-						CLIMessage("Please check/enter (x) position for sample number {}".format(sample), "W") 
+						CLIMessage("Please check/enter (x) position for sample number {}".format(sample), "W")
 						return self.WizardPages.stepEngScanParameters.value
 
 
 					Yposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 1).text()
 					if Yposition == '' or not Common.validate("Yposition", Yposition,"Please enter valid sample y position"):
-						CLIMessage("Please check/enter (y) position for sample number {}".format(sample), "W") 
+						CLIMessage("Please check/enter (y) position for sample number {}".format(sample), "W")
 						return self.WizardPages.stepEngScanParameters.value
-				except: 
+				except:
 					CLIMessage("Please check/enter (x,y) position for sample number {}".format(sample), "W")
 
 				try:
 					sampleTitle = self.SamplesGUI.sample_UI.samplepositions.item(sample, 2).text()
 					if sampleTitle == '' or not Common.validate("sampleTitle", sampleTitle,"Please enter valid sample name"):
-						CLIMessage("Please check/enter sample name in the Samples dialog for the sameple number: {}".format(sample), "W") 
+						CLIMessage("Please check/enter sample name in the Samples dialog for the sameple number: {}".format(sample), "W")
 						return self.WizardPages.stepEngScanParameters.value
 				except:
 					CLIMessage("Please check/enter the sample name in the Samples dialog", "W")
@@ -688,17 +684,17 @@ class ConfigGUI:
 			else:
 				#if Common.regexvalidation("sampleName", self.guiObj.sampleName.text()):
 				if electronBindingEnergies(self.guiObj.sampleName.text()).elementExist():
-					
+
 					self.getFoilElementEnergy()
-					#elementEnergy = electronBindingEnergies(self.guiObj.sampleName.text()).getEdgeEnergy(self.guiObj.edge.currentText())	
+					#elementEnergy = electronBindingEnergies(self.guiObj.sampleName.text()).getEdgeEnergy(self.guiObj.edge.currentText())
 					expMetaData.append({"sampleName":self.guiObj.sampleName.text()})
 					caput(self.PVs["PV"]["ENGCAL:FoilElement"]["pvname"], self.guiObj.sampleName.text())
 					caput(self.PVs["PV"]["ENGCAL:RealFoilEng"]["pvname"], self.guiObj.energy.text())
 				else:
 					Common.show_message(QtWidgets.QMessageBox.Critical,
-						"""Enter a valid format of the foil element being used!! \n Allowed elements are: 
+						"""Enter a valid format of the foil element being used!! \n Allowed elements are:
 						H, He, Li, Be, B, C, N, O, F, Ne, Na, Mg, Al, Si, P, S, Cl, Ar, K, Ca, Sc, Ti
-						V, Cr, Mn, Fe, Co, Ni, Cu, Zn, Ga, Ge, As, Se, Br, Kr, Rb, Sr, Y, Zr, Nb, Mo, Tc, 
+						V, Cr, Mn, Fe, Co, Ni, Cu, Zn, Ga, Ge, As, Se, Br, Kr, Rb, Sr, Y, Zr, Nb, Mo, Tc,
 						Ru, Rh, Pd, Ag, Cd, In, Sn, Sb, Te, I, Xe, Cs, Ba, La, Ce, Pr, Nd, Pm, Sm, Eu, Gd,
 						Tb, Dy, Ho, Er, Tm, Yb, Lu, Hf, Ta, W, Re, Os, Ir, Pt, Au, Hg, Tl, Pb, Bi, Po, At,
 						Rn, Fr, Ra, Ac, Th, Pa, U ""","XAFS/XRF Scan tool",
@@ -761,7 +757,7 @@ class ConfigGUI:
 			else:
 				expMetaData.append({"expCom":self.guiObj.expCom.text()})
 
-				
+
 			detectors = []
 			for d in self.DetectorsGUI.detectors:
 				detCheckbox = getattr(self.DetectorsGUI.detectors_UI, d)
@@ -777,35 +773,35 @@ class ConfigGUI:
 		except:
 			print ("Check config")
 			return self.WizardPages.stepEngScanParameters.value
-			
+
 	def getFoilElementEnergy(self):
-		try: 
-			if self.cfg['scanType'] == 'stepEngScan': 
+		try:
+			if self.cfg['scanType'] == 'stepEngScan':
 				edge = self.guiObj.edge.currentText()
 				foilElement = self.guiObj.sampleName.text()
 				if edge == "":
-					edge = "K" # goes to default 
+					edge = "K" # goes to default
 				if foilElement == "":
 					self.guiObj.energy.setText(None)
 				elif electronBindingEnergies(foilElement).elementExist():
 					elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
-					self.guiObj.energy.setText(str(elementEnergy)) 
-				else: 
+					self.guiObj.energy.setText(str(elementEnergy))
+				else:
 					self.guiObj.energy.setText(None)
-			elif self.cfg['scanType'] == 'stepMapScan': 
+			elif self.cfg['scanType'] == 'stepMapScan':
 				edge = self.guiObj.mapEdge.currentText()
 				foilElement = self.guiObj.mapEdgeElement.text()
 				if edge == "":
-					edge = "K" # goes to default 
+					edge = "K" # goes to default
 				if foilElement == "":
 					self.guiObj.mapEdgeEnergy.setText(None)
 				elif electronBindingEnergies(foilElement).elementExist():
 					elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
-					self.guiObj.mapEdgeEnergy.setText(str(elementEnergy)) 
-				else: 
+					self.guiObj.mapEdgeEnergy.setText(str(elementEnergy))
+				else:
 					self.guiObj.energy.setText(None)
-		except: 
-			pass 
+		except:
+			pass
 
 
 	def start(self):
@@ -903,20 +899,20 @@ class ConfigGUI:
 				return self.WizardPages.stepEngScanParameters.value
 			else:
 				SamplePositions[sample]["Yposition"] = Yposition
-			
+
 			sampleTitle = self.SamplesGUI.sample_UI.samplepositions.item(sample, 2).text()
 			if sampleTitle == '' or not Common.validate("sampleTitle", sampleTitle,"Please enter valid sample name in the Samples dialog"):
 				CLIMessage("Samples | Please enter a valid sample name in the Samples dialog")
 				return self.WizardPages.stepEngScanParameters.value
 			else:
 				SamplePositions[sample]["sampleTitle"] = sampleTitle
-				
+
 		detectors = []
 		for d in self.DetectorsGUI.detectors:
 			detCheckbox = getattr(self.DetectorsGUI.detectors_UI, d)
 			if detCheckbox.isChecked():
 				detectors.append(d)
-		
+
 
 
 
@@ -954,12 +950,12 @@ class SamplePosGUI:
 		self.sample_UI.samplepositions.setRowCount(Nsamples)
 
 		"""
-		bring default x and y positions 
+		bring default x and y positions
 		"""
 
 		PVs = readFile("pvlist/xafs.json").readJSON()
 		XpositionPV = PVs["Motors"]["SMP:X"]["pvname"]
-		YpositionPV = PVs["Motors"]["SMP:Y"]["pvname"] 
+		YpositionPV = PVs["Motors"]["SMP:Y"]["pvname"]
 
 		#print("cfg.keys", cfg.keys())
 
@@ -979,32 +975,32 @@ class SamplePosGUI:
 					except:
 						print("")
 
-					try:	
+					try:
 
 						if Xposition == "" or Yposition == "" or sampleTitle =="": # bring x and y values fro the first time from cfg file
 							self.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.X.value,QtWidgets.QTableWidgetItem(str(cfg["Samplespositions"][sample]["Xposition"]), 0))
 							self.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Y.value,QtWidgets.QTableWidgetItem(str(cfg["Samplespositions"][sample]["Yposition"]), 0))
 							self.sample_UI.samplepositions.setItem(sample, SamplePosGUI.SampleCols.Title.value,QtWidgets.QTableWidgetItem(str(cfg["Samplespositions"][sample]["sampleTitle"]), 0))
-						
+
 					except:
 						CLIMessage("Unable to read x and y positions (or Sample Name) from the configuration file for "\
 							"the sample number {}".format(sample), "W")
 
-					#try: 
-					#	
-					#	if sampleTitle == "": 
-					#		
+					#try:
+					#
+					#	if sampleTitle == "":
+					#
 					#except:
 					#	CLIMessage("Unable to read the sample name for sample number {} from the config file".format(sample), "W")
-		else: 
+		else:
 			CurentXPosition = caget(XpositionPV)
 			CurentYPosition = caget(YpositionPV)
-			
-			try: # try to get text for the first interval, ... if not set the curent x y positions 
-				XpositionInt0 = self.sample_UI.samplepositions.item(0, 0).text() # x position interval 0
-				YpositionInt0 = self.sample_UI.samplepositions.item(0, 1).text() # y position interval 0 
 
-				if XpositionInt0 == "": 
+			try: # try to get text for the first interval, ... if not set the curent x y positions
+				XpositionInt0 = self.sample_UI.samplepositions.item(0, 0).text() # x position interval 0
+				YpositionInt0 = self.sample_UI.samplepositions.item(0, 1).text() # y position interval 0
+
+				if XpositionInt0 == "":
 					self.sample_UI.samplepositions.setItem(0, SamplePosGUI.SampleCols.X.value,QtWidgets.QTableWidgetItem(str(CurentXPosition), 0))
 				if YpositionInt0 == "":
 					self.sample_UI.samplepositions.setItem(0, SamplePosGUI.SampleCols.Y.value,QtWidgets.QTableWidgetItem(str(CurentYPosition), 0))
@@ -1023,8 +1019,8 @@ class IntervalGUI:
 		ExtTrig	 =	5
 		stepUnit =  6
 
-		GlobalCfg = {} 
-		
+		GlobalCfg = {}
+
 	def __init__(self):
 		self.intervalDialog = QtWidgets.QDialog()
 		self.interval_UI = intervalsForm.Ui_Dialog()
@@ -1042,7 +1038,7 @@ class IntervalGUI:
 		global GlobalCfg
 		#print (GlobalCfg)
 		self.Intervals = [{} for i in range(int(len(self.FicusIntTimeDic)))]
-		for interval in range(len(self.FicusIntTimeDic)): 
+		for interval in range(len(self.FicusIntTimeDic)):
 			#self.stepUnitDic[interval] = 0
 			#print ("self.stepUnitDic[interval]", self.interval_UI.tableWidget.item(interval, 6).text())
 			try:
@@ -1053,9 +1049,9 @@ class IntervalGUI:
 				self.Intervals[interval]["IcsIntTime"] =   self.interval_UI.tableWidget.item(interval, 3).text()
 				self.Intervals[interval]["DetIntTime"] =   self.FicusIntTimeDic[interval]
 				"""
-				For any given interval, if stepUnit combo box is not clicked, then the dectionary size 
-				returnes error.. that's why we try to set withen the interval num. if this gives error 
-				we go back to the default value 0. 
+				For any given interval, if stepUnit combo box is not clicked, then the dectionary size
+				returnes error.. that's why we try to set withen the interval num. if this gives error
+				we go back to the default value 0.
 				"""
 				try:
 					stepUnitCbox2 = stepUnitItems(interval,self.stepUnitDic[interval])
@@ -1069,21 +1065,21 @@ class IntervalGUI:
 				pass
 				#if GlobalCfg ["loadedConfig"]=="No":
 				#	pass
-				#else: 
+				#else:
 				#	Common.show_message(QtWidgets.QMessageBox.Critical,
 				#		"Invalid interval(s) settings, "\
 				#		"the the tool will quite now, re-run it again and please make sure that the intervals configrations are correct"
 				#		,"XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
 				#	sys.exit()
 	def setIntervalsNumber(self, cfg):
-		
+
 		NIntervals = cfg["NIntervals"]
 		global GlobalCfg
 		GlobalCfg = cfg
 
 		#print ("xxxxx",cfg["Intervals"])
-		self._AcqTimes = [-1 for i in range(NIntervals)] 
-		self._stepUnitItems = [-1 for i in range(NIntervals)] 
+		self._AcqTimes = [-1 for i in range(NIntervals)]
+		self._stepUnitItems = [-1 for i in range(NIntervals)]
 		self.interval_UI.tableWidget.setRowCount(NIntervals)
 		if "Intervals" in cfg.keys():
 			if len(cfg["Intervals"]) > len(self.Intervals):
@@ -1091,7 +1087,7 @@ class IntervalGUI:
 
 			#print(Intervals)
 
-			for interval in range(NIntervals): 
+			for interval in range(NIntervals):
 				try:
 					self.Intervals[interval]["Startpoint"] = self.interval_UI.tableWidget.item(interval, 0).text()
 					self.Intervals[interval]["Endpoint"] = self.interval_UI.tableWidget.item(interval, 1).text()
@@ -1100,7 +1096,7 @@ class IntervalGUI:
 					self.Intervals[interval]["DetIntTime"] = self.FicusIntTimeDic[interval]
 					self.Intervals[interval]["stepUnit"]	= self.stepUnitDic[interval]
 				except:
-					pass 
+					pass
 
 
 
@@ -1118,7 +1114,7 @@ class IntervalGUI:
 						self._AcqTimes[interval] = self.Intervals[interval]["DetIntTime"]
 						self.FicusIntTimeDic[interval] = self.Intervals[interval]["DetIntTime"]
 						self.interval_UI.tableWidget.setCellWidget(interval, IntervalGUI.IntervalCols.DetInt.value,cbox)
-						
+
 						stepUnitCbox = stepUnitItems(interval,self.Intervals[interval]["stepUnit"])
 						stepUnitCbox.currentIndexChanged.connect(self.stepUnitSaveIndex)
 						self._stepUnitItems[interval] = self.Intervals[interval]["stepUnit"]
@@ -1186,7 +1182,7 @@ class IntervalGUI:
 		self._stepUnitItems[senderIndex] = index
 		self.stepUnitDic[senderIndex]=index
 
-class DetectorsGUI:		
+class DetectorsGUI:
 	def __init__(self):
 		self.detectors = ["IC1", "IC2", "IC3", "FICUS", "KETEK"]
 		self.detectorsDialog = QtWidgets.QDialog()
@@ -1199,7 +1195,7 @@ class MapDefineROIGUI:
 		self.mapDefineROIGUI_UI 	 = mapRIOSettingsForm.Ui_Dialog()
 		self.mapDefineROIGUI_UI.setupUi(self.mapDefineROIGUI_Dialog)
 
-class mapDetectorGUI: 
+class mapDetectorGUI:
 	def __init__(self):
 		self.mapDetectors = ["IC1", "IC2", "IC3", "FICUS", "KETEK"]
 		self.mapDetectorGUI_Dialog 	= QtWidgets.QDialog()
@@ -1212,7 +1208,7 @@ class AcqTime(QtWidgets.QComboBox):
    def __init__(self, index,value, parent = None):
 	   super(AcqTime, self).__init__(parent)
 	   self.addItem("5 ms")			#0
-	   self.addItem("7.5 ms")		#1	
+	   self.addItem("7.5 ms")		#1
 	   self.addItem("10 ms")		#2
 	   self.addItem("25 ms")		#3
 	   self.addItem("50 ms")		#4
@@ -1235,14 +1231,14 @@ class stepUnitItems(QtWidgets.QComboBox):
    def __init__(self, index,value, parent = None):
 	   super(stepUnitItems, self).__init__(parent)
 	   self.addItem("eV")	    #0
-	   self.addItem("K")		#1	
-	   self.index = index
+	   self.addItem("K")		#1
+	   self.index = indexs
 
 	   if value == -1:
-	   	# add default value eV
-	   	self.setCurrentIndex(0)
+		   # add default value eV
+		   self.setCurrentIndex(0)
 	   else:
-	   	self.setCurrentIndex(value)
+		   self.setCurrentIndex(value)
 
 	   #self.setCurrentIndex(value)
 	   #self.appExeCB.setCurrentIndex(self.items.keys().index('Maya Executable'))
@@ -1262,7 +1258,7 @@ class SED:
 				return False
 		else:
 			UIMessage("Error reading today's metadata file",
-					"Scanning_Tool.csv files is not exist", 
+					"Scanning_Tool.csv files is not exist",
 					"Try to start the experiment again, if the problem continues please contact the DCA Group").showCritical()
 			CLIMessage("Error reading today's metadata file","E")
 	def parsePropsalFile(self, filename):
@@ -1278,7 +1274,7 @@ class SED:
 			if not col_name in SED.Header:
 				print("invalid file: unexpected column(s)")
 				Common.show_message(QtWidgets.QMessageBox.Critical,"Invalid Metadata file: unexpected column(s)","XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
-				sys.exit()	
+				sys.exit()
 
 		for col in header:
 			data[col] = None
@@ -1327,27 +1323,27 @@ class SED:
 						" Do you want to continue?".format(proposal_ID)).showYNQuestion()
 					if not confirmation:
 						return False
-					
+
 		else:
 			Common.show_message(QtWidgets.QMessageBox.Critical,"invalid proposal ID","XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
 			return False
 
 		if not found == None:
 			try:
-				UsersinfoFile = open('configrations/userinfo.json','w')
+				UsersinfoFile = open('configurations/userinfo.json','w')
 				json.dump(propsal_data,UsersinfoFile, indent=2)
 				UsersinfoFile.close()
-				PathsFile = open('configrations/paths.json', 'r+')
+				PathsFile = open('configurations/paths.json', 'r+')
 				PathsFileData = json.load(PathsFile)
 				PathsFileData["users_data_path"] = propsal_data["Experimental_Data_Path"]
 				PathsFile.close()
-				PathsFile = open('configrations/paths.json', 'w')
+				PathsFile = open('configurations/paths.json', 'w')
 				json.dump(PathsFileData,PathsFile, indent=2)
 				PathsFile.close()
 				return True
 			except Exception as e:
 				Common.show_message(QtWidgets.QMessageBox.Critical,"local configuration files missing","XAFS/XRF scan tool",QtWidgets.QMessageBox.Ok)
-				return False 
+				return False
 		else:
 			Common.show_message(QtWidgets.QMessageBox.Critical,"wrong proposal ID or not scheduled","Proposal ID vedrification",QtWidgets.QMessageBox.Ok)
 			return False

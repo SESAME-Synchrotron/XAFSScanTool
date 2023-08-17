@@ -1,13 +1,8 @@
-import epics 
 import os
 import time
-from SEDSS.CLIMessage import CLIMessage
-import fileinput
-import sys
-from SEDSS.SEDSupport import timeModule
-from SEDSS.SEDFileManager import readFile
-
 import re 
+
+from SEDSS.SEDFileManager import readFile
 
 class XDIWriter: 
 	"""
@@ -63,7 +58,7 @@ class XDIWriter:
 		
 		if self.cfg["expType"] == "proposal":
 			try: 
-				self.propInfo = readFile("configrations/userinfo.json").readJSON()
+				self.propInfo = readFile("configurations/userinfo.json").readJSON()
 				self.proposalID = self.propInfo["Proposal"]
 				self.propTitle = self.propInfo["Title"]
 				self.PI = self.propInfo["Proposer"]

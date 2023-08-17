@@ -8,7 +8,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Common:
 	@staticmethod
 	def regexvalidation(entery,value):
-		regExps = Common.loadjson("configrations/regex.json")
+		regExps = Common.loadjson("configurations/regex.json")
 		return True if re.match(regExps[entery],value) else False
 
 	@staticmethod

@@ -1,0 +1,724 @@
+<?xml version="1.0" standalone="no" ?>
+<hdf5_layout>
+  <global name="detector_data_destination" ndattribute="/mnt/tomoData" />
+    <group name="exchange">
+      <group name="xmap">
+        <dataset name="data" source="detector">
+          <attribute name="description" source="constant" value="mappingData" type="string" />
+          <attribute name="axes" source="constant" value="channels:y:x" type="string" />
+          <attribute name="units" source="constant" value="counts" type="string" />
+        </dataset>
+      </group><!-- /xmap -->
+    </group><!-- /exchange -->
+    
+    <group name="measurement">
+      <group name="instrument">
+        <!-- <dataset name="instrument_name" source="constant" value="BEATS Fast micro-tomography" type="string" when="OnFileClose" />    -->
+             
+        <group name="source">
+          <dataset name="beamline" source="constant" value="BM08 - XAFS/XRF" type="string" when="OnFileClose" />        
+          <dataset name="source_name" source="constant" value="Bending Magnet" type="string" when="OnFileClose" />        
+          <dataset name="current" source="ndattribute" ndattribute="RingCurrent" when="OnFileClose">        
+            <attribute name="units" source="constant" value="mA" type="string" />
+          </dataset>
+
+          <dataset name="machine_status" source="ndattribute" ndattribute="MachineStatus" when="OnFileClose">        
+            <attribute name="units" source="constant" value="status" type="string" />
+          </dataset>
+
+          <dataset name="machine_energy" source="ndattribute" ndattribute="machineEnergy" when="OnFileClose">        
+            <attribute name="units" source="constant" value="GeV" type="string" />
+          </dataset>
+
+          <dataset name="life_time" source="ndattribute" ndattribute="lifeTime" when="OnFileClose">        
+            <attribute name="units" source="constant" value="H" type="string" />
+          </dataset>
+        </group>
+
+        <group name="wire_monitors">
+          <dataset name="wm1" source="ndattribute" ndattribute="WM1Position" when="OnFileClose">        
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+
+          <dataset name="wm2" source="ndattribute" ndattribute="WM2Position" when="OnFileClose">        
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+        </group><!-- /wire_monitors -->
+
+        <group name="filters">
+          <dataset name="fi-y1" source="ndattribute" ndattribute="FIY1" when="OnFileClose">
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+
+          <dataset name="fi-y2" source="ndattribute" ndattribute="FIY2" when="OnFileClose">
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+        </group><!-- filters -->
+
+        <group name="optical_table">
+          <dataset name="x" source="ndattribute" ndattribute="VirtualMotorX" when="OnFileClose">
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+
+          <dataset name="y" source="ndattribute" ndattribute="VirtualMotorY" when="OnFileClose">
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+
+          <dataset name="yaw" source="ndattribute" ndattribute="VirtualMotorYaw" when="OnFileClose">
+            <attribute name="units" source="constant" value="mr" type="string" />
+          </dataset>
+
+          <dataset name="pitch" source="ndattribute" ndattribute="VirtualMotorPitch" when="OnFileClose">
+            <attribute name="units" source="constant" value="mr" type="string" />
+          </dataset>
+
+          <dataset name="roll" source="ndattribute" ndattribute="VirtualMotorRoll" when="OnFileClose">
+            <attribute name="units" source="constant" value="mr" type="string" />
+          </dataset>
+
+          <dataset name="tab-x1" source="ndattribute" ndattribute="TAB-X1" when="OnFileClose">
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+
+          <dataset name="tab-x2" source="ndattribute" ndattribute="TAB-X2" when="OnFileClose">
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+
+          <dataset name="tab-y1" source="ndattribute" ndattribute="TAB-y1" when="OnFileClose">
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+
+          <dataset name="tab-y2" source="ndattribute" ndattribute="TAB-y2" when="OnFileClose">
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+
+          <dataset name="tab-y3" source="ndattribute" ndattribute="TAB-y3" when="OnFileClose">
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>                    
+        </group><!-- optical_table -->
+
+        <group name="slits">
+          <group name="white_beam_slits">
+            <dataset name="hor_size" source="ndattribute" ndattribute="HorSizePosition" when="OnFileClose">
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+
+            <dataset name="hor_center" source="ndattribute" ndattribute="HorCenterPosition" when="OnFileClose">
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+
+            <dataset name="ver_size" source="ndattribute" ndattribute="VerSizePosition" when="OnFileClose">
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+
+            <dataset name="ver_center" source="ndattribute" ndattribute="VerCenterPosition" when="OnFileClose">
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+          </group><!-- white_beam_slits -->
+
+          <group name="Mono_beam_slits">
+            <dataset name="hor_size" source="ndattribute" ndattribute="HorSizePosition" when="OnFileClose">
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+
+            <dataset name="hor_center" source="ndattribute" ndattribute="HorCenterPosition" when="OnFileClose">
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+
+            <dataset name="ver_size" source="ndattribute" ndattribute="VerSizePosition" when="OnFileClose">
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+
+            <dataset name="ver_center" source="ndattribute" ndattribute="VerCenterPosition" when="OnFileClose">
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+          </group><!-- Mono_beam_slits -->
+        </group><!-- slits -->
+
+        <group name="sample_stage">
+          <dataset name="smp-x" source="ndattribute" ndattribute="HorSizePosition" when="OnFileClose">
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+
+          <dataset name="smp-y" source="ndattribute" ndattribute="HorCenterPosition" when="OnFileClose">
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+
+          <dataset name="smp-z" source="ndattribute" ndattribute="VerSizePosition" when="OnFileClose">
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+        </group><!-- sample_stage -->
+
+        <group name="vcm">
+        </group><!-- vcm -->
+
+        <group name="vfm">
+        </group><!-- vfm -->
+
+        <group name="dcm">
+        </group><!-- dcm -->
+
+        <group name="vacuum"> 
+          <group name="front_end">
+            <dataset name="fixed_mask_ion_pump" source="ndattribute" ndattribute="FixedMaskIonPump" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+
+            <dataset name="slits_ion_pump" source="ndattribute" ndattribute="SlitsIonPump" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+
+            <dataset name="photon_shutter_ion_pump" source="ndattribute" ndattribute="PhotonShutterIonPump" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+
+            <dataset name="trigger_unit_ion_pump" source="ndattribute" ndattribute="TriggerUnitIonPump" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+         
+            <dataset name="fixed_mask_gauge" source="ndattribute" ndattribute="FixedMaskGauge" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+
+            <dataset name="slits_gauge" source="ndattribute" ndattribute="SlitsIonGauge" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+
+            <dataset name="trigger_unit_gauge" source="ndattribute" ndattribute="TriggerUnitGauge" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+         
+          </group> <!-- front-end -->
+
+          <group name="optics">
+
+            <dataset name="vcm_ion_pump" source="ndattribute" ndattribute="VCMIonPump" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+
+            <dataset name="wire_monitor_ion_pump" source="ndattribute" ndattribute="WireMonitorIonPump" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+            
+            <dataset name="monochromator_ion_pump" source="ndattribute" ndattribute="MonochromatorIonPump" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>  
+
+            <dataset name="slits_ion_pump" source="ndattribute" ndattribute="SlitsIonPump" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+
+            <dataset name="vfm_ion_pump" source="ndattribute" ndattribute="VFMIonPump" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>  
+
+            <dataset name="photon_shutter_ion_pump" source="ndattribute" ndattribute="PhotonShutterIonPump" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+
+            <dataset name="vcm_gauge" source="ndattribute" ndattribute="VCMGauge" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+
+            <dataset name="dcm_gauge" source="ndattribute" ndattribute="DCMGauge" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+            
+            <dataset name="mslt_gauge" source="ndattribute" ndattribute="MSltGauge" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>  
+
+            <dataset name="opsh_gauge" source="ndattribute" ndattribute="OPShGauge" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+
+            <dataset name="vfm_gauge" source="ndattribute" ndattribute="VFMGauge" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>  
+
+            <dataset name="experimental_gauge" source="ndattribute" ndattribute="ExpGauge" when="OnFileClose">
+              <attribute name="units" source="constant" value="mbar" type="string" />
+            </dataset>
+
+          </group>
+
+        </group> <!-- /vacuum -->
+
+        <group name="cooling">
+          <group name="front_end">
+            <dataset name="xbpm_thc1" source="ndattribute" ndattribute="FEXBPMTHC1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="xbpm_thc2" source="ndattribute" ndattribute="FEXBPMTHC2" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="xbpm_thc3" source="ndattribute" ndattribute="FEXBPMTHC2" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="fix_mask_thc1" source="ndattribute" ndattribute="FEFIXEDMASKTHC1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="photon_shutter_thc1" source="ndattribute" ndattribute="FEPhotonSutterHC1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="slit1_thc1" source="ndattribute" ndattribute="FESlitTHC1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="slit1_thc2" source="ndattribute" ndattribute="FESlitTHC2" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="attenuator_thc11" source="ndattribute" ndattribute="FEAttenuatorTH1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="attenuator_thc12" source="ndattribute" ndattribute="FEAttenuatorTH2" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="attenuator_thc21" source="ndattribute" ndattribute="FEAttenuatorTH3" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="attenuator_thc22" source="ndattribute" ndattribute="FEAttenuatorTH4" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="attenuator_thc31" source="ndattribute" ndattribute="FEAttenuatorTH5" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="attenuator_thc32" source="ndattribute" ndattribute="FEAttenuatorTH6" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="attenuator_thc41" source="ndattribute" ndattribute="FEAttenuatorTH7" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="attenuator_thc42" source="ndattribute" ndattribute="FEAttenuatorTH8" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="attenuator_thc51" source="ndattribute" ndattribute="FEAttenuatorTH9" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="attenuator_thc52" source="ndattribute" ndattribute="FEAttenuatorTH10" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          </group><!-- /frontend -->
+
+          <group name="optics">
+
+            <dataset name="dmm_ml1_strip_section_thc1" source="ndattribute" ndattribute="OPTICSDMMSTRIPSEL1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+          <dataset name="dmm_ml1_strip_section_thc2" source="ndattribute" ndattribute="OPTICSDMMSTRIPSEL2" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="dmm_pitch1_thc1" source="ndattribute" ndattribute="OPTICSDMMPITCH1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="dmm_pitch2_thc1" source="ndattribute" ndattribute="OPTICSDMMPITCH2" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="dmm_roll2_thc1" source="ndattribute" ndattribute="OPTICSDMMROLL2" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+          <!-- <dataset name="dmm-roll1-thc1" source="ndattribute" ndattribute="FEDMMROLL1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset> -->
+
+          <dataset name="dmm_ml1_pitch_cardle_thc1" source="ndattribute" ndattribute="OPTICSDMMML1CRADLE1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="dmm_ml1_maskA_thc1" source="ndattribute" ndattribute="OPTICSDMMML1MASKA" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+          <dataset name="dmm_ml1_maskB_thc1" source="ndattribute" ndattribute="OPTICSDMMML1MASKB" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+          
+          <dataset name="dmm_ml2_maskA_thc1" source="ndattribute" ndattribute="OPTICSDMMML2MASKA" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="dmm_ml2_maskB_thc1" source="ndattribute" ndattribute="OPTICSDMMML2MASKB" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+
+          <dataset name="dmm_ml2_pitch_cardle_thc1" source="ndattribute" ndattribute="OPTICSDMMML2CRADLE1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="dmm_inout1_thc1" source="ndattribute" ndattribute="OPTICSDMMINOUT1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="dmm_inout2_thc1" source="ndattribute" ndattribute="OPTICSDMMINOUT2" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="dmm_ml2bulk_thc1" source="ndattribute" ndattribute="OPTICSDMMML2BULK" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="dmm_ml1bulk_thc1" source="ndattribute" ndattribute="OPTICSDMMML1BULK" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="wb_blocker_thc1" source="ndattribute" ndattribute="OPTICSWBBTHC1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="wb_monitor_thc1" source="ndattribute" ndattribute="OPTICSWBBTHC2" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="collimator_thc1" source="ndattribute" ndattribute="OPTICSCOLLIMATORTHC1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="combined_stopper_thc1" source="ndattribute" ndattribute="OPTICSCOMBINEDSTOPPERTHC1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="combined_stopper_thc2" source="ndattribute" ndattribute="OPTICSCOMBINEDSTOPPERTHC2" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          </group><!-- /optics -->
+
+          <group name="end_station">
+
+            <dataset name="slit2_thc1" source="ndattribute" ndattribute="ESPRIMARYSLITTHC1" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="slit2_thc2" source="ndattribute" ndattribute="ESPRIMARYSLITTHC2" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="slit2_thc3" source="ndattribute" ndattribute="ESPRIMARYSLITTHC3" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          <dataset name="slit2_thc4" source="ndattribute" ndattribute="ESPRIMARYSLITTHC4" when="OnFileClose">
+            <attribute name="units" source="constant" value="c" type="string" />
+          </dataset>
+
+          </group><!-- /end-station -->
+
+        </group> <!-- /cooling -->
+
+        <group name="picoammeter">
+
+          <dataset name="picoammeter_scan_rate" source="ndattribute" ndattribute="PICOSCANRATE" when="OnFileClose">
+            <attribute name="units" source="constant" value="s" type="string" />
+          </dataset>
+
+          <dataset name="picoammeter_scan_ch1" source="ndattribute" ndattribute="PICOSCANCH1" when="OnFileClose">
+            <attribute name="units" source="constant" value="mA" type="string" />
+          </dataset>
+
+          <dataset name="picoammeter_scan_ch2" source="ndattribute" ndattribute="PICOSCANCH2" when="OnFileClose">
+            <attribute name="units" source="constant" value="mA" type="string" />
+          </dataset>
+          <dataset name="picoammeter_scan_ch3" source="ndattribute" ndattribute="PICOSCANCH3" when="OnFileClose">
+            <attribute name="units" source="constant" value="mA" type="string" />
+          </dataset>
+          <dataset name="picoammeter_scan_ch4" source="ndattribute" ndattribute="PICOSCANCH4" when="OnFileClose">
+            <attribute name="units" source="constant" value="mA" type="string" />
+          </dataset>
+
+          <dataset name="picoammeter_ch1_offset" source="ndattribute" ndattribute="PICOCH1OFFSET" when="OnFileClose">
+            <attribute name="units" source="constant" value="mA" type="string" />
+          </dataset>
+
+          <dataset name="picoammeter_ch2_offset" source="ndattribute" ndattribute="PICOCH2OFFSET" when="OnFileClose">
+            <attribute name="units" source="constant" value="mA" type="string" />
+          </dataset>
+
+          <dataset name="picoammeter_ch3_offset" source="ndattribute" ndattribute="PICOCH3OFFSET" when="OnFileClose">
+            <attribute name="units" source="constant" value="mA" type="string" />
+          </dataset>
+
+          <dataset name="picoammeter_ch4_offset" source="ndattribute" ndattribute="PICOCH4OFFSET" when="OnFileClose">
+            <attribute name="units" source="constant" value="mA" type="string" />
+          </dataset>
+
+          <dataset name="picoammeter_range" source="ndattribute" ndattribute="PICORANGE" when="OnFileClose">
+            <attribute name="units" source="constant" value="mA" type="string" />
+          </dataset>
+          <dataset name="picoammeter_range_legend" source="constant" value="0: 2.5 milliamps, 1: 2.5 microamps, 2: 2.5 nanoamps" type="string" when="OnFileClose" />
+          <dataset name="picoammeter_channels_legend" source="constant" value="0: xbpm top, 1: 2.5 xbpm_bottom, 2: wire scanner, 3: empty" type="string" when="OnFileClose" />
+
+          <dataset name="picoammeter_hvs" source="ndattribute" ndattribute="PICOHVS" when="OnFileClose">
+            <attribute name="units" source="constant" value="V" type="string" />
+          </dataset>
+
+          <dataset name="picoammeter_active_channels" source="ndattribute" ndattribute="PICOACTIVECHANNELS" when="OnFileClose">
+            <attribute name="units" source="constant" value="Number" type="string" />
+          </dataset>
+
+        </group><!-- /picoammeter -->
+
+             
+        <group name="sample_motor_stack">
+          <dataset name="sample_motor_stack_name" source="constant" value="TOMCAT_endstation" type="string" when="OnFileClose" />
+          <!--
+          <dataset name="detector_distance" source="ndattribute" ndattribute="CameraDistance" when="OnFileClose">        
+            <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+        -->
+          <group name="setup">
+            <dataset name="sample_pitch" source="ndattribute" ndattribute="SamplePitch" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="deg" type="string" />
+            </dataset>
+            <!-- <dataset name="sample_roll" source="ndattribute" ndattribute="SampleRoll" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="deg" type="string" />
+            </dataset> -->
+            <dataset name="sample_x" source="ndattribute" ndattribute="SampleX" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+            <dataset name="sample_y" source="ndattribute" ndattribute="SampleY" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+            <dataset name="sample_rot" source="ndattribute" ndattribute="SampleRotation" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="deg" type="string" />
+            </dataset>
+            <dataset name="sample_sx" source="ndattribute" ndattribute="SampleXCent" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="micro meter" type="string" />
+            </dataset>
+            <dataset name="sample_sz" source="ndattribute" ndattribute="SampleZCent" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="micro meter" type="string" />
+            </dataset>
+          </group><!-- /setup -->
+        </group><!-- /sample -->
+
+        <group name="detector_motor_stack">
+          <!-- <dataset name="camera_stage_motor_stack_name" source="constant" value="BEATS camera stage motor stack" type="string" when="OnFileClose" />       -->  
+          <dataset name="detector_x" source="ndattribute" ndattribute="DetectorStageX" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+            <dataset name="detector_z" source="ndattribute" ndattribute="DetectorStageZ" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+
+          <group name="detector1_setup">
+            <dataset name="detector_y" source="ndattribute" ndattribute="Detector1StageY" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+            <dataset name="detector_FOC1" source="ndattribute" ndattribute="Detector1StageFOC1" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+            <dataset name="detector_FOC2" source="ndattribute" ndattribute="Detector1StageFOC2" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="micro meter" type="string" />
+            </dataset>
+            <dataset name="detector_ROT" source="ndattribute" ndattribute="Detector1StageROT" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="mrad" type="string" />
+            </dataset>
+          </group><!-- /detector1_setup -->
+
+          <group name="detector2_setup">
+            <dataset name="detector_y" source="ndattribute" ndattribute="Detector2StageY" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+            <dataset name="detector_FOC" source="ndattribute" ndattribute="Detector2StageFOC" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="mm" type="string" />
+            </dataset>
+            <dataset name="detector_ROT" source="ndattribute" ndattribute="Detector2StageROT" when="OnFileClose"> 
+              <attribute name="units" source="constant" value="mrad" type="string" />
+            </dataset>
+          </group><!-- /detector1_setup -->
+        </group><!-- /camera -->
+
+        <group name="camera">
+          <dataset name="manufacturer" source="ndattribute" ndattribute="DetectorManufacturer" when="OnFileClose" />
+          <dataset name="model" source="ndattribute" ndattribute="DetectorModel" when="OnFileClose" />
+          <dataset name="serial_number" source="ndattribute" ndattribute="SerialNumber" when="OnFileClose" />
+          <dataset name="firmware_version" source="ndattribute" ndattribute="FirmwareVersion" when="OnFileClose" />
+          <dataset name="SDK_version" source="ndattribute" ndattribute="SDKVersion" when="OnFileClose" />
+          <dataset name="driver_version" source="ndattribute" ndattribute="DriverVersion" when="OnFileClose" />
+          <dataset name="ADcore_version" source="ndattribute" ndattribute="ADCoreVersion" when="OnFileClose" />
+          <dataset name="HDFplugin_version" source="ndattribute" ndattribute="HDFPluginVersion" when="OnFileClose" />
+
+          <dataset name="dimension_x" source="ndattribute" ndattribute="MaxSizeX" when="OnFileClose" />
+          <dataset name="dimension_y" source="ndattribute" ndattribute="MaxSizeY" when="OnFileClose" />
+          <dataset name="gain" source="ndattribute" ndattribute="Gain" when="OnFileClose" />          
+          <dataset name="gain_auto" source="ndattribute" ndattribute="GainAuto" when="OnFileClose" />          
+          <dataset name="binning_x" source="ndattribute" ndattribute="BinX" when="OnFileClose" />
+          <dataset name="binning_y" source="ndattribute" ndattribute="BinY" when="OnFileClose" />
+          <dataset name="frame_rate" source="ndattribute" ndattribute="FrameRate" when="OnFileClose">
+            <attribute name="units" source="constant" value="FPS" type="string"></attribute>
+          </dataset>
+          <!-- <dataset name="frame_rate_enable" source="ndattribute" ndattribute="FrameRateEnable" when="OnFileClose" />  -->
+          <dataset name="exposure_time" source="ndattribute" ndattribute="AcquireTime" when="OnFileClose" />
+          <dataset name="acquire_period" source="ndattribute" ndattribute="AcquirePeriod" when="OnFileClose" />
+          <dataset name="pixel_format" source="ndattribute" ndattribute="PixelFormat" when="OnFileClose" />
+          <dataset name="pixel_format_legend" source="constant" value="0: Mono8, 1: Mono16, 2:Mono10Packed, 3: Mono12Packed, 4: Mono10P, 5: Mono12P" type="string" when="OnFileClose" />       
+          <!-- <dataset name="convert_pixel_format" source="ndattribute" ndattribute="ConvertPixelFormat" when="OnFileClose" /> -->
+          <dataset name="convert_pixel_format_legend" source="constant" value="0: Mono16Low, 1: Mono16High" type="string" when="OnFileClose" />
+
+          <dataset name="array_counter" source="ndattribute" ndattribute="ArrayCounter" when="OnFileClose" />       
+          <dataset name="temperature" source="ndattribute" ndattribute="DetectorTemperature" when="OnFileClose">
+            <attribute name="units" source="constant" value="Celsius" type="string"></attribute>
+          </dataset>
+          <dataset name="pixel_size" source="ndattribute" ndattribute="DetectorPixelSize" when="OnFileClose">
+            <attribute name="units" source="constant" value="microns" type="string"></attribute>
+          </dataset>
+          <group name="roi">
+            <dataset name="min_x" source="ndattribute" ndattribute="MinX" when="OnFileClose" />
+            <dataset name="size_x" source="ndattribute" ndattribute="SizeX" when="OnFileClose" />
+            <dataset name="min_y" source="ndattribute" ndattribute="MinY" when="OnFileClose" />
+            <dataset name="size_y" source="ndattribute" ndattribute="SizeY" when="OnFileClose" />
+          </group><!-- /roi -->    
+        </group><!-- /detector -->        
+
+        <group name="detection_system">
+          <dataset name="detector_name" source="ndattribute" ndattribute="DetectorName" when="OnFileClose">
+              <attribute name="units" source="constant" value="microns" type="string"></attribute>
+          </dataset>
+          <group name="objective">
+            <dataset name="camera_objective" source="ndattribute" ndattribute="CameraObjective" when="OnFileClose" />
+            <!-- <dataset name="camera_tube_length" source="ndattribute" ndattribute="CameraTubeLength" when="OnFileClose">
+              <attribute name="units" source="constant" value="mm" type="string"></attribute>
+            </dataset>
+            <dataset name="resolution" source="ndattribute" ndattribute="ImagePixelSize" when="OnFileClose">
+              <attribute name="units" source="constant" value="microns" type="string"></attribute>
+            </dataset> -->
+            <dataset name="magnification" source="ndattribute" ndattribute="Magnification" when="OnFileClose">
+              <attribute name="units" source="constant" value="microns" type="string"></attribute>
+            </dataset>
+
+          </group><!-- /objective -->
+          <group name="scintillator">
+            <dataset name="scintillator_type" source="ndattribute" ndattribute="ScintillatorType" when="OnFileClose" />
+            <dataset name="scintillating_thickness" source="ndattribute" ndattribute="ScintillatorThickness" when="OnFileClose" >
+              <attribute name="units" source="constant" value="microns" type="string" />            
+            </dataset>
+          </group><!-- /scintillator -->
+        </group><!-- /detection_system -->
+
+      </group><!-- /instrument -->
+
+      <group name="sample">
+        <dataset name="sample_name" source="ndattribute" ndattribute="SampleName" when="OnFileClose" />        
+        <dataset name="description_1" source="ndattribute" ndattribute="SampleDescription1" when="OnFileClose" />        
+        <dataset name="description_2" source="ndattribute" ndattribute="SampleDescription2" when="OnFileClose" />        
+        <dataset name="description_3" source="ndattribute" ndattribute="SampleDescription3" when="OnFileClose" />        
+        <dataset name="file_name" source="ndattribute" ndattribute="FileName" when="OnFileClose" />         
+        <dataset name="file_path" source="ndattribute" ndattribute="FilePath" when="OnFileClose" />        
+        <dataset name="full_file_name" source="ndattribute" ndattribute="FullFileName" when="OnFileClose" />         
+        <group name="experimenter">
+           <dataset name="experimenter_name" source="ndattribute" ndattribute="UserLastName" when="OnFileClose" />
+           <dataset name="institution" source="ndattribute" ndattribute="UserInstitution" when="OnFileClose" />
+           <dataset name="email" source="ndattribute" ndattribute="UserEmail" when="OnFileClose" />
+           
+        </group><!-- /experimenter -->
+        <group name="experiment">
+           <dataset name="proposal" source="ndattribute" ndattribute="ProposalNumber" when="OnFileClose" />
+           <dataset name="title" source="ndattribute" ndattribute="ProposalTitle" when="OnFileClose" />
+           
+        </group><!-- /experiment -->
+      </group><!-- /sample -->
+  </group><!-- /measurement -->
+         
+    <group name="process">
+      <group name="acquisition">
+        <dataset name="start_date" source="ndattribute" ndattribute="DateTimeStart" when="OnFileOpen" />
+        <dataset name="end_date" source="ndattribute" ndattribute="DateTimeEnd" when="OnFileClose" />
+        <group name="rotation">
+          <dataset name="rotation_start" source="ndattribute" ndattribute="RotationStart" >
+                <attribute name="units" source="constant" value="degrees" type="string" />
+          </dataset>
+          <dataset name="rotation_step" source="ndattribute" ndattribute="RotationStep" >
+                <attribute name="units" source="constant" value="degrees" type="string" />
+          </dataset>
+          <dataset name="rotation_speed" source="ndattribute" ndattribute="RotationSpeed" when="OnFileClose">
+                <attribute name="units" source="constant" value="degrees/s" type="string" />
+          </dataset>
+          <dataset name="num_angles" source="ndattribute" ndattribute="NumAngles"  />
+          <dataset name="return_rotation" source="ndattribute" ndattribute="ReturnRotation" when="OnFileClose" />
+          <dataset name="return_rotation_legend" source="constant" value="0: No, 1: Yes, 2: Home" type="string" when="OnFileClose" />
+       </group><!-- /rotation -->
+        <group name="dark_fields">
+          <dataset name="num_dark_fields" source="ndattribute" ndattribute="NumDarkFields" />
+          <dataset name="dark_field_mode" source="ndattribute" ndattribute="DarkFieldMode" />
+          <dataset name="dark_field_mode_legend" source="constant" value="0: Start, 1: End, 2: Both, 3: none" type="string" when="OnFileClose" />
+          <dataset name="dark_field_value" source="ndattribute" ndattribute="DarkFieldValue">
+                <attribute name="units" source="constant" value="counts" type="string" />
+          </dataset>
+       </group><!-- /dark_fields -->
+        <group name="flat_fields">
+          <dataset name="num_flat_fields" source="ndattribute" ndattribute="NumFlatFields"  />
+          <dataset name="flat_field_mode" source="ndattribute" ndattribute="FlatFieldMode"  />
+          <dataset name="flat_field_mode_legend" source="constant" value="0: Start, 1: End, 2: Both, 3: none" type="string" when="OnFileClose" />
+          <dataset name="flat_field_value" source="ndattribute" ndattribute="FlatFieldValue" >
+                <attribute name="units" source="constant" value="counts" type="string" />
+          </dataset>
+          <dataset name="flat_field_axis_legend" source="constant" value="0: X, 1: Y , 2: XY" type="string" when="OnFileClose" />
+          <dataset name="flat_field_axis" source="ndattribute" ndattribute="FlatFieldAxis"  />
+          <dataset name="sample_in_x" source="ndattribute" ndattribute="SampleInX" >
+                <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+          <dataset name="sample_out_x" source="ndattribute" ndattribute="SampleOutX" >
+                <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+          <dataset name="sample_in_y" source="ndattribute" ndattribute="SampleInY" >
+                <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+          <dataset name="sample_out_y" source="ndattribute" ndattribute="SampleOutY" >
+                <attribute name="units" source="constant" value="mm" type="string" />
+          </dataset>
+       </group><!-- /flat_fields -->
+      </group><!-- /acquisition -->
+      <group name="data_writing"><!-- /BEATSH5DXWriter -->
+        <dataset name="writer_name" source="constant" value="BEATS-ZMQ-DXFile-Writer" type="string" when="OnFileClose" />
+
+        <dataset name="writer-version" source="ndattribute" ndattribute="WriterVersion" >
+        </dataset>
+
+        <dataset name="received_frames" source="ndattribute" ndattribute="RecivedFrames" >
+              <attribute name="units" source="constant" value="number" type="string" when="OnFileClose" />
+        </dataset>
+
+        <dataset name="saved_frames" source="ndattribute" ndattribute="SavedFrames" >
+              <attribute name="units" source="constant" value="number" type="string" when="OnFileClose" />
+        </dataset>
+
+        <dataset name="frames_receiving_time" source="ndattribute" ndattribute="FramesRecTime" >
+              <attribute name="units" source="constant" value="(HH:MM:SS)" type="string" when="OnFileClose" />
+        </dataset>
+
+        <dataset name="processing_time" source="ndattribute" ndattribute="ProcessingRecTime" >
+              <attribute name="units" source="constant" value="(HH:MM:SS)" type="string" when="OnFileClose" />
+        </dataset>
+        <dataset name="file_layout" source="ndattribute" ndattribute="H5LayoutFile" >
+              <attribute name="type" source="constant" value="HDF5" type="string" when="OnFileClose" />
+        </dataset>
+
+        <dataset name="active_scan_mode" source="ndattribute" ndattribute="ActiveScanMode">
+        </dataset>
+        <dataset name="active_scan_mode_legend" source="constant" value="0: NA, 1: PCO Step, 2: PCO Continuous, 3: FLIR Step, 4: FLIR Continuous" type="string" when="OnFileClose" />
+
+      </group>
+    </group><!-- /process -->
+
+    <group name="defaults" ndattr_default="true">
+    </group><!-- /defaults -->
+
+</hdf5_layout>

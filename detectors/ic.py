@@ -1,8 +1,4 @@
-import epics
-import sys
 import time
-import numpy as np
-from datetime import datetime
 from SEDSS.CLIMessage import CLIMessage
 from SEDSS.SEDFileManager import readFile
 from .base import Base
@@ -12,7 +8,7 @@ class IC(Base):
 		#print ("----- IC name: ", name)
 		super().__init__(name)
 		self.loadPVS(name)
-		self.scanLimites = readFile("configrations/limites.json").readJSON()
+		self.scanLimites = readFile("configurations/limites.json").readJSON()
 	
 	def ACQ(self,args):
 		#CLIMessage("IC-Start ACQ:: {}".format(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')), "E")
