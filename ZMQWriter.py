@@ -1,0 +1,98 @@
+from H5Writer import H5Writer
+from SEDSS.CLIMessage import CLIMessage
+from SEDSS.SEDSupport import timeModule
+import sys
+import zmq
+import json
+import numpy
+import h5py
+from multiprocessing import Process, Queue, Value
+import time
+from PIL import Image as im #_AN: check if it is still used ??
+import os
+import traceback
+from epics import PV
+import log
+GfullH5Path = None # Global(G) full h5 path
+
+class ZMQWriter (H5Writer):
+	def __init__(self, fName, fPath, configFile, numPointsX, numPointsY, wMode = "w"):
+		super().__init__(fName, fPath, configFile, wMode)
+		global GfullH5Path
+
+		self.startTime = time.time()
+		self.numXPoints = numPointsX
+		self.numYPoints = numPointsY
+		self.ZMQRType = zmq.SUB
+
+		GfullH5Path = self.fPath+"/"+self.fName
+
+		"""
+		Get ZMQ Sender settings from Beamline configration file
+		Notes:
+				1. ZMQSXXX: ZMQ Sender
+				2. ZMQRXXX: ZMQ Reciever
+		"""
+		try:
+			self.ZMQSettings = self.configFile["ZMQSettings"]
+			self.ZMQSType = self.ZMQSettings["ZMQSenderSettings"]["ZMQType"]
+			self.ZMQSender = self.ZMQSettings["ZMQSenderSettings"]["ZMQSender"]
+			self.ZMQSPort = self.ZMQSettings["ZMQSenderSettings"]["ZMQPort"]
+			self.ZMQSProtocol = self.ZMQSettings["ZMQSenderSettings"]["ZMQProtocol"]
+			# put saender in its format i.e. "tcp://127.0.0.1:1559"
+			self.ZMQSender = self.ZMQSProtocol + "://" + self.ZMQSender + ":" + self.ZMQSPort
+			self.WriterRecivingTime = self.configFile["EPICSandIOCs"]["writerRecivingTime"]
+			self.WriterOverallTime = self.configFile["EPICSandIOCs"]["writerOverallTime"]
+
+		except:
+			CLIMessage ("Problem reading the beamline configration file", "E")
+			raise AttributeError
+			sys.exit()
+
+		if self.ZMQSType.lower() in ("pub", "publisher", "publish"):
+			CLIMessage("ZMQ type is PUB (Publisher)", "I")
+			self.ZMQSType = "PUB"
+		elif self.ZMQSType.lower() in ("push", "pus"):
+			self.ZMQSType = "PUSH"
+			self.ZMQRType = zmq.PULL
+		else:
+			CLIMessage ("The value of the ZMQType in the beamline configration"\
+				" is not defined","E")
+			log.error("ZMQ (sender) type is not defined in the writer/beamline"\
+				"configration file")
+			sys.exit()
+
+		log.info("Creating ZMQ context and socket")
+		self.context = zmq.Context() #Create a zmq Context
+		self.sock = self.context.socket(self.ZMQRType) # Create a socket
+
+		if self.ZMQRType == zmq.SUB:
+			self.sock.setsockopt_string(zmq.SUBSCRIBE, "")
+			self.sock.bind(self.ZMQSender) # connect the created socket on the reciver to the sender
+			log.info("Create ZMQ subscriber")
+		elif self.ZMQRType == zmq.PULL: # to support Pull if needed in the future
+			self.sock.bind(self.ZMQSender)
+
+	def reciveData(self):
+
+		h5file = h5py.File(GfullH5Path, 'a')  # Reopen in append mode
+
+		missedPoints = []
+		for i in range(0,self.numXPoints ):
+			h5file["/exchange/xmap/data"].resize(i+1, axis=0)
+			for j in range(0,self.numYPoints):
+				data = self.sock.recv_pyobj()
+				if data == "timeout":
+					h5file["/exchange/xmap/data"].resize(j+1, axis=1)
+					h5file["/exchange/xmap/data"][:, j, :] = 0
+					missedPoints.append((i, j))
+					CLIMessage(f"missed point ({i, j})", "W")
+				elif data == "scanAborted":
+					CLIMessage(f"scan has been aborted", "E")
+					break;
+				else:
+					h5file["/exchange/xmap/data"].resize(j+1, axis=1)
+					h5file["/exchange/xmap/data"][:, j, :] = data
+					CLIMessage(f"Total Points {self.numXPoints * self.numYPoints} | current index point: {i, j} | remaining points: {self.numXPoints - i, self.numYPoints - j}", "I")
+		h5file.close()
+		CLIMessage(f"total recieved points {(i+1) * (j+1) - len(missedPoints)} | missed points index: {print('No missed points') if len(missedPoints) == 0 else print(missedPoints)}", "I")
