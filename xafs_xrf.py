@@ -124,6 +124,7 @@ class XAFS_XRF:
 			cfgfile.close()
 
 		self.dataFileName	=	"{}-{}.dat".format(self.cfg["DataFileName"], str(datetime.datetime.now()))
+		self.h5FileName 	=   "{}-{}".format(self.cfg["DataFileName"],self.creationTime)
 		self.dataFileFullPath		=	"{}/{}".format(self.localDataPath, self.dataFileName)
 		self.expStartTimeDF = str(time.strftime("%Y-%m-%dT%H:%M:%S")) # to be added to xdi file as a content
 
