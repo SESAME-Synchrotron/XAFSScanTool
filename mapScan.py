@@ -23,13 +23,14 @@ class MAPSCAN (XAFS_XRFSTEP):
 	def __init__(self, paths, cfg, testingMode = "No"):
 		super().__init__(paths, cfg, testingMode)
 
-		self.ROIXStart  = self.cfg['ROIXStart']
-		self.ROIXEnd    = self.cfg['ROIXEnd']
-		self.ROIYStart  = self.cfg['ROIYStart']
-		self.ROIYEnd    = self.cfg['ROIYEnd']
-		self.scanResX   = self.cfg['ResX']
-		self.scanResY   = self.cfg['ResY']
-		self.scanEnergy = self.cfg['Energy']
+		self.ROIXStart    = self.cfg['ROIXStart']
+		self.ROIXEnd      = self.cfg['ROIXEnd']
+		self.ROIYStart    = self.cfg['ROIYStart']
+		self.ROIYEnd      = self.cfg['ROIYEnd']
+		self.scanResX     = self.cfg['ResX']
+		self.scanResY     = self.cfg['ResY']
+		self.scanEnergy   = self.cfg['Energy']
+		self.scanTopology = self.cfg["ExpMetaData"][9]["mapScanTopology"]
 
 		""" read XAFS_writer cfg file"""
 		self.h5cfg = readFile(h5CfgFile).readJSON()
@@ -109,9 +110,9 @@ class MAPSCAN (XAFS_XRFSTEP):
 				yArrayPos.append(positionsMatrix[i,j,1])
 				yArrayIndex.append(j)
 
-		return xArrayPos, yArrayPos, xArrayIndex, yArrayIndex, positionsMatrix
+		return xArrayPos, yArrayPos, xArrayIndex, yArrayIndex
 
-	def snakeScanPoints(xRange, yRange):
+	def snakeScanPoints(self, xRange, yRange):
 		"""
 		A method to return back the xArray and yArray to scan in snake shape
 		xArray: contains the positions for motor X
@@ -160,19 +161,31 @@ class MAPSCAN (XAFS_XRFSTEP):
 		zmqRec = threading.Thread(target=self.startZMQ, args=(), daemon=True)
 		zmqRec.start()
 
-		for y in self.yRange:
-			log.info('Moving sample stage Y to: {}'.format(y))
-			self.MoveSmpY(y)
-			for x in self.xRange:
-				log.info('Moving sample stage X to: {}'.format(x))
-				self.MoveSmpX(x)
-				log.info('Collecting data for the scan point: ({},{})'.format(x,y))
-				try:
-					# self.sock.send_pyobj(list(range(0,2048)))
-					self.sock.send_pyobj(PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get())
+		if self.scanTopology == 'Sequential': 
+			for y in self.yRange:
+				log.info('Moving sample stage Y to: {}'.format(y))
+				self.MoveSmpY(y)
+				for x in self.xRange:
+					log.info('Moving sample stage X to: {}'.format(x))
+					self.MoveSmpX(x)
+					log.info('Collecting data for the scan point: ({},{})'.format(x,y))
+					try:
+						# self.sock.send_pyobj(list(range(0,2048)))
+						self.sock.send_pyobj(PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get())
 
-				except:
-					self.sock.send_pyobj("timeout")
+					except:
+						self.sock.send_pyobj("timeout")
+		else: 
+			if self.scanTopology == 'Snake': 
+				xScanPoints, yScanPoints, xScanIndex, yScanIdex = self.snakeScanPoints(self.xRange,self.yRange)
+			elif self.scanTopology == 'Diagonal': 
+				xScanPoints, yScanPoints, xScanIndex, yScanIdex = self.diagonalScanPoints(self.xRange,self.yRange)
+
+			for i in range (len(xScanPoints)): 
+				log.info('Move sample X to: {}'.format(xScanPoints[i]))
+				self.MoveSmpX(xScanPoints[i])
+				log.info('Move sample Y to: {}'.format(yScanPoints[i]))
+				self.MoveSmpY(yScanPoints[i])
 
 	def startZMQ(self):
 		self.writer.reciveData(len(self.xRange), len(self.yRange))
