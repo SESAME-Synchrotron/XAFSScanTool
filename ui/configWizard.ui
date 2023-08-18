@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>470</width>
-    <height>718</height>
+    <width>500</width>
+    <height>737</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -791,8 +791,8 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>431</width>
-      <height>271</height>
+      <width>461</width>
+      <height>261</height>
      </rect>
     </property>
     <property name="title">
@@ -802,8 +802,8 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>110</y>
-       <width>411</width>
+       <y>100</y>
+       <width>451</width>
        <height>81</height>
       </rect>
      </property>
@@ -861,28 +861,21 @@
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>30</y>
-        <width>391</width>
-        <height>37</height>
+        <x>11</x>
+        <y>10</y>
+        <width>431</width>
+        <height>65</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_7">
-       <item>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="0">
         <widget class="QLabel" name="label_43">
          <property name="text">
           <string>ROI</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="mapDefineROI">
-         <property name="text">
-          <string>Define</string>
-         </property>
-        </widget>
-       </item>
-       <item>
+       <item row="0" column="2">
         <layout class="QHBoxLayout" name="horizontalLayout_13">
          <item>
           <widget class="QLabel" name="label_20">
@@ -933,6 +926,30 @@
          </item>
         </layout>
        </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="mapDefineROI">
+         <property name="text">
+          <string>Define</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>Settling time (sec)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLineEdit" name="mapSettlingTime">
+         <property name="text">
+          <string>0</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -940,108 +957,8 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>30</y>
-       <width>391</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_14">
-      <item>
-       <widget class="QLabel" name="label_38">
-        <property name="text">
-         <string>Scan energy</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="mapEnergy">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="mapEngUnit">
-        <item>
-         <property name="text">
-          <string>eV</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_21">
-        <property name="text">
-         <string>Int. time (sec)</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="mapIntTime">
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>80</y>
-       <width>331</width>
-       <height>34</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_17">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_16">
-        <item>
-         <widget class="QLabel" name="label_41">
-          <property name="text">
-           <string>Detectors</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="mapConfigureDetectors">
-          <property name="text">
-           <string>Choose</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_15">
-        <item>
-         <widget class="QLabel" name="label_13">
-          <property name="text">
-           <string>Settling time (sec)</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="mapSettlingTime">
-          <property name="text">
-           <string>0</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>200</y>
-       <width>391</width>
+       <y>190</y>
+       <width>431</width>
        <height>54</height>
       </rect>
      </property>
@@ -1068,12 +985,101 @@
       </item>
      </layout>
     </widget>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>12</x>
+       <y>30</y>
+       <width>431</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_6">
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_38">
+        <property name="text">
+         <string>Scan energy</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLineEdit" name="mapEnergy">
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3" colspan="2">
+       <widget class="QComboBox" name="mapEngUnit">
+        <item>
+         <property name="text">
+          <string>eV</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="0" column="5" colspan="2">
+       <widget class="QLabel" name="label_44">
+        <property name="text">
+         <string>Scan topology</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="7">
+       <widget class="QComboBox" name="mapScanTopology">
+        <item>
+         <property name="text">
+          <string>Sequential</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Diagonal</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Snake</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_41">
+        <property name="text">
+         <string>Detectors</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1" colspan="3">
+       <widget class="QPushButton" name="mapConfigureDetectors">
+        <property name="text">
+         <string>Choose</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4" colspan="2">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>Int. time (sec)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="6" colspan="2">
+       <widget class="QLineEdit" name="mapIntTime">
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="metadataGroupBox_2">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>280</y>
+      <x>10</x>
+      <y>270</y>
       <width>431</width>
       <height>371</height>
      </rect>
@@ -1574,11 +1580,13 @@
   <tabstop>expCom</tabstop>
   <tabstop>mapEnergy</tabstop>
   <tabstop>mapEngUnit</tabstop>
-  <tabstop>mapIntTime</tabstop>
+  <tabstop>mapScanTopology</tabstop>
   <tabstop>mapConfigureDetectors</tabstop>
-  <tabstop>mapSettlingTime</tabstop>
+  <tabstop>mapIntTime</tabstop>
+  <tabstop>mapDefineROI</tabstop>
   <tabstop>mapResX</tabstop>
   <tabstop>mapResY</tabstop>
+  <tabstop>mapSettlingTime</tabstop>
   <tabstop>mapSetDataFileName</tabstop>
   <tabstop>mapSampleName</tabstop>
   <tabstop>mapEdge</tabstop>

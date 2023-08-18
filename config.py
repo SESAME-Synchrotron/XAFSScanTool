@@ -276,6 +276,7 @@ class ConfigGUI:
 		self.guiObj.mapMono.setCurrentText(str(self.cfg['ExpMetaData'][6]['Mono']))
 		self.guiObj.mapUserCom.setText(str(self.cfg['ExpMetaData'][7]['userCom']))
 		self.guiObj.mapExpCom.setText(str(self.cfg['ExpMetaData'][8]['expCom']))
+		self.guiObj.mapScanTopology.setCurrentText(str(self.cfg["ExpMetaData"][9]["mapScanTopology"]))
 
 
 
@@ -516,6 +517,12 @@ class ConfigGUI:
 				expMetaData.append({"expCom":"NONE"})
 			else:
 				expMetaData.append({"expCom":self.guiObj.mapExpCom.text()})
+
+			if self.guiObj.mapScanTopology.currentText() == "":
+				CLIMessage("Please choose the scan topology", "W")
+				return self.WizardPages.stepMapScanParameters.value
+			else:
+				expMetaData.append({"mapScanTopology":self.guiObj.mapScanTopology.currentText()})
 
 			############ Check resolution vs ROI ###################
 			xDistance = abs (float (self.cfg['ROIXEnd']) - float(self.cfg['ROIXStart']))
