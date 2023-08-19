@@ -157,11 +157,12 @@ class MAPSCAN (XAFS_XRFSTEP):
 		log.info ('Scan range for X axis: {}'.format(self.xRange))
 		log.info ('Scan range for Y axis: {}'.format(self.yRange))
 
-		""" start zmq reciever socket """
-		zmqRec = threading.Thread(target=self.startZMQ, args=(), daemon=True)
-		zmqRec.start()
+		if self.scanTopology == 'Sequential':
 
-		if self.scanTopology == 'Sequential': 
+			""" start zmq reciever socket """
+			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,), daemon=True)
+			zmqRec.start()
+
 			for y in self.yRange:
 				log.info('Moving sample stage Y to: {}'.format(y))
 				self.MoveSmpY(y)
@@ -175,20 +176,24 @@ class MAPSCAN (XAFS_XRFSTEP):
 
 					except:
 						self.sock.send_pyobj("timeout")
-		else: 
-			if self.scanTopology == 'Snake': 
-				xScanPoints, yScanPoints, xScanIndex, yScanIdex = self.snakeScanPoints(self.xRange,self.yRange)
-			elif self.scanTopology == 'Diagonal': 
-				xScanPoints, yScanPoints, xScanIndex, yScanIdex = self.diagonalScanPoints(self.xRange,self.yRange)
+		else:
+			if self.scanTopology == 'Snake':
+				xScanPoints, yScanPoints, xScanIndex, yScanIndex = self.snakeScanPoints(self.xRange,self.yRange)
+			elif self.scanTopology == 'Diagonal':
+				xScanPoints, yScanPoints, xScanIndex, yScanIndex = self.diagonalScanPoints(self.xRange,self.yRange)
 
-			for i in range (len(xScanPoints)): 
+			""" start zmq reciever socket """
+			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,self.scanTopology, xScanIndex, yScanIndex,), daemon=True)
+			zmqRec.start()
+
+			for i in range (len(xScanPoints)):
 				log.info('Move sample X to: {}'.format(xScanPoints[i]))
 				self.MoveSmpX(xScanPoints[i])
 				log.info('Move sample Y to: {}'.format(yScanPoints[i]))
 				self.MoveSmpY(yScanPoints[i])
 
-	def startZMQ(self):
-		self.writer.reciveData(len(self.xRange), len(self.yRange))
+	def startZMQ(self, numPointsX, numPointsY, scanTopo = "seq", arrayIndexX = None, arrayIndexY=None):
+		self.writer.reciveData(len(numPointsX), len(numPointsY), scanTopo, arrayIndexX, arrayIndexY)
 		self.writer.closeFile()
 
 	def setupH5DXLayout(self):
