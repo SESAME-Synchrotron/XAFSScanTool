@@ -106,9 +106,9 @@ class MAPSCAN (XAFS_XRFSTEP):
 			for i in range(max(0, diag - cols + 1), min(diag + 1, rows)):
 				j = diag - i
 				xArrayPos.append(positionsMatrix[i,j,0])
-				xArrayIndex.append(i)
+				xArrayIndex.append(j)
 				yArrayPos.append(positionsMatrix[i,j,1])
-				yArrayIndex.append(j)
+				yArrayIndex.append(i)
 
 		return xArrayPos, yArrayPos, xArrayIndex, yArrayIndex
 
@@ -156,6 +156,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 		self.yRange = self.drange(self.ROIYStart, self.ROIYEnd, self.scanResY)
 		log.info ('Scan range for X axis: {}'.format(self.xRange))
 		log.info ('Scan range for Y axis: {}'.format(self.yRange))
+		log.info('Scan Topology: {}'.format(self.scanTopology))
 
 		if self.scanTopology == 'Sequential':
 
@@ -171,8 +172,8 @@ class MAPSCAN (XAFS_XRFSTEP):
 					self.MoveSmpX(x)
 					log.info('Collecting data for the scan point: ({},{})'.format(x,y))
 					try:
-						# self.sock.send_pyobj(list(range(0,2048)))
-						self.sock.send_pyobj(PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get())
+						self.sock.send_pyobj(list(range(0,2048)))
+						# self.sock.send_pyobj(PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get())
 
 					except:
 						self.sock.send_pyobj("timeout")
@@ -191,9 +192,15 @@ class MAPSCAN (XAFS_XRFSTEP):
 				self.MoveSmpX(xScanPoints[i])
 				log.info('Move sample Y to: {}'.format(yScanPoints[i]))
 				self.MoveSmpY(yScanPoints[i])
+				try:
+					self.sock.send_pyobj(list(range(0,2048)))
+					# self.sock.send_pyobj(PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get())
+
+				except:
+					self.sock.send_pyobj("timeout")	
 
 	def startZMQ(self, numPointsX, numPointsY, scanTopo = "seq", arrayIndexX = None, arrayIndexY=None):
-		self.writer.reciveData(len(numPointsX), len(numPointsY), scanTopo, arrayIndexX, arrayIndexY)
+		self.writer.receiveData(len(numPointsX), len(numPointsY), scanTopo, arrayIndexX, arrayIndexY)
 		self.writer.closeFile()
 
 	def setupH5DXLayout(self):
