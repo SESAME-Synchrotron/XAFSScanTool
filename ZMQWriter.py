@@ -69,7 +69,7 @@ class ZMQWriter (H5Writer):
 				for x in range(0,self.numXPoints):
 					self.writingData(x, y)
 		else:
-			for point in enumerate(zip(self.arrayXIndex, self.arrayYIndex)):
+			for point in zip(self.arrayXIndex, self.arrayYIndex):
 				x, y = point
 				self.writingData(x, y)
 
@@ -93,3 +93,4 @@ class ZMQWriter (H5Writer):
 			self.h5file[self.data][y, x, :] = data
 			CLIMessage(f"Total Points: {self.numXPoints * self.numYPoints} | current index point: {x, y} | remaining points: {self.numXPoints * self.numYPoints - self.totalPoints}", "I")
 			log.info(f"Total Points: {self.numXPoints * self.numYPoints} | current index point: {x, y} | remaining points: {self.numXPoints * self.numYPoints - self.totalPoints}")
+			
