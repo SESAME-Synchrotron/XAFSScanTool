@@ -121,10 +121,11 @@ class MAPSCAN (XAFS_XRFSTEP):
 		yIndex: snak matrix index for y motor
 		"""
 
-		xArray = []
-		yArray = []
-		xIndex = []
-		yIndex = []
+		xArray   = []
+		yArray   = []
+		xIndex   = []
+		yIndex   = []
+		xRevTemp = [] 
 
 		positionsMatrix = np.zeros((len(yRange), len(xRange), 2))
 		for y in range(len(yRange)):
@@ -140,12 +141,14 @@ class MAPSCAN (XAFS_XRFSTEP):
 					yIndex.append(i)
 			else:
 				inversedMatrixRow = positionsMatrix[i][::-1] # reverse the the row order
+				xRevTemp.clear()
 				for x in range (len(xRange)):
 					xArray.append(inversedMatrixRow[x][0])
-					xIndex.append(x)
+					xRevTemp.append(x)
 					yArray.append(inversedMatrixRow[x][1])
 					yIndex.append(i)
-
+				xIndex = xIndex + xRevTemp[::-1] # reverse x index
+				
 		return xArray, yArray, xIndex, yIndex
 
 	def startScan(self):

@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Experiment detectors</string>
+   <string>Mapping ROI Settings</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
@@ -41,13 +41,13 @@
    <property name="title">
     <string>ROI Definition (Whole scan Area definition)</string>
    </property>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>20</y>
       <width>331</width>
-      <height>141</height>
+      <height>145</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
