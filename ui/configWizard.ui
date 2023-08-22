@@ -1013,7 +1013,7 @@
        <widget class="QComboBox" name="mapEngUnit">
         <item>
          <property name="text">
-          <string>eV</string>
+          <string>KeV</string>
          </property>
         </item>
        </widget>

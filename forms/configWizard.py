@@ -782,7 +782,7 @@ class Ui_Wizard(object):
         self.label_42.setText(_translate("Wizard", "Exp.  file name"))
         self.label_53.setText(_translate("Wizard", "Sample name"))
         self.label_38.setText(_translate("Wizard", "Scan energy"))
-        self.mapEngUnit.setItemText(0, _translate("Wizard", "eV"))
+        self.mapEngUnit.setItemText(0, _translate("Wizard", "KeV"))
         self.label_44.setText(_translate("Wizard", "Scan topology"))
         self.mapScanTopology.setItemText(0, _translate("Wizard", "Sequential"))
         self.mapScanTopology.setItemText(1, _translate("Wizard", "Diagonal"))

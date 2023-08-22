@@ -526,13 +526,11 @@ class ConfigGUI:
 
 			############ Check resolution vs ROI ###################
 			xDistance = abs (float (self.cfg['ROIXEnd']) - float(self.cfg['ROIXStart']))
-			print("xDistance xDistance xDistance xDistance xDistance ",xDistance)
 			if float (self.cfg['ResX']) >= xDistance:
 				CLIMessage ('X resolution movment is exceeding the ROI area, please correct the X resolution value', 'W')
 				return self.WizardPages.stepMapScanParameters.value
 
 			yDistance = abs (float(self.cfg['ROIYEnd']) - float(self.cfg['ROIYStart']))
-			print(yDistance)
 			if float(self.cfg['ResY']) >= yDistance:
 				CLIMessage ('Y resolution movment is exceeding the ROI area, please correct the Y resolution value', 'W')
 				return self.WizardPages.stepMapScanParameters.value
@@ -540,7 +538,6 @@ class ConfigGUI:
 
 			self.cfg['detectors']   = detectors
 			self.cfg['ExpMetaData'] = expMetaData
-			CLIMessage("----ioer::: {}".format(self.cfg), 'E')
 			return self.WizardPages.startScan.value
 
 		except:
@@ -1237,12 +1234,12 @@ class AcqTime(QtWidgets.QComboBox):
 class stepUnitItems(QtWidgets.QComboBox):
    def __init__(self, index,value, parent = None):
 	   super(stepUnitItems, self).__init__(parent)
-	   self.addItem("eV")	    #0
+	   self.addItem("KeV")	    #0
 	   self.addItem("K")		#1
-	   self.index = indexs
+	   self.index = index
 
 	   if value == -1:
-		   # add default value eV
+		   # add default value KeV
 		   self.setCurrentIndex(0)
 	   else:
 		   self.setCurrentIndex(value)
