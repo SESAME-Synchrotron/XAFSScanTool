@@ -4,6 +4,9 @@
       "ketek_erasestart":{
         "pvname":"D08-ES-SDD1:mca1.ERST"
     },
+    "ketek_mca1":{
+        "pvname":"D08-ES-SDD1:mca1.VAL"
+    },
      "ketek_stop":{
        "pvname":"D08-ES-SDD1:mca1.STOP"
      },
