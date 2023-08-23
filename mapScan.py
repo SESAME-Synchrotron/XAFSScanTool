@@ -23,14 +23,15 @@ class MAPSCAN (XAFS_XRFSTEP):
 	def __init__(self, paths, cfg, testingMode = "No"):
 		super().__init__(paths, cfg, testingMode)
 
-		self.ROIXStart    = self.cfg['ROIXStart']
-		self.ROIXEnd      = self.cfg['ROIXEnd']
-		self.ROIYStart    = self.cfg['ROIYStart']
-		self.ROIYEnd      = self.cfg['ROIYEnd']
-		self.scanResX     = self.cfg['ResX']
-		self.scanResY     = self.cfg['ResY']
-		self.scanEnergy   = self.cfg['Energy']
-		self.scanTopology = self.cfg["ExpMetaData"][9]["mapScanTopology"]
+		self.ROIXStart     = self.cfg['ROIXStart']
+		self.ROIXEnd       = self.cfg['ROIXEnd']
+		self.ROIYStart     = self.cfg['ROIYStart']
+		self.ROIYEnd       = self.cfg['ROIYEnd']
+		self.scanResX      = self.cfg['ResX']
+		self.scanResY      = self.cfg['ResY']
+		self.scanEnergy    = self.cfg['Energy']
+		self.scanTopology  = self.cfg["ExpMetaData"][9]["mapScanTopology"]
+		self.FrameDuration = self.cfg["IntTime"]
 
 		""" read XAFS_writer cfg file"""
 		self.h5cfg = readFile(h5CfgFile).readJSON()
@@ -64,6 +65,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 				self.motors["DCM:Y"].put("stop_go",3)
 				self.PVs["DCM:Move"].put(1, wait=True)
 				time.sleep(self.cfg["settlingTime"])
+				# print (self.cfg["settlingTime"])
 
 	def checkMapScanPara (self):
 		if float(self.cfg['ResX']) < self.motors["SMP:X"].MRES:
@@ -155,6 +157,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 		"""
 		this function is the main function to perform mapping scan
 		"""
+		mcaData = None
 		self.xRange = self.drange(self.ROIXStart, self.ROIXEnd, self.scanResX)
 		self.yRange = self.drange(self.ROIYStart, self.ROIYEnd, self.scanResY)
 		log.info ('Scan range for X axis: {}'.format(self.xRange))
@@ -174,9 +177,11 @@ class MAPSCAN (XAFS_XRFSTEP):
 					log.info('Moving sample stage X to: {}'.format(x))
 					self.MoveSmpX(x)
 					log.info('Collecting data for the scan point: ({},{})'.format(x,y))
+					mcaData = self.getDetectorData()
+					# print(mcaData)
 					try:
-						self.sock.send_pyobj(list(range(0,2048)))
-						# self.sock.send_pyobj(PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get())
+						# self.sock.send_pyobj(list(range(0,2048)))
+						self.sock.send_pyobj(list(mcaData[:2048]))
 
 					except:
 						self.sock.send_pyobj("timeout")
@@ -195,12 +200,44 @@ class MAPSCAN (XAFS_XRFSTEP):
 				self.MoveSmpX(xScanPoints[i])
 				log.info('Move sample Y to: {}'.format(yScanPoints[i]))
 				self.MoveSmpY(yScanPoints[i])
+				mcaData = self.getDetectorData()
+				# print(mcaData)
 				try:
-					self.sock.send_pyobj(list(range(0,2048)))
-					# self.sock.send_pyobj(PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get())
+					# self.sock.send_pyobj(list(range(0,2048)))
+					self.sock.send_pyobj(list(mcaData[:2048]))
 
 				except:
 					self.sock.send_pyobj("timeout")	
+	
+	def getDetectorData(self):
+
+		args 		  = {}
+		ACQdata 	  = {}
+		detThreadList = []
+		expData 	  = {}
+		
+		args["FrameDuration"] = self.FrameDuration
+		args["scanTopology"] = self.scanTopology
+
+		log.info("Collecting data from choosen detectors")
+		for det in self.detectors:
+			detThreading = threading.Thread(target=det.ACQ, args=(args,), daemon=True)
+			detThreadList.append(detThreading)
+
+		log.info("Start detectors threads")
+		for thread in detThreadList: 
+			thread.start()
+
+		log.info("Joining the detector threads") 
+		for thread in detThreadList:
+			thread.join()
+
+		ACQdata={**ACQdata,**det.data}
+		log.info("Collecting data from detectors")
+		expData.update(ACQdata)
+
+		return (expData["KETEK-MCA1"])
+
 
 	def startZMQ(self, numPointsX, numPointsY, scanTopo = "seq", arrayIndexX = None, arrayIndexY=None):
 		self.writer.receiveData(len(numPointsX), len(numPointsY), scanTopo, arrayIndexX, arrayIndexY)

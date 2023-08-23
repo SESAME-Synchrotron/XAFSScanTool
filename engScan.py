@@ -13,6 +13,7 @@ from xdiWriter import XDIWriter
 from SEDSS.SEDSupport import timeModule 
 from energyCalibration import energyCalibration
 import log
+import glob
 
 class ENGSCAN (XAFS_XRFSTEP):
 	def __init__(self, paths, cfg, testingMode = "No"):

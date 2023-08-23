@@ -193,7 +193,7 @@ class H5Writer (SEDWriter):
 									
 						if elem.attrib.get("source") == "detector":
 							dataset = h5Group.create_dataset(elem.attrib.get("name"), 
-							dtype=_dtype, shape=(1, 1, self.numChannels), 
+							dtype='uint16', shape=(1, 1, self.numChannels), 
 							maxshape = (None,None,self.numChannels), chunks=_chunks)
 							#compression="gzip")
 						else:
