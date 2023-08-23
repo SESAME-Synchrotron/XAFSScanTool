@@ -222,9 +222,15 @@ class ConfigGUI:
 
 	def browseCfgFile(self):
 		if self.scanTypeValue == 'stepEngScan':
-			self.browseStepEngScanCfgFile()
+			try: 
+				self.browseStepEngScanCfgFile()
+			except: 
+				CLIMessage ("Please provide a valid energy scan config file", 'W')
 		else:
-			self.browseStepMapScanCfgFile()
+			try:
+				self.browseStepMapScanCfgFile()
+			except:
+				CLIMessage ("Please provide a valid mapping scan config file", 'W')
 
 	def browseStepMapScanCfgFile(self):
 		self.MapDefineROIGUI = MapDefineROIGUI()
