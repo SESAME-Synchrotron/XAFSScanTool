@@ -48,16 +48,45 @@ class ZMQWriter (H5Writer):
 		self.sock.bind(self.ZMQSender) # connect the created socket on the reciver to the sender
 		log.info("Create ZMQ subscriber")
 
+	def createDefaultDatasets(self, numPointsX, numPointsY): 
+		"""
+		This method is used to create datasets that are associated with the indexes and positions of points to 
+		be collected. 
+		i.e. IndexX, PositionY, ..
+		"""
+		CLIMessage("Default datasets creation", "I")
+		log.info("Start creating default datasets")
+		defaultDatasets = self.configFile["defaultDatasets"]
+
+		for dataset in defaultDatasets:
+
+			# create datasets
+			datasetOnH5 = self.h5File.create_dataset(defaultDatasets[dataset]["dataset"],
+			dtype=defaultDatasets[dataset]["dtype"], shape=len(numPointsX) * len(numPointsY))
+
+			# add attributes to the created dataset 
+			for att in defaultDatasets[dataset]["attributes"]:
+				datasetOnH5.attrs[att]=defaultDatasets[dataset]["attributes"][att]
+		
+		log.info("Default datasets creation is done")
+
 	def receiveData(self, numPointsX, numPointsY, scanTopo = "seq", arrayIndexX = None, arrayIndexY=None):
 
-		self.numXPoints = numPointsX
-		self.numYPoints = numPointsY
+		self.numXPoints = len(numPointsX)
+		self.numYPoints = len(numPointsY)
+		self.arrayXPositions = numPointsX
+		self.arrayYPositions = numPointsY
 		self.arrayXIndex = arrayIndexX
 		self.arrayYIndex = arrayIndexY
 		self.scanTopo = scanTopo
 
 		self.h5file = h5py.File(GfullH5Path, 'a')  # Reopen in append mode
-		self.data = "/exchange/xmap/data"
+		self.data 		= "/exchange/xmap/data"
+		self.indexX 	= "/defaults/IndexX"
+		self.indexY 	= "/defaults/IndexY"
+		self.positionX 	= "/defaults/PositionX"
+		self.positionY 	= "/defaults/PositionY"
+
 		self.h5file[self.data].resize(self.numXPoints, axis=1)
 		self.h5file[self.data].resize(self.numYPoints, axis=0)
 
@@ -83,6 +112,10 @@ class ZMQWriter (H5Writer):
 		data = self.sock.recv_pyobj()
 		if data == "timeout":
 			self.h5file[self.data][y, x, :] = 0
+			self.h5file[self.indexX][self.totalPoints-1] = x
+			self.h5file[self.indexY][self.totalPoints-1] = y
+			self.h5file[self.positionX][self.totalPoints-1] = self.arrayXPositions[x]
+			self.h5file[self.positionY][self.totalPoints-1] = self.arrayYPositions[y]
 			self.missedPoints.append((x, y))
 			log.error(f"missed point index ({x, y})")
 			CLIMessage(f"missed point index ({x, y})", "W")
@@ -91,6 +124,10 @@ class ZMQWriter (H5Writer):
 			self.h5File.close()
 		else:
 			self.h5file[self.data][y, x, :] = data
+			self.h5file[self.indexX][self.totalPoints-1] = x
+			self.h5file[self.indexY][self.totalPoints-1] = y
+			self.h5file[self.positionX][self.totalPoints-1] = self.arrayXPositions[x]
+			self.h5file[self.positionY][self.totalPoints-1] = self.arrayYPositions[y]
 			CLIMessage(f"Total Points: {self.numXPoints * self.numYPoints} | current index point: {x, y} | remaining points: {self.numXPoints * self.numYPoints - self.totalPoints}", "I")
 			log.info(f"Total Points: {self.numXPoints * self.numYPoints} | current index point: {x, y} | remaining points: {self.numXPoints * self.numYPoints - self.totalPoints}")
 			

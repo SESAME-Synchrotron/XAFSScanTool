@@ -1,56 +1,99 @@
 {
-		"beamline": "XAFS",
-		"detector": "KETEK",
-		"fileType": "hdf5",
-		"fileFormat": "DX",
-		"EPICSandIOCs":
-		{
-			"EPICSPVTimeout": 0.5,
-			"KETEKNumChannels": "D08-ES-SDD1:mca1.NORD",
-		    "writingNewFileTrigger":"BEATS:WRITER:NewFileTrigger",
-		    "writerStatus":"BEATS:WRITER:Status",
-		    "writerFileReady":"BEATS:WRITER:FileCreated",
-		    "writerRecivingTime": "BEATS:Writer:RecivingTime",
-		    "writerOverallTime" : "BEATS:Writer:OverallTime",
-		    "SEDTimeStamp" : "BEATS:SEDTimeStamp"
-		},
-		"formatSettings":
-		{
-			"layout": "configurations/XAFS_Writer_Layout.xml",
-			"attribute": "configurations/XAFS_Writer_Attributes.xml"
-		},
-		"fileCreator": "SESAME | DCA | XAFS/XRF_H5Writer",
+	"beamline": "XAFS",
+	"detector": "KETEK",
+	"fileType": "hdf5",
+	"fileFormat": "DX",
+	"EPICSandIOCs":
+	{
+		"EPICSPVTimeout": 0.5,
+		"KETEKNumChannels": "D08-ES-SDD1:mca1.NORD",
+	    "writingNewFileTrigger":"BEATS:WRITER:NewFileTrigger",
+	    "writerStatus":"BEATS:WRITER:Status",
+	    "writerFileReady":"BEATS:WRITER:FileCreated",
+	    "writerRecivingTime": "BEATS:Writer:RecivingTime",
+	    "writerOverallTime" : "BEATS:Writer:OverallTime",
+	    "SEDTimeStamp" : "BEATS:SEDTimeStamp"
+	},
+	"formatSettings":
+	{
+		"layout": "configurations/XAFS_Writer_Layout.xml",
+		"attribute": "configurations/XAFS_Writer_Attributes.xml"
+	},
+	"fileCreator": "SESAME | DCA | XAFS/XRF_H5Writer",
 
-		"hdf5FixedAtt":
+	"hdf5FixedAtt":
+	{
+		"detector":
 		{
-			"detector":
+			"EPICSPVs":
 			{
-				"EPICSPVs":
-				{
 
-				},
-				"fixed":
-				{
-					"XXX": "YYY"
-				}
-			}
-		},
-		"ZMQSettings":
-		{
-			"ZMQSenderSettings":
-			{
-				"ZMQSender": "127.0.0.1",
-				"ZMQPort": "1919",
-				"ZMQProtocol": "tcp",
-				"ZMQType": "PUB"
 			},
-
-			"streamedDatasets":
+			"fixed":
 			{
-				"NDArrayUniqueId":
-				{
-					"dataset": "/defaults/NDArrayUniqueId"
-				}
+				"XXX": "YYY"
 			}
 		}
+	},
+	"ZMQSettings":
+	{
+		"ZMQSenderSettings":
+		{
+			"ZMQSender": "127.0.0.1",
+			"ZMQPort": "1919",
+			"ZMQProtocol": "tcp",
+			"ZMQType": "PUB"
+		}
+	},
+	"defaultDatasets":
+	{
+      "ArrayXIndex": 
+      {
+        "dataset":"/defaults/IndexX",
+        "dtype":"uint16",
+        "attributes": 
+        {
+          "NDAttrDescription":"The X index of each collected point",
+          "NDAttrName":"ArrayXIndex",
+          "NDAttrSource":"Local",
+          "NDAttrSourceType":"NDAttrSourceLocal"
+        }
+      },
+      "ArrayYIndex": 
+      {
+        "dataset":"/defaults/IndexY",
+        "dtype":"uint16",
+        "attributes": 
+        {
+          "NDAttrDescription":"The Y index of each collected point",
+          "NDAttrName":"ArrayYIndex",
+          "NDAttrSource":"Local",
+          "NDAttrSourceType":"NDAttrSourceLocal"
+        }
+      },
+      "ArrayXPosition": 
+      {
+        "dataset":"/defaults/PositionX",
+        "dtype":"uint16",
+        "attributes": 
+        {
+          "NDAttrDescription":"The X position of each collected point",
+          "NDAttrName":"ArrayXPosition",
+          "NDAttrSource":"Local",
+          "NDAttrSourceType":"NDAttrSourceLocal"
+        }
+      },
+      "ArrayYPosition": 
+      {
+        "dataset":"/defaults/PositionY",
+        "dtype":"uint16",
+        "attributes": 
+        {
+          "NDAttrDescription":"The Y position of each collected point",
+          "NDAttrName":"ArrayYPosition",
+          "NDAttrSource":"Local",
+          "NDAttrSourceType":"NDAttrSourceLocal"
+        }
+      }
 	}
+}
