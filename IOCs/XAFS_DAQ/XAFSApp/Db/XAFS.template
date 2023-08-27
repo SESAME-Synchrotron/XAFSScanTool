@@ -1,0 +1,228 @@
+# Database for EPICS PVs for XAFS/XRF beamline data collection software
+# This database contains all of the PVs (Metadata) used by the ZMQ Writer.
+
+record(mbbo, "$(P)ExperimentType")
+{
+    field(DESC, "Experiment type")
+    field(PINI, "YES")
+    field(ZRVL, "0")
+    field(ZRST, "NA")
+    field(ONVL, 1)
+    field(ONST, "Users")
+    field(TWVL, 2)
+    field(TWST, "Local")
+    field(THVL, 3)
+    field(THST, "Energy Calibration")
+}
+
+record(waveform, "$(P)ExperimentalFileName")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(waveform, "$(P)ExperimentalFilePath")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(stringout, "$(P)ProposalID")
+{
+   field(DESC, "ProposalID")
+}
+
+record(waveform, "$(P)ProposalTittle")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(waveform, "$(P)PI")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(waveform, "$(P)PIEmail")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(stringout, "$(P)ScanTopo")
+{
+   field(DESC, "Scan Topology")
+}
+
+record(stringout, "$(P)ElementEdge")
+{
+   field(DESC, "Element edge")
+}
+
+record(stringout, "$(P)MonoName")
+{
+   field(DESC, "Mono name")
+}
+
+record(longout, "$(P)MonoDSpacing")
+{
+    field(DESC, "Mono d Spacing")
+}
+
+record(ao, "$(P)MonoSettlingTime")
+{
+    field(DESC, "Mono settling time")
+}
+
+record(ao, "$(P)IntTime")
+{
+    field(DESC, "Integration time")
+}
+
+record(ao, "$(P)XStart")
+{
+    field(DESC, "ROI X start")
+}
+
+record(ao, "$(P)YStart")
+{
+    field(DESC, "ROI Y start")
+}
+
+record(ao, "$(P)XEnd")
+{
+    field(DESC, "ROI X end")
+}
+
+record(ao, "$(P)YEnd")
+{
+    field(DESC, "ROI Y end")
+}
+
+record(ao, "$(P)Z")
+{
+    field(DESC, "ROI X")
+}
+
+record(ao, "$(P)Rotation")
+{
+    field(DESC, "ROI rotation")
+}
+
+record(ao, "$(P)ResolutionX")
+{
+    field(DESC, "Resolution X")
+}
+
+record(ao, "$(P)ResolutionY")
+{
+    field(DESC, "Resolution Y")
+}
+
+record(ao, "$(P)TotalPoints")
+{
+    field(DESC, "Total points")
+}
+
+record(ao, "$(P)ReceivedPoints")
+{
+    field(DESC, "Received points")
+}
+
+record(ao, "$(P)MissedPoints")
+{
+    field(DESC, "MissedPoints")
+}
+
+record(stringout, "$(P)BeamlineCollimation")
+{
+   field(DESC, "Beamline collimation")
+}
+
+record(bo,"$(P)BeamlineFocusing")
+{
+    field(DESC, "Beamline focusing")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+    field(PINI, "YES")
+}
+
+record(waveform, "$(P)BL:HarmonicRejection")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(waveform, "$(P)MirrorCoatingVCM")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(waveform, "$(P)MirrorCoatingVFM")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(waveform, "$(P)ExpStartTime")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(waveform, "$(P)ScanStartTime")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(waveform, "$(P)ScanEndTime")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(longout, "$(P)ScanEnergy")
+{
+    field(DESC, "Scan energy")
+}
+
+record(longout, "$(P)ScanEdgeEnergy")
+{
+    field(DESC, "Scan edge energy")
+}
+
+record(stringout, "$(P)EnergyMode")
+{
+   field(DESC, "Energy mode")
+}
+
+record(stringout, "$(P)SampleStoichiometry")
+{
+   field(DESC, "Sample stoichiometry")
+}
+
+record(stringout, "$(P)SamplePreperation")
+{
+   field(DESC, "Sample preperation")
+}
+
+record(waveform, "$(P)Sample")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(waveform, "$(P)UserComments")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(waveform, "$(P)ExperimentComments")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}

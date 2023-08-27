@@ -1,0 +1,25 @@
+file "$(TOP)/db/XAFS.template"
+{
+pattern
+{P,N,}
+{XAFS:, 1,}
+{XAFS:, 2,}
+{XAFS:, 3,}
+{XAFS:, 4,}
+{XAFS:, 5,}
+{XAFS:, 6,}
+{XAFS:, 7,}
+{XAFS:, 8,}
+{XAFS:, 9,}
+{XAFS:, 10,}
+{XAFS:, 11,}
+{XAFS:, 12,}
+{XAFS:, 13,}
+{XAFS:, 14,}
+{XAFS:, 15,}
+{XAFS:, 16,}
+{XAFS:, 17,}
+{XAFS:, 18,}
+{XAFS:, 19,}
+{XAFS:, 20,}
+}
