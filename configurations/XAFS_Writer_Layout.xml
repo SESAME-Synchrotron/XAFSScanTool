@@ -636,8 +636,8 @@
         </group> <!-- /cooling -->
       </group><!-- /instrument -->
 
-      </group name="sample">
-        </group name="experiment">
+      <group name="sample">
+        <group name="experiment">
           <dataset      name="proposal"                     source="ndattribute"      ndattribute="ProposalNumber" when="OnFileClose" />
           <dataset      name="title"                        source="ndattribute"      ndattribute="ProposalTitle" when="OnFileClose" />
           <dataset      name="element_edge"                 source="ndattribute"      ndattribute="ElementEdge" />
@@ -650,13 +650,13 @@
           <dataset      name="energy_mode"                  source="ndattribute"      ndattribute="EnergyMode" when="OnFileClose" />
           <dataset      name="sample_stoichiometry"         source="ndattribute"      ndattribute="SampleStoichiometry" />
           <dataset      name="sample_preperation"           source="ndattribute"      ndattribute="SamplePreperation" />
-          </group name="HarmonicRejection">
+          <group name="HarmonicRejection">
             <dataset      name="mirror_coating_vcm"           source="ndattribute"      ndattribute="MirrorCoatingVCM" />
             <dataset      name="mirror_coating_vfm"           source="ndattribute"      ndattribute="MirrorCoatingVFM" />
           </group><!-- /HarmonicRejection -->
         </group><!-- /experiment -->
 
-        </group name="experimenter">
+        <group name="experimenter">
           <dataset      name="personal_info"        source="ndattribute"      ndattribute="PersonalInfo" when="OnFileClose" />
           <dataset      name="email"                source="ndattribute"      ndattribute="UserEmail" when="OnFileClose" />
           <dataset      name="user_comments"        source="ndattribute"      ndattribute="UserComments" />
@@ -667,7 +667,7 @@
         <dataset        name="exp_file_path" source="ndattribute" ndattribute="ExperimentalFilePath" when="OnFileClose" />         
         <dataset        name="sample_name"      source="ndattribute"      ndattribute="Sample" />
       </group><!-- /sample -->
-    <group><!-- /measurement -->
+    </group><!-- /measurement -->
 
       <group name="process">
         <group name="data_writing">
@@ -686,15 +686,15 @@
           </dataset>
           
           <dataset      name="total_points"     source="ndattribute"  ndattribute="TotalPoints" >
-            <attribute  name="units"            source="constant"     value="number" type="string" when="OnFileClose" />
+            <attribute  name="units"            source="constant"     value="number" type="string"/>
           </dataset>
 
           <dataset      name="received_points"  source="ndattribute"  ndattribute="ReceivedPoints" >
-            <attribute  name="units"            source="constant"     value="number" type="string" when="OnFileClose" />
+            <attribute  name="units"            source="constant"     value="number" type="string"/>
           </dataset>
 
           <dataset      name="missed_points"    source="ndattribute"  ndattribute="MissedPoints" >
-            <attribute  name="units"            source="constant"     value="number" type="string" when="OnFileClose" />
+            <attribute  name="units"            source="constant"     value="number" type="string"/>
           </dataset>
         </group><!-- /data_writing -->
 

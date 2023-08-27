@@ -82,7 +82,7 @@ class ZMQWriter (H5Writer):
 		self.arrayYIndex = arrayIndexY
 		self.scanTopo = scanTopo
 
-		PV(self.prefix + self.PVs[self.PVs.index("TotalPoints")]).put(numPointsX * numPointsY, wait=True)
+		PV(self.prefix + self.PVs[self.PVs.index("TotalPoints")]).put(self.numXPoints * self.numYPoints, wait=True)
 
 		self.h5file = h5py.File(GfullH5Path, 'a')  # Reopen in append mode
 		self.data 		= "/exchange/xmap/data"
