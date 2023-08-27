@@ -3,6 +3,7 @@ import zmq
 import h5py
 import time
 import log
+from epics import PV
 
 from H5Writer import H5Writer
 from SEDSS.CLIMessage import CLIMessage
@@ -17,7 +18,8 @@ class ZMQWriter (H5Writer):
 		self.ZMQRType = zmq.SUB
 
 		GfullH5Path = self.fPath+"/"+self.fName
-
+		self.prefix = "XAFS:"
+		self.PVs = self.configFile["writerPVs"]
 		"""
 		Get ZMQ Sender settings from Beamline configration file
 		Notes:
@@ -80,6 +82,8 @@ class ZMQWriter (H5Writer):
 		self.arrayYIndex = arrayIndexY
 		self.scanTopo = scanTopo
 
+		PV(self.prefix + self.PVs[self.PVs.index("TotalPoints")]).put(numPointsX * numPointsY, wait=True)
+
 		self.h5file = h5py.File(GfullH5Path, 'a')  # Reopen in append mode
 		self.data 		= "/exchange/xmap/data"
 		self.indexX 	= "/defaults/IndexX"
@@ -117,12 +121,14 @@ class ZMQWriter (H5Writer):
 			self.h5file[self.positionX][self.totalPoints-1] = self.arrayXPositions[x]
 			self.h5file[self.positionY][self.totalPoints-1] = self.arrayYPositions[y]
 			self.missedPoints.append((x, y))
+			PV(self.prefix + self.PVs[self.PVs.index("MissedPoints")]).put(len(self.missedPoints), wait=True)
 			log.error(f"missed point index ({x, y})")
 			CLIMessage(f"missed point index ({x, y})", "W")
 		elif data == "scanAborted":
 			CLIMessage(f"scan has been aborted", "E")
 			self.h5File.close()
 		else:
+			PV(self.prefix + self.PVs[self.PVs.index("ReceivedPoints")]).put(self.totalPoints, wait=True)
 			self.h5file[self.data][y, x, :] = data
 			self.h5file[self.indexX][self.totalPoints-1] = x
 			self.h5file[self.indexY][self.totalPoints-1] = y

@@ -45,6 +45,47 @@
 			"ZMQType": "PUB"
 		}
 	},
+	"writerPVs":
+	[
+		"ExperimentType", 
+		"ExperimentalFileName", 
+		"ExperimentalFilePath",		
+		"ProposalID", 
+		"ProposalTittle",
+		"PI",
+		"PIEmail",
+		"ScanTopo",
+		"ElementEdge", 
+		"MonoName", 
+		"MonoDSpacing", 
+		"MonoSettlingTime", 
+		"IntTime", 
+		"XStart", 
+		"YStart", 
+		"XEnd", 
+		"YEnd", 
+		"Z",
+		"Rotation",
+		"ResolutionX", 
+		"ResolutionY", 
+		"TotalPoints",
+		"ReceivedPoints",
+		"MissedPoints", 
+		"BeamlineCollimation", 
+		"BeamlineFocusing", 
+		"MirrorCoatingVCM", 
+		"MirrorCoatingVFM", 
+		"ExpStartTime", 
+		"ScanStartTime", 
+		"ScanEndTime", 
+		"ScanEnergy", 
+		"ScanEdgeEnergy", 
+		"EnergyMode", 
+		"SampleStoichiometry", 
+		"SamplePreperation", 
+		"UserComments", 
+		"ExperimentComments"
+	],
 	"defaultDatasets":
 	{
       "ArrayXIndex": 
