@@ -9,10 +9,13 @@ import zmq
 import threading
 import numpy as np
 from epics import PV
+import shutil
 
 from SEDSS.CLIMessage import CLIMessage
 from SEDSS.UIMessage import UIMessage
 from SEDSS.SEDFileManager import readFile
+from SEDSS.SEDSupport import timeModule
+import os 
 
 #from xafs import XAFS_XRF
 from xafs_xrf_step import XAFS_XRFSTEP
@@ -47,6 +50,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 		self.sock = context.socket(zmq.PUB)
 		self.sock.connect(ZMQSender)  	# Connect instead of bind for the server
 
+		self.writePVS()
 		""" setup h5 file layout """
 		h5Layout = threading.Thread(target=self.setupH5DXLayout, args=())
 		h5Layout.start()
@@ -157,6 +161,8 @@ class MAPSCAN (XAFS_XRFSTEP):
 		"""
 		this function is the main function to perform mapping scan
 		"""
+
+		startTime = time.time()
 		mcaData = None
 		self.xRange = self.drange(self.ROIXStart, self.ROIXEnd, self.scanResX)
 		self.yRange = self.drange(self.ROIYStart, self.ROIYEnd, self.scanResY)
@@ -169,11 +175,13 @@ class MAPSCAN (XAFS_XRFSTEP):
 			""" start zmq reciever socket """
 			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,), daemon=True)
 			zmqRec.start()
-
+			overAllPointsCounter = len(self.xRange) * len(self.yRange)
 			for y in self.yRange:
+				self.checkPause()
 				log.info('Moving sample stage Y to: {}'.format(y))
 				self.MoveSmpY(y)
 				for x in self.xRange:
+					self.checkPause()
 					log.info('Moving sample stage X to: {}'.format(x))
 					self.MoveSmpX(x)
 					log.info('Collecting data for the scan point: ({},{})'.format(x,y))
@@ -190,16 +198,19 @@ class MAPSCAN (XAFS_XRFSTEP):
 				xScanPoints, yScanPoints, xScanIndex, yScanIndex = self.snakeScanPoints(self.xRange,self.yRange)
 			elif self.scanTopology == 'Diagonal':
 				xScanPoints, yScanPoints, xScanIndex, yScanIndex = self.diagonalScanPoints(self.xRange,self.yRange)
+			overAllPointsCounter = len(xScanPoints)
 
 			""" start zmq reciever socket """
 			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,self.scanTopology, xScanIndex, yScanIndex,), daemon=True)
 			zmqRec.start()
 
 			for i in range (len(xScanPoints)):
+				self.checkPause()
 				log.info('Move sample X to: {}'.format(xScanPoints[i]))
 				self.MoveSmpX(xScanPoints[i])
 				log.info('Move sample Y to: {}'.format(yScanPoints[i]))
 				self.MoveSmpY(yScanPoints[i])
+				log.info('Collecting data for the scan point: ({},{})'.format(xScanPoints[i],yScanPoints[i]))
 				mcaData = self.getDetectorData()
 				# print(mcaData)
 				try:
@@ -208,6 +219,18 @@ class MAPSCAN (XAFS_XRFSTEP):
 
 				except:
 					self.sock.send_pyobj("timeout")	
+
+		time.sleep(1)
+		print("#########################################################################")
+		scanTime = timeModule.timer(startTime)
+		log.info("Scan is fininshed | actual scan time is: {}, total number of points: {}".format(str(scanTime), overAllPointsCounter))
+		print("#########################################################################")
+		log.info("Data file folder: {}".format(self.localDataPath))
+		CLIMessage("Data file folder: {}".format(self.localDataPath),"M")
+		print("#################################################")
+		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
+		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
+		self.dataTransfer()
 	
 	def getDetectorData(self):
 
@@ -240,7 +263,8 @@ class MAPSCAN (XAFS_XRFSTEP):
 
 
 	def startZMQ(self, numPointsX, numPointsY, scanTopo = "seq", arrayIndexX = None, arrayIndexY=None):
-		self.writer.receiveData(len(numPointsX), len(numPointsY), scanTopo, arrayIndexX, arrayIndexY)
+		self.writer.createDefaultDatasets(numPointsX, numPointsY)
+		self.writer.receiveData(numPointsX, numPointsY, scanTopo, arrayIndexX, arrayIndexY)
 		self.writer.closeFile()
 
 	def setupH5DXLayout(self):
@@ -252,3 +276,49 @@ class MAPSCAN (XAFS_XRFSTEP):
 		self.sock.send_pyobj("scanAborted")
 		self.writer.closeFile()
 		super().signal_handler(self, sig, frame)
+
+	def writePVS(self):
+		
+		"""
+		This method has been implemented to write metadata on PVs in order to dump them in h5
+		file by the writer
+		"""
+
+		CLIMessage("writePVs...", "I")
+		prefix = "XAFS:"
+		PVs = self.h5cfg["writerPVs"]
+		# PV(prefix + PVs[PVs.index("ExperimentType")]).put(self.cfg['expType'], wait=True)
+		PV(prefix + PVs[PVs.index("ExperimentalFileName")]).put(self.h5FileName, wait=True)
+		PV(prefix + PVs[PVs.index("ExperimentalFilePath")]).put(self.BasePath, wait=True)
+		# PV(prefix + PVs[PVs.index("ProposalID")]).put(, wait=True)
+		# PV(prefix + PVs[PVs.index("ProposalTittle")]).put(, wait=True)
+		# PV(prefix + PVs[PVs.index("PI")]).put(, wait=True)
+		# PV(prefix + PVs[PVs.index("PIEmail")]).put(, wait=True)
+		PV(prefix + PVs[PVs.index("ScanTopo")]).put(self.scanTopology, wait=True)
+		PV(prefix + PVs[PVs.index("ElementEdge")]).put(self.cfg['ExpMetaData'][0]['edge'], wait=True)
+		PV(prefix + PVs[PVs.index("MonoName")]).put(self.cfg['ExpMetaData'][6]['Mono'], wait=True)
+		# PV(prefix + PVs[PVs.index("MonoDSpacing")]).put(, wait=True)
+		PV(prefix + PVs[PVs.index("MonoSettlingTime")]).put(self.cfg['settlingTime'], wait=True)
+		PV(prefix + PVs[PVs.index("IntTime")]).put(self.FrameDuration, wait=True)
+		PV(prefix + PVs[PVs.index("XStart")]).put(self.ROIXStart, wait=True)
+		PV(prefix + PVs[PVs.index("YStart")]).put(self.ROIYStart, wait=True)
+		PV(prefix + PVs[PVs.index("XEnd")]).put(self.ROIXEnd, wait=True)
+		PV(prefix + PVs[PVs.index("YEnd")]).put(self.ROIYEnd, wait=True)
+		# PV(prefix + PVs[PVs.index("Z")]).put(, wait=True)
+		# PV(prefix + PVs[PVs.index("Rotation")]).put(, wait=True)
+		PV(prefix + PVs[PVs.index("ResolutionX")]).put(self.scanResX, wait=True)
+		PV(prefix + PVs[PVs.index("ResolutionY")]).put(self.scanResY, wait=True)
+		PV(prefix + PVs[PVs.index("BeamlineCollimation")]).put("slits", wait=True)
+		# PV(prefix + PVs[PVs.index("BeamlineFocusing")]).put("no", wait=True)
+		PV(prefix + PVs[PVs.index("MirrorCoatingVCM")]).put(self.cfg['ExpMetaData'][4]['vcm'], wait=True)
+		PV(prefix + PVs[PVs.index("MirrorCoatingVFM")]).put(self.cfg['ExpMetaData'][5]['vfm'], wait=True)
+		PV(prefix + PVs[PVs.index("ExpStartTime")]).put(self.expStartTimeDF, wait=True)
+		PV(prefix + PVs[PVs.index("ScanStartTime")]).put(self.creationTime, wait=True)
+		# PV(prefix + PVs[PVs.index("ScanEndTime")]).put(, wait=True)
+		PV(prefix + PVs[PVs.index("ScanEnergy")]).put(self.cfg['Energy'], wait=True)
+		# PV(prefix + PVs[PVs.index("ScanEdgeEnergy")]).put(, wait=True)
+		# PV(prefix + PVs[PVs.index("EnergyMode")]).put(, wait=True)
+		PV(prefix + PVs[PVs.index("SampleStoichiometry")]).put(self.cfg['ExpMetaData'][2]['stoichiometry'], wait=True)
+		PV(prefix + PVs[PVs.index("SamplePreperation")]).put(self.cfg['ExpMetaData'][3]['samplePrep'], wait=True)
+		PV(prefix + PVs[PVs.index("UserComments")]).put(self.cfg['ExpMetaData'][7]['userCom'], wait=True)
+		PV(prefix + PVs[PVs.index("ExperimentComments")]).put(self.cfg['ExpMetaData'][8]['expCom'], wait=True)
