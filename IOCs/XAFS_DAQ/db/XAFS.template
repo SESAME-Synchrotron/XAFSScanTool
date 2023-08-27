@@ -1,0 +1,205 @@
+# Database for EPICS PVs for XAFS/XRF beamline data collection software
+# This database contains all of the PVs (Metadata) used by the ZMQ Writer.
+
+record(mbbo, "$(P)ExperimentType")
+{
+    field(DESC, "Experiment type")
+    field(PINI, "YES")
+    field(ZRVL, "0")
+    field(ZRST, "NA")
+    field(ONVL, 1)
+    field(ONST, "Users")
+    field(TWVL, 2)
+    field(TWST, "Local")
+    field(THVL, 3)
+    field(THST, "Energy Calibration")
+}
+
+record(mbbo, "$(P)ScanningType")
+{
+    field(DESC, "Scanning type")
+    field(PINI, "YES")
+    field(ZRVL, "0")
+    field(ZRST, "NA")
+    field(ONVL, "1")
+    field(ONST, "Two Theta Step Scan")
+    field(TWVL, "2")
+    field(TWST, "Two Theta Temp Scan")
+    field(THVL, "3")
+    field(THST, "Two Theta with Slits Scan")
+    field(FRVL, "4")
+    field(FRST, "Theta Two Theta Scan")
+}
+
+record(mbbo, "$(P)ConfigurationsFile")
+{
+    field(DESC, "Create or load a configurations file")
+    field(PINI, "YES")
+    field(ZRVL, "0")
+    field(ZRST, "NA")
+    field(ONVL, "1")
+    field(ONST, "Create")
+    field(TWVL, "2")
+    field(TWST, "Load")
+}
+
+record(longout, "$(P)Intervals")
+{
+    field(DESC, "Set the #.Intervals")
+    field(LOPR, "1")
+    field(HOPR, "100")
+}
+
+record(longout, "$(P)Samples")
+{
+    field(DESC, "Set the #.Samples")
+    field(LOPR, "1")
+    field(HOPR, "100")
+}
+
+record(longout, "$(P)Scans")
+{
+    field(DESC, "Set the #.Scans")
+    field(LOPR, "1")
+    field(HOPR, "100")
+}
+
+record(waveform, "$(P)ExperimentalFileName")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(ao, "$(P)SettlingTime")
+{
+    field(DESC, "Set the settling time")
+    field(LOPR, "0")
+    field(HOPR, "100")
+    field(EGU, "sec")
+}
+
+record(bo,"$(P)UseRobot")
+{
+    field(DESC, "Determine if the robot in use or not")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+    field(PINI, "YES")
+}
+
+record(bo,"$(P)TestingMode")
+{
+    field(DESC, "testing mode")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+    field(PINI, "YES")
+}
+
+record(waveform, "$(P)Sample")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(waveform, "$(P)UserComments")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(waveform, "$(P)ExperimentComments")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(bo,"$(P)StartScan")
+{
+    field(DESC, "Start the experimental scan")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+    field(PINI, "YES")
+}
+
+record(bo,"$(P)StopScan")
+{
+    field(DESC, "Stop the experimental scan")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+    field(PINI, "YES")
+}
+
+record(bo,"$(P)FinishScan")
+{
+    field(DESC, "Finish the experimental scan")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+    field(PINI, "YES")
+}
+
+record(bo,"$(P)CancelScan")
+{
+    field(DESC, "Cancel the experimental scan")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+    field(PINI, "YES")
+}
+
+record(bo,"$(P)PauseScan")
+{
+    field(DESC, "Pause the experimental scan")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+    field(PINI, "YES")
+}
+
+record(bo,"$(P)CheckTable")
+{
+    field(DESC, "Check if table is completed or not")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+    field(PINI, "YES")
+}
+
+record(bo, "$(P)CheckSamples")
+{
+    field(DESC, "Check the selected Samples")
+    field(ZNAM, "No")
+    field(ONAM, "Yes")
+    field(PINI, "YES")
+}
+
+record(ao, "$(P)StartPoint$(N)")
+{
+    field(DESC, "Set the start point (table)")
+    field(LOPR, "0")
+}
+
+record(ao, "$(P)EndPoint$(N)")
+{
+    field(DESC, "Set the End point (table)")
+    field(LOPR, "0")
+}
+
+record(ao, "$(P)StepSize$(N)")
+{
+    field(DESC, "Set the step size (table)")
+    field(LOPR, "0")
+}
+
+record(ao, "$(P)ExposureTime$(N)")
+{
+    field(DESC, "Set the exposure time (table)")
+    field(LOPR, "0")
+}
+
+record(waveform, "$(P)Sample$(N)")
+{
+   field(FTVL, "UCHAR")
+   field(NELM, "600")
+}
+
+record(waveform, "$(P)SamplesPositions")
+{
+   field(FTVL, "LONG")
+   field(NELM, "41")
+}

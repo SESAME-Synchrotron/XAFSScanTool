@@ -1,0 +1,3 @@
+epicsEnvSet("IOC","iocXAFS")
+epicsEnvSet("TOP","/home/dcasu/Desktop/SESAME/Beamlines/XAFS/IOCs/XAFS_DAQ")
+epicsEnvSet("EPICS_BASE","/opt/epics/base")
