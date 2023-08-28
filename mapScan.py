@@ -3,19 +3,19 @@ Step mapping scan derived class
 
 '''
 import sys
+import os 
 import log
 import time
 import zmq
 import threading
 import numpy as np
-from epics import PV
 import shutil
+from epics import PV
 
 from SEDSS.CLIMessage import CLIMessage
 from SEDSS.UIMessage import UIMessage
 from SEDSS.SEDFileManager import readFile
 from SEDSS.SEDSupport import timeModule
-import os 
 
 #from xafs import XAFS_XRF
 from xafs_xrf_step import XAFS_XRFSTEP
@@ -261,10 +261,10 @@ class MAPSCAN (XAFS_XRFSTEP):
 
 		return (expData["KETEK-MCA1"])
 
-
 	def startZMQ(self, numPointsX, numPointsY, scanTopo = "seq", arrayIndexX = None, arrayIndexY=None):
 		self.writer.createDefaultDatasets(numPointsX, numPointsY)
 		self.writer.receiveData(numPointsX, numPointsY, scanTopo, arrayIndexX, arrayIndexY)
+		PV("XAFS:ScanEndTime").put(str(time.strftime('%Y-%m-%dT%H:%M:%S')), wait=True)
 		self.writer.closeFile()
 
 	def setupH5DXLayout(self):
@@ -274,6 +274,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 
 	def signal_handler(self, sig, frame):
 		self.sock.send_pyobj("scanAborted")
+		PV("XAFS:ScanEndTime").put(str(time.strftime('%Y-%m-%dT%H:%M:%S')), wait=True)
 		self.writer.closeFile()
 		super().signal_handler(self, sig, frame)
 
@@ -282,22 +283,41 @@ class MAPSCAN (XAFS_XRFSTEP):
 		"""
 		This method has been implemented to write metadata on PVs in order to dump them in h5
 		file by the writer
+
+		** this the only way to implement this case, beacuse the DAQ System for this beamline is not IOC based
 		"""
 
 		CLIMessage("writePVs...", "I")
 		prefix = "XAFS:"
 		PVs = self.h5cfg["writerPVs"]
-		# PV(prefix + PVs[PVs.index("ExperimentType")]).put(self.cfg['expType'], wait=True)
+		PV(prefix + PVs[PVs.index("ExperimentType")]).put(self.cfg['expType'], wait=True)
 		PV(prefix + PVs[PVs.index("ExperimentalFileName")]).put(self.h5FileName, wait=True)
 		PV(prefix + PVs[PVs.index("ExperimentalFilePath")]).put(self.BasePath, wait=True)
-		# PV(prefix + PVs[PVs.index("ProposalID")]).put(, wait=True)
-		# PV(prefix + PVs[PVs.index("ProposalTittle")]).put(, wait=True)
-		# PV(prefix + PVs[PVs.index("PI")]).put(, wait=True)
-		# PV(prefix + PVs[PVs.index("PIEmail")]).put(, wait=True)
+
+		if self.cfg["expType"] == "proposal":
+			try: 
+				self.propInfo = readFile("configrations/userinfo.json").readJSON()
+				PV(prefix + PVs[PVs.index("ProposalID")]).put(self.propInfo["Proposal"], wait=True)
+				PV(prefix + PVs[PVs.index("ProposalTittle")]).put(self.propInfo["Title"], wait=True)
+				PV(prefix + PVs[PVs.index("PI")]).put(self.propInfo["Proposer"], wait=True)
+				PV(prefix + PVs[PVs.index("PIEmail")]).put(self.propInfo["Email"], wait=True)
+			except:
+				CLIMessage("Can't generate porposal info","E") 
+		else:
+			PV(prefix + PVs[PVs.index("ProposalID")]).put("No Data", wait=True)
+			PV(prefix + PVs[PVs.index("ProposalTittle")]).put("No Data", wait=True)
+			PV(prefix + PVs[PVs.index("PI")]).put("No Data", wait=True)
+			PV(prefix + PVs[PVs.index("PIEmail")]).put("No Data", wait=True)
+
 		PV(prefix + PVs[PVs.index("ScanTopo")]).put(self.scanTopology, wait=True)
 		PV(prefix + PVs[PVs.index("ElementEdge")]).put(self.cfg['ExpMetaData'][0]['edge'], wait=True)
 		PV(prefix + PVs[PVs.index("MonoName")]).put(self.cfg['ExpMetaData'][6]['Mono'], wait=True)
-		# PV(prefix + PVs[PVs.index("MonoDSpacing")]).put(, wait=True)
+
+		if self.cfg['ExpMetaData'][6]['Mono'] == "Si 111":
+			PV(prefix + PVs[PVs.index("MonoDSpacing")]).put(3.1356, wait=True)
+		else:
+			PV(prefix + PVs[PVs.index("MonoDSpacing")]).put(1.6374, wait=True)
+			
 		PV(prefix + PVs[PVs.index("MonoSettlingTime")]).put(self.cfg['settlingTime'], wait=True)
 		PV(prefix + PVs[PVs.index("IntTime")]).put(self.FrameDuration, wait=True)
 		PV(prefix + PVs[PVs.index("XStart")]).put(self.ROIXStart, wait=True)
@@ -309,12 +329,11 @@ class MAPSCAN (XAFS_XRFSTEP):
 		PV(prefix + PVs[PVs.index("ResolutionX")]).put(self.scanResX, wait=True)
 		PV(prefix + PVs[PVs.index("ResolutionY")]).put(self.scanResY, wait=True)
 		PV(prefix + PVs[PVs.index("BeamlineCollimation")]).put("slits", wait=True)
-		# PV(prefix + PVs[PVs.index("BeamlineFocusing")]).put("no", wait=True)
+		PV(prefix + PVs[PVs.index("BeamlineFocusing")]).put(0, wait=True)
 		PV(prefix + PVs[PVs.index("MirrorCoatingVCM")]).put(self.cfg['ExpMetaData'][4]['vcm'], wait=True)
 		PV(prefix + PVs[PVs.index("MirrorCoatingVFM")]).put(self.cfg['ExpMetaData'][5]['vfm'], wait=True)
 		PV(prefix + PVs[PVs.index("ExpStartTime")]).put(self.expStartTimeDF, wait=True)
 		PV(prefix + PVs[PVs.index("ScanStartTime")]).put(self.creationTime, wait=True)
-		# PV(prefix + PVs[PVs.index("ScanEndTime")]).put(, wait=True)
 		PV(prefix + PVs[PVs.index("ScanEnergy")]).put(self.cfg['Energy'], wait=True)
 		# PV(prefix + PVs[PVs.index("ScanEdgeEnergy")]).put(, wait=True)
 		# PV(prefix + PVs[PVs.index("EnergyMode")]).put(, wait=True)

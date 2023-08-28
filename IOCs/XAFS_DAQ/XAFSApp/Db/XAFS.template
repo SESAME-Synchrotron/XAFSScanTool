@@ -1,18 +1,9 @@
 # Database for EPICS PVs for XAFS/XRF beamline data collection software
 # This database contains all of the PVs (Metadata) used by the ZMQ Writer.
 
-record(mbbo, "$(P)ExperimentType")
+record(stringout, "$(P)ExperimentType")
 {
     field(DESC, "Experiment type")
-    field(PINI, "YES")
-    field(ZRVL, "0")
-    field(ZRST, "NA")
-    field(ONVL, 1)
-    field(ONST, "Users")
-    field(TWVL, 2)
-    field(TWST, "Local")
-    field(THVL, 3)
-    field(THST, "Energy Calibration")
 }
 
 record(waveform, "$(P)ExperimentalFileName")
