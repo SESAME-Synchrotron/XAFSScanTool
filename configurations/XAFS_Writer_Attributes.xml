@@ -79,43 +79,43 @@
     <Attribute name="IonizationChamber2Current"        type="EPICS_PV" source="D08-ES-IC2:getCurrent"                    dbrtype="DBR_STRING" description="Ionization chamber2 current (A)"/>
     <Attribute name="IonizationChamber2AvgCurrent"     type="EPICS_PV" source="D08-ES-IC2:getAverageCurrent"             dbrtype="DBR_STRING" description="Ionization chamber2 avg. current (A)"/>
 
-    <Attribute name="ExperimentType"           type="EPICS_PV" source="XAFS:ExperimentType"                              dbrtype="DBR_STRING" description=""/>
-    <Attribute name="ExperimentalFileName"     type="EPICS_PV" source="XAFS:ExperimentalFileName"                        dbrtype="DBR_STRING" description=""/>
-    <Attribute name="ExperimentalFilePath"     type="EPICS_PV" source="XAFS:ExperimentalFilePath"                        dbrtype="DBR_STRING" description=""/>
-    <Attribute name="ElementEdge"              type="EPICS_PV" source="XAFS:ElementEdge"                                 dbrtype="DBR_STRING" description=""/>
-    <Attribute name="MonoName"                 type="EPICS_PV" source="XAFS:MonoName"                                    dbrtype="DBR_STRING" description=""/>
-    <Attribute name="MonoDSpacing"             type="EPICS_PV" source="XAFS:MonoDSpacing"                                dbrtype="DBR_NATIVE" description=""/>
-    <Attribute name="MonoSettlingTime"         type="EPICS_PV" source="XAFS:MonoSettlingTime"                            dbrtype="DBR_NATIVE" description=""/>
-    <Attribute name="BeamlineCollimation"      type="EPICS_PV" source="XAFS:BeamlineCollimation"                         dbrtype="DBR_STRING" description=""/>
-    <Attribute name="MirrorCoatingVCM"         type="EPICS_PV" source="XAFS:MirrorCoatingVCM"                            dbrtype="DBR_STRING" description=""/>
-    <Attribute name="MirrorCoatingVFM"         type="EPICS_PV" source="XAFS:MirrorCoatingVFM"                            dbrtype="DBR_STRING" description=""/>
-    <Attribute name="ExpStartTime"             type="EPICS_PV" source="XAFS:ExpStartTime"                                dbrtype="DBR_STRING" description=""/>
-    <Attribute name="ScanStartTime"            type="EPICS_PV" source="XAFS:ScanStartTime"                               dbrtype="DBR_STRING" description=""/>
-    <Attribute name="ScanEndTime"              type="EPICS_PV" source="XAFS:ScanEndTime"                                 dbrtype="DBR_STRING" description=""/>
-    <Attribute name="ScanEnergy"               type="EPICS_PV" source="XAFS:ScanEnergy"                              dbrtype="DBR_NATIVE" description=""/>
-    <Attribute name="ScanEdgeEnergy"           type="EPICS_PV" source="XAFS:ScanEdgeEnergy"                              dbrtype="DBR_NATIVE" description=""/>
-    <Attribute name="EnergyMode"               type="EPICS_PV" source="tomoscanBEATS:FlirMicosCont:EnergyMode"           dbrtype="DBR_NATIVE" description="Energy Mode"/>
-    <Attribute name="SampleStoichiometry"      type="EPICS_PV" source="XAFS:SampleStoichiometry"                         dbrtype="DBR_STRING" description=""/>
-    <Attribute name="SamplePreperation"        type="EPICS_PV" source="XAFS:SamplePreperation"                           dbrtype="DBR_STRING" description=""/>
-    <Attribute name="Sample"                   type="EPICS_PV" source="XAFS:Sample"                                      dbrtype="DBR_STRING" description=""/>
-    <Attribute name="UserComments"             type="EPICS_PV" source="XAFS:UserComments"                                dbrtype="DBR_STRING" description=""/>
-    <Attribute name="ExperimentComments"       type="EPICS_PV" source="XAFS:ExperimentComments"                          dbrtype="DBR_STRING" description=""/>
+    <Attribute name="ExperimentType"           type="EPICS_PV" source="XAFS:ExperimentType"                              dbrtype="DBR_STRING" description="Experiment type"/>
+    <Attribute name="ExperimentalFileName"     type="EPICS_PV" source="XAFS:ExperimentalFileName"                        dbrtype="DBR_STRING" description="Experimental file name"/>
+    <Attribute name="ExperimentalFilePath"     type="EPICS_PV" source="XAFS:ExperimentalFilePath"                        dbrtype="DBR_STRING" description="Experimental file path"/>
+    <Attribute name="ElementEdge"              type="EPICS_PV" source="XAFS:ElementEdge"                                 dbrtype="DBR_STRING" description="Element edge"/>
+    <Attribute name="MonoName"                 type="EPICS_PV" source="XAFS:MonoName"                                    dbrtype="DBR_STRING" description="Mono name"/>
+    <Attribute name="MonoDSpacing"             type="EPICS_PV" source="XAFS:MonoDSpacing"                                dbrtype="DBR_NATIVE" description="Mono d-spacing"/>
+    <Attribute name="MonoSettlingTime"         type="EPICS_PV" source="XAFS:MonoSettlingTime"                            dbrtype="DBR_NATIVE" description="Mono settling time"/>
+    <Attribute name="BeamlineCollimation"      type="EPICS_PV" source="XAFS:BeamlineCollimation"                         dbrtype="DBR_STRING" description="Beamline collimation"/>
+    <Attribute name="MirrorCoatingVCM"         type="EPICS_PV" source="XAFS:MirrorCoatingVCM"                            dbrtype="DBR_STRING" description="Mirror coating VCM"/>
+    <Attribute name="MirrorCoatingVFM"         type="EPICS_PV" source="XAFS:MirrorCoatingVFM"                            dbrtype="DBR_STRING" description="Mirror coating VFM"/>
+    <Attribute name="ExpStartTime"             type="EPICS_PV" source="XAFS:ExpStartTime"                                dbrtype="DBR_STRING" description="Experiment start time"/>
+    <Attribute name="ScanStartTime"            type="EPICS_PV" source="XAFS:ScanStartTime"                               dbrtype="DBR_STRING" description="Scan start time"/>
+    <Attribute name="ScanEndTime"              type="EPICS_PV" source="XAFS:ScanEndTime"                                 dbrtype="DBR_STRING" description="Scan end time"/>
+    <Attribute name="ScanEnergy"               type="EPICS_PV" source="XAFS:ScanEnergy"                                  dbrtype="DBR_NATIVE" description="Scan energy"/>
+    <Attribute name="ScanEdgeEnergy"           type="EPICS_PV" source="XAFS:ScanEdgeEnergy"                              dbrtype="DBR_NATIVE" description="Scan edge energy"/>
+    <Attribute name="EnergyMode"               type="EPICS_PV" source="XAFS:EnergyMode"                                  dbrtype="DBR_STRING" description="Energy mode"/>
+    <Attribute name="SampleStoichiometry"      type="EPICS_PV" source="XAFS:SampleStoichiometry"                         dbrtype="DBR_STRING" description="Sample stoichiometry"/>
+    <Attribute name="SamplePreperation"        type="EPICS_PV" source="XAFS:SamplePreperation"                           dbrtype="DBR_STRING" description="Sample preperation"/>
+    <Attribute name="Sample"                   type="EPICS_PV" source="XAFS:Sample"                                      dbrtype="DBR_STRING" description="Sample name"/>
+    <Attribute name="UserComments"             type="EPICS_PV" source="XAFS:UserComments"                                dbrtype="DBR_STRING" description="User comments"/>
+    <Attribute name="ExperimentComments"       type="EPICS_PV" source="XAFS:ExperimentComments"                          dbrtype="DBR_STRING" description="Experiment comments"/>
     <Attribute name="UserEmail"                type="EPICS_PV" source="XAFS:PIEmail"                                     dbrtype="DBR_STRING" description="User e-mail"/>
-    <Attribute name="PersonalInfo"             type="EPICS_PV" source="XAFS:PI"                                     dbrtype="DBR_STRING" description="User e-mail"/>
+    <Attribute name="PersonalInfo"             type="EPICS_PV" source="XAFS:PI"                                          dbrtype="DBR_STRING" description="User information"/>
     <Attribute name="ProposalNumber"           type="EPICS_PV" source="XAFS:ProposalID"                                  dbrtype="DBR_STRING" description="Proposal number"/>
     <Attribute name="ProposalTitle"            type="EPICS_PV" source="XAFS:ProposalTittle"                              dbrtype="DBR_STRING" description="Proposal title"/>
-    <Attribute name="ScanTopology"             type="EPICS_PV" source="XAFS:ScanTopo"                                    dbrtype="DBR_STRING" description="Proposal title"/>
-    <Attribute name="IntTime"                  type="EPICS_PV" source="XAFS:IntTime"                                     dbrtype="DBR_STRING" description="Proposal title"/>
-    <Attribute name="ROIXStart"                type="EPICS_PV" source="XAFS:XStart"                                      dbrtype="DBR_STRING" description="Proposal title"/>
-    <Attribute name="ROIYStart"                type="EPICS_PV" source="XAFS:YStart"                                      dbrtype="DBR_STRING" description="Proposal title"/>
-    <Attribute name="ROIXEnd"                  type="EPICS_PV" source="XAFS:XEnd"                                        dbrtype="DBR_STRING" description="Proposal title"/>
-    <Attribute name="ROIYEnd"                  type="EPICS_PV" source="XAFS:YEnd"                                        dbrtype="DBR_STRING" description="Proposal title"/>
-    <Attribute name="ROIZ"                     type="EPICS_PV" source="XAFS:Z"                                           dbrtype="DBR_STRING" description="Proposal title"/>
-    <Attribute name="ROIRotation"              type="EPICS_PV" source="XAFS:Rotation"                                    dbrtype="DBR_STRING" description="Proposal title"/>
-    <Attribute name="ResolutionX"              type="EPICS_PV" source="XAFS:ResolutionX"                                    dbrtype="DBR_STRING" description="Proposal title"/>
-    <Attribute name="ResolutionY"              type="EPICS_PV" source="XAFS:ResolutionY"                                    dbrtype="DBR_STRING" description="Proposal title"/>
-    <Attribute name="TotalPoints"              type="EPICS_PV" source="XAFS:TotalPoints"                                    dbrtype="DBR_STRING" description="Proposal title"/>
-    <Attribute name="ReceivedPoints"           type="EPICS_PV" source="XAFS:ReceivedPoints"                                    dbrtype="DBR_STRING" description="Proposal title"/>
-    <Attribute name="MissedPoints"             type="EPICS_PV" source="XAFS:MissedPoints"                                    dbrtype="DBR_STRING" description="Proposal title"/>
+    <Attribute name="ScanTopology"             type="EPICS_PV" source="XAFS:ScanTopo"                                    dbrtype="DBR_STRING" description="Scan topology"/>
+    <Attribute name="IntTime"                  type="EPICS_PV" source="XAFS:IntTime"                                     dbrtype="DBR_NATIVE" description="Integration time"/>
+    <Attribute name="ROIXStart"                type="EPICS_PV" source="XAFS:XStart"                                      dbrtype="DBR_NATIVE" description="ROI X start"/>
+    <Attribute name="ROIYStart"                type="EPICS_PV" source="XAFS:YStart"                                      dbrtype="DBR_NATIVE" description="ROI Y start"/>
+    <Attribute name="ROIXEnd"                  type="EPICS_PV" source="XAFS:XEnd"                                        dbrtype="DBR_NATIVE" description="ROI X end"/>
+    <Attribute name="ROIYEnd"                  type="EPICS_PV" source="XAFS:YEnd"                                        dbrtype="DBR_NATIVE" description="ROI Y end"/>
+    <Attribute name="ROIZ"                     type="EPICS_PV" source="XAFS:Z"                                           dbrtype="DBR_NATIVE" description="ROI Z"/>
+    <Attribute name="ROIRotation"              type="EPICS_PV" source="XAFS:Rotation"                                    dbrtype="DBR_NATIVE" description="ROI rotation"/>
+    <Attribute name="ResolutionX"              type="EPICS_PV" source="XAFS:ResolutionX"                                 dbrtype="DBR_NATIVE" description="Resolution X"/>
+    <Attribute name="ResolutionY"              type="EPICS_PV" source="XAFS:ResolutionY"                                 dbrtype="DBR_NATIVE" description="Resolution Y"/>
+    <Attribute name="TotalPoints"              type="EPICS_PV" source="XAFS:TotalPoints"                                 dbrtype="DBR_NATIVE" description="Total scanning points to be collected"/>
+    <Attribute name="ReceivedPoints"           type="EPICS_PV" source="XAFS:ReceivedPoints"                              dbrtype="DBR_NATIVE" description="Received collected points"/>
+    <Attribute name="MissedPoints"             type="EPICS_PV" source="XAFS:MissedPoints"                                dbrtype="DBR_NATIVE" description="Missed points (not collected points)"/>
 
 </Attributes>

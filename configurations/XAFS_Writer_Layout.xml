@@ -638,8 +638,8 @@
 
       <group name="sample">
         <group name="experiment">
-          <dataset      name="proposal"                     source="ndattribute"      ndattribute="ProposalNumber" when="OnFileClose" />
-          <dataset      name="title"                        source="ndattribute"      ndattribute="ProposalTitle" when="OnFileClose" />
+          <dataset      name="proposal"                     source="ndattribute"      ndattribute="ProposalNumber" />
+          <dataset      name="title"                        source="ndattribute"      ndattribute="ProposalTitle" />
           <dataset      name="element_edge"                 source="ndattribute"      ndattribute="ElementEdge" />
           <dataset      name="mono_name"                    source="ndattribute"      ndattribute="MonoName" />
           <dataset      name="mono_d_spacing"               source="ndattribute"      ndattribute="MonoDSpacing" />
@@ -647,7 +647,7 @@
           <dataset      name="beamline_collimation"         source="ndattribute"      ndattribute="BeamlineCollimation" />
           <dataset      name="scan_energy"                  source="ndattribute"      ndattribute="ScanEdgeEnergy" />
           <dataset      name="scan_edge_energy"             source="ndattribute"      ndattribute="ScanEnergy" />
-          <dataset      name="energy_mode"                  source="ndattribute"      ndattribute="EnergyMode" when="OnFileClose" />
+          <dataset      name="energy_mode"                  source="ndattribute"      ndattribute="EnergyMode" />
           <dataset      name="sample_stoichiometry"         source="ndattribute"      ndattribute="SampleStoichiometry" />
           <dataset      name="sample_preperation"           source="ndattribute"      ndattribute="SamplePreperation" />
           <group name="HarmonicRejection">
@@ -657,60 +657,60 @@
         </group><!-- /experiment -->
 
         <group name="experimenter">
-          <dataset      name="personal_info"        source="ndattribute"      ndattribute="PersonalInfo" when="OnFileClose" />
-          <dataset      name="email"                source="ndattribute"      ndattribute="UserEmail" when="OnFileClose" />
+          <dataset      name="personal_info"        source="ndattribute"      ndattribute="PersonalInfo" />
+          <dataset      name="email"                source="ndattribute"      ndattribute="UserEmail" />
           <dataset      name="user_comments"        source="ndattribute"      ndattribute="UserComments" />
           <dataset      name="experiment_comments"  source="ndattribute"      ndattribute="ExperimentComments" />
         </group><!-- /experimenter -->
 
-        <dataset        name="exp_file_name" source="ndattribute" ndattribute="ExperimentalFileName" when="OnFileClose" />         
-        <dataset        name="exp_file_path" source="ndattribute" ndattribute="ExperimentalFilePath" when="OnFileClose" />         
-        <dataset        name="sample_name"      source="ndattribute"      ndattribute="Sample" />
+        <dataset        name="exp_file_name" source="ndattribute" ndattribute="ExperimentalFileName" />         
+        <dataset        name="exp_file_path" source="ndattribute" ndattribute="ExperimentalFilePath" />         
+        <dataset        name="sample_name"   source="ndattribute" ndattribute="Sample" />
       </group><!-- /sample -->
     </group><!-- /measurement -->
 
       <group name="process">
         <group name="data_writing">
-          <dataset      name="writer_name"      source="constant"   value="XAFS/XRF-ZMQ-DXFile-Writer" type="string" when="OnFileClose" />
-          <dataset      name="writer_version"   source="constant"   value="1.0 Released"               type="string" when="OnFileClose" />
-          <dataset      name="scan_mode"        source="constant"   value="Step Scan | Mapping"        type="string" when="OnFileClose" />
+          <dataset      name="writer_name"      source="constant"   value="XAFS/XRF-ZMQ-DXFile-Writer" type="string" />
+          <dataset      name="writer_version"   source="constant"   value="1.0 Released"               type="string" />
+          <dataset      name="scan_mode"        source="constant"   value="Step Scan | Mapping"        type="string" />
 
           <dataset      name="file_layout"      source="constant"   value="DxLayout | Data Exchange" >
-            <attribute  name="type"             source="constant"   value="HDF5" type="string" when="OnFileClose" />
+            <attribute  name="type"             source="constant"   value="HDF5" type="string" />
           </dataset>
 
-          <dataset      name="scan_topology"    source="ndattribute"  ndattribute="ScanTopology" when="OnFileClose" />
+          <dataset      name="scan_topology"    source="ndattribute"  ndattribute="ScanTopology" />
 
           <dataset      name="experiment_type"  source="ndattribute"  ndattribute="ExperimentType" >
-            <attribute  name="type"             source="constant"     value="1: Users | 2: Local | 3: Energy Calibration" type="string" when="OnFileClose" />
+            <attribute  name="type"             source="constant"     value="1: Users | 2: Local | 3: Energy Calibration" type="string" />
           </dataset>
           
-          <dataset      name="total_points"     source="ndattribute"  ndattribute="TotalPoints" >
-            <attribute  name="units"            source="constant"     value="number" type="string"/>
+          <dataset      name="total_points"     source="ndattribute"  ndattribute="TotalPoints" when="OnFileClose" >
+            <attribute  name="units"            source="constant"     value="number" type="string" />
           </dataset>
 
-          <dataset      name="received_points"  source="ndattribute"  ndattribute="ReceivedPoints" >
-            <attribute  name="units"            source="constant"     value="number" type="string"/>
+          <dataset      name="received_points"  source="ndattribute"  ndattribute="ReceivedPoints" when="OnFileClose" >
+            <attribute  name="units"            source="constant"     value="number" type="string" />
           </dataset>
 
-          <dataset      name="missed_points"    source="ndattribute"  ndattribute="MissedPoints" >
-            <attribute  name="units"            source="constant"     value="number" type="string"/>
+          <dataset      name="missed_points"    source="ndattribute"  ndattribute="MissedPoints" when="OnFileClose" >
+            <attribute  name="units"            source="constant"     value="number" type="string" />
           </dataset>
         </group><!-- /data_writing -->
 
         <group name="acquisition">
           <dataset      name="exp_start_time"     source="ndattribute"    ndattribute="ExpStartTime" />
           <dataset      name="scan_start_time"    source="ndattribute"    ndattribute="ScanStartTime" />
-          <dataset      name="scan_end_time"      source="ndattribute"    ndattribute="ScanEndTime" />
-          <dataset      name="integration_time"   source="ndattribute"    ndattribute="IntTime" when="OnFileClose" />
-          <dataset      name="x_start"            source="ndattribute"    ndattribute="ROIXStart" when="OnFileClose" />
-          <dataset      name="y_start"            source="ndattribute"    ndattribute="ROIYStart" when="OnFileClose" />
-          <dataset      name="x_end"              source="ndattribute"    ndattribute="ROIXEnd" when="OnFileClose" />
-          <dataset      name="y_end"              source="ndattribute"    ndattribute="ROIYEnd" when="OnFileClose" />
-          <dataset      name="z"                  source="ndattribute"    ndattribute="ROIZ" when="OnFileClose" />
-          <dataset      name="rotation"           source="ndattribute"    ndattribute="ROIRotation" when="OnFileClose" />
-          <dataset      name="resolution_x"       source="ndattribute"    ndattribute="ResolutionX" when="OnFileClose" />
-          <dataset      name="resolution_y"       source="ndattribute"    ndattribute="ResolutionY" when="OnFileClose" />
+          <dataset      name="scan_end_time"      source="ndattribute"    ndattribute="ScanEndTime" when="OnFileClose" />
+          <dataset      name="integration_time"   source="ndattribute"    ndattribute="IntTime" />
+          <dataset      name="x_start"            source="ndattribute"    ndattribute="ROIXStart" />
+          <dataset      name="y_start"            source="ndattribute"    ndattribute="ROIYStart" />
+          <dataset      name="x_end"              source="ndattribute"    ndattribute="ROIXEnd" />
+          <dataset      name="y_end"              source="ndattribute"    ndattribute="ROIYEnd" />
+          <dataset      name="z"                  source="ndattribute"    ndattribute="ROIZ" />
+          <dataset      name="rotation"           source="ndattribute"    ndattribute="ROIRotation" />
+          <dataset      name="resolution_x"       source="ndattribute"    ndattribute="ResolutionX" />
+          <dataset      name="resolution_y"       source="ndattribute"    ndattribute="ResolutionY" />
         </group><!-- /acquisition -->
     </group><!-- /process -->
 
