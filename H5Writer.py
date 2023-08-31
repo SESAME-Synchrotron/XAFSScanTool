@@ -42,7 +42,6 @@ class H5Writer (SEDWriter):
 			self.creator = self.configFile["fileCreator"]
 			# if statement is being used here for the future (for other beamlines), 
 			#hdf5 file may not contain fixed attributes
-			self.writerFileReady = self.configFile["EPICSandIOCs"]["writerFileReady"]
 			if "hdf5FixedAtt" in self.configFile: 
 				self.hdf5FixedAtts = self.configFile["hdf5FixedAtt"]
 			self.PVTimeout = self.configFile["EPICSandIOCs"]["EPICSPVTimeout"]
@@ -74,7 +73,6 @@ class H5Writer (SEDWriter):
 		"""
 
 		try:
-			PV(self.writerFileReady).put(0, wait = True) # tells scanning tool that h5 dxFile is not ready yet!!
 			log.info("Creating hdf5 (H5) file") 
 			self.h5File = h5py.File(self.fPath+"/"+self.fName, self.wMode.lower())
 			# adding h5 attributes to the created file 
