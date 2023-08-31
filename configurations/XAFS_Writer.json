@@ -7,12 +7,7 @@
 	{
 		"EPICSPVTimeout": 0.5,
 		"KETEKNumChannels": "D08-ES-SDD1:mca1.NORD",
-	    "writingNewFileTrigger":"BEATS:WRITER:NewFileTrigger",
-	    "writerStatus":"BEATS:WRITER:Status",
-	    "writerFileReady":"BEATS:WRITER:FileCreated",
-	    "writerRecivingTime": "BEATS:Writer:RecivingTime",
-	    "writerOverallTime" : "BEATS:Writer:OverallTime",
-	    "SEDTimeStamp" : "BEATS:SEDTimeStamp"
+		"KETEKNetValue":"D08-ES-SDD1:mca1.R0N"
 	},
 	"formatSettings":
 	{

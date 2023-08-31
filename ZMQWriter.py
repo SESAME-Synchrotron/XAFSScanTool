@@ -34,8 +34,6 @@ class ZMQWriter (H5Writer):
             self.ZMQSProtocol = self.ZMQSettings["ZMQSenderSettings"]["ZMQProtocol"]
             # put saender in its format i.e. "tcp://127.0.0.1:1559"
             self.ZMQSender = self.ZMQSProtocol + "://" + self.ZMQSender + ":" + self.ZMQSPort
-            self.WriterRecivingTime = self.configFile["EPICSandIOCs"]["writerRecivingTime"]
-            self.WriterOverallTime = self.configFile["EPICSandIOCs"]["writerOverallTime"]
 
         except:
             CLIMessage ("Problem reading the beamline configration file", "E")
@@ -105,7 +103,7 @@ class ZMQWriter (H5Writer):
                 dtype=_dtype, shape=len(numPointsX) * len(numPointsY))
 
                 # add attributes to the created dataset
-                for att in self.streamedDatasets[dataset]["attributes"]:
+                for att in rawDatasets[dataset]["attributes"]:
                     datasetOnH5.attrs[att]=rawDatasets[dataset]["attributes"][att]
         
         log.info("Raw datasets creation is done")
@@ -121,6 +119,7 @@ class ZMQWriter (H5Writer):
         self.scanTopo = scanTopo
 
         PV(self.prefix + self.PVs[self.PVs.index("TotalPoints")]).put(self.numXPoints * self.numYPoints, wait=True)
+        CLIMessage(f"Ready to collect {self.numXPoints * self.numYPoints} points", "I")
 
         self.h5file = h5py.File(GfullH5Path, 'a')  # Reopen in append mode
         self.data 		= "/exchange/xmap/data"
@@ -170,7 +169,7 @@ class ZMQWriter (H5Writer):
         else:
             PV(self.prefix + self.PVs[self.PVs.index("ReceivedPoints")]).put(self.totalPoints, wait=True)
             self.h5file[self.data][y, x, :] = data
-            self.h5file[self.pixel][self.totalPoints-1] = PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get(timeout=self.PVTimeout)
+            self.h5file[self.pixel][self.totalPoints-1] = PV(self.configFile["EPICSandIOCs"]["KETEKNetValue"]).get(timeout=self.PVTimeout)
             self.h5file[self.indexX][self.totalPoints-1] = x
             self.h5file[self.indexY][self.totalPoints-1] = y
             self.h5file[self.positionX][self.totalPoints-1] = self.arrayXPositions[x]
