@@ -100,7 +100,7 @@ class ZMQWriter (H5Writer):
 
                 # create datasets
                 datasetOnH5 = self.h5File.create_dataset(rawDatasets[dataset]["dataset"],
-                dtype=_dtype, shape=len(numPointsX) * len(numPointsY))
+                dtype=_dtype, shape=(len(numPointsY), len(numPointsX)))
 
                 # add attributes to the created dataset
                 for att in rawDatasets[dataset]["attributes"]:
@@ -154,7 +154,7 @@ class ZMQWriter (H5Writer):
         data = self.sock.recv_pyobj()
         if data == "timeout":
             self.h5file[self.data][y, x, :] = 0
-            self.h5file[self.pixel][self.totalPoints-1] = 0
+            self.h5file[self.pixel][y,x] = 0
             self.h5file[self.indexX][self.totalPoints-1] = x
             self.h5file[self.indexY][self.totalPoints-1] = y
             self.h5file[self.positionX][self.totalPoints-1] = self.arrayXPositions[x]
@@ -169,7 +169,7 @@ class ZMQWriter (H5Writer):
         else:
             PV(self.prefix + self.PVs[self.PVs.index("ReceivedPoints")]).put(self.totalPoints, wait=True)
             self.h5file[self.data][y, x, :] = data
-            self.h5file[self.pixel][self.totalPoints-1] = PV(self.configFile["EPICSandIOCs"]["KETEKNetValue"]).get(timeout=self.PVTimeout)
+            self.h5file[self.pixel][y:x] = PV(self.configFile["EPICSandIOCs"]["KETEKNetValue"]).get(timeout=self.PVTimeout)
             self.h5file[self.indexX][self.totalPoints-1] = x
             self.h5file[self.indexY][self.totalPoints-1] = y
             self.h5file[self.positionX][self.totalPoints-1] = self.arrayXPositions[x]
