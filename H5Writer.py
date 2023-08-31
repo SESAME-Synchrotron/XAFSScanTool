@@ -187,7 +187,7 @@ class H5Writer (SEDWriter):
 							"""
 							if elem.attrib.get("source") == "detector":
 								# get dimentiones of the frames from the driver to create hdf5 shape 
-								self.numChannels = 2048# PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get()
+								self.numChannels = PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get(timeout=self.PVTimeout)
 								#define and set hdf5 chuncks 
 								_chunks = True																														
 									
