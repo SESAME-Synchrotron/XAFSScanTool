@@ -82,7 +82,6 @@
 	<Attribute name="ExperimentType"           type="EPICS_PV" source="XAFS:ExperimentType"                              dbrtype="DBR_STRING" description="Experiment type"/>
 	<Attribute name="ExperimentalFileName"     type="EPICS_PV" source="XAFS:ExperimentalFileName"                        dbrtype="DBR_STRING" description="Experimental file name"/>
 	<Attribute name="ExperimentalFilePath"     type="EPICS_PV" source="XAFS:ExperimentalFilePath"                        dbrtype="DBR_STRING" description="Experimental file path"/>
-	<Attribute name="ElementEdge"              type="EPICS_PV" source="XAFS:ElementEdge"                                 dbrtype="DBR_STRING" description="Element edge"/>
 	<Attribute name="MonoName"                 type="EPICS_PV" source="XAFS:MonoName"                                    dbrtype="DBR_STRING" description="Mono name"/>
 	<Attribute name="MonoDSpacing"             type="EPICS_PV" source="XAFS:MonoDSpacing"                                dbrtype="DBR_NATIVE" description="Mono d-spacing"/>
 	<Attribute name="MonoSettlingTime"         type="EPICS_PV" source="XAFS:MonoSettlingTime"                            dbrtype="DBR_NATIVE" description="Mono settling time (s)"/>
@@ -93,10 +92,7 @@
 	<Attribute name="ScanStartTime"            type="EPICS_PV" source="XAFS:ScanStartTime"                               dbrtype="DBR_STRING" description="Scan start time (Y-m-d T HH:MM:SS)"/>
 	<Attribute name="ScanEndTime"              type="EPICS_PV" source="XAFS:ScanEndTime"                                 dbrtype="DBR_STRING" description="Scan end time (Y-m-d T HH:MM:SS)"/>
 	<Attribute name="ScanEnergy"               type="EPICS_PV" source="XAFS:ScanEnergy"                                  dbrtype="DBR_NATIVE" description="Scan energy (keV)"/>
-	<Attribute name="ScanEdgeEnergy"           type="EPICS_PV" source="XAFS:ScanEdgeEnergy"                              dbrtype="DBR_NATIVE" description="Scan edge energy"/>
 	<Attribute name="EnergyMode"               type="EPICS_PV" source="XAFS:EnergyMode"                                  dbrtype="DBR_STRING" description="Energy mode"/>
-	<Attribute name="SampleStoichiometry"      type="EPICS_PV" source="XAFS:SampleStoichiometry"                         dbrtype="DBR_STRING" description="Sample stoichiometry"/>
-	<Attribute name="SamplePreperation"        type="EPICS_PV" source="XAFS:SamplePreperation"                           dbrtype="DBR_STRING" description="Sample preperation"/>
 	<Attribute name="Sample"                   type="EPICS_PV" source="XAFS:Sample"                                      dbrtype="DBR_STRING" description="Sample name"/>
 	<Attribute name="UserComments"             type="EPICS_PV" source="XAFS:UserComments"                                dbrtype="DBR_STRING" description="User comments"/>
 	<Attribute name="ExperimentComments"       type="EPICS_PV" source="XAFS:ExperimentComments"                          dbrtype="DBR_STRING" description="Experiment comments"/>

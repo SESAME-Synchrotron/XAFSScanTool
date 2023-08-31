@@ -640,16 +640,12 @@
 		<group name="experiment">
 		  <dataset      name="proposal"                     source="ndattribute"      ndattribute="ProposalNumber" />
 		  <dataset      name="title"                        source="ndattribute"      ndattribute="ProposalTitle" />
-		  <dataset      name="element_edge"                 source="ndattribute"      ndattribute="ElementEdge" />
 		  <dataset      name="mono_name"                    source="ndattribute"      ndattribute="MonoName" />
 		  <dataset      name="mono_d_spacing"               source="ndattribute"      ndattribute="MonoDSpacing" />
 		  <dataset      name="mono_settling_time"           source="ndattribute"      ndattribute="MonoSettlingTime" />
 		  <dataset      name="beamline_collimation"         source="ndattribute"      ndattribute="BeamlineCollimation" />
-		  <dataset      name="scan_energy"                  source="ndattribute"      ndattribute="ScanEdgeEnergy" />
-		  <dataset      name="scan_edge_energy"             source="ndattribute"      ndattribute="ScanEnergy" />
+		  <dataset      name="scan_energy"                  source="ndattribute"      ndattribute="ScanEnergy" />
 		  <dataset      name="energy_mode"                  source="ndattribute"      ndattribute="EnergyMode" />
-		  <dataset      name="sample_stoichiometry"         source="ndattribute"      ndattribute="SampleStoichiometry" />
-		  <dataset      name="sample_preperation"           source="ndattribute"      ndattribute="SamplePreperation" />
 		  <group name="HarmonicRejection">
 			<dataset      name="mirror_coating_vcm"           source="ndattribute"      ndattribute="MirrorCoatingVCM" />
 			<dataset      name="mirror_coating_vfm"           source="ndattribute"      ndattribute="MirrorCoatingVFM" />
