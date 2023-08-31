@@ -4,22 +4,22 @@
 
 	<Attribute name="RingCurrent"              type="EPICS_PV" source="SRC01-DI-DCCT1:getDcctCurrent"                    dbrtype="DBR_NATIVE" description="Ring current (mA)"/>
 	<Attribute name="MachineStatus"            type="EPICS_PV" source="Machine:Status"                                   dbrtype="DBR_STRING" description="Machine Status"/>
-	<Attribute name="MachineEnergy"            type="EPICS_PV" source="SR-DI:getBeamEnergy"                              dbrtype="DBR_STRING" description="machine energy (GeV)"/>
+	<Attribute name="MachineEnergy"            type="EPICS_PV" source="SR-DI:getBeamEnergy"                              dbrtype="DBR_NATIVE" description="machine energy (GeV)"/>
 	<Attribute name="LifeTime"                 type="EPICS_PV" source="SR-DI:getBeamLifetime"                            dbrtype="DBR_STRING" description="Beam life time (H)"/>
-	<Attribute name="WM1Position"              type="EPICS_PV" source="D08-OP-WM1-STP-Y.RBV"                             dbrtype="DBR_STRING" description="Wire monitor1 position (mm)"/>
-	<Attribute name="WM2Position"              type="EPICS_PV" source="D08-OP-WM2-STP-Y.RBV"                             dbrtype="DBR_STRING" description="Wire monitor2 position (mm)"/>
-	<Attribute name="WM1Voltage"               type="EPICS_PV" source="D08-OP-WM1:getVoltage"                            dbrtype="DBR_STRING" description="Wire monitor1 voltage (V)"/>
-	<Attribute name="WM2Voltage"               type="EPICS_PV" source="D08-OP-WM2:getVoltage"                            dbrtype="DBR_STRING" description="Wire monitor2 voltage (V)"/>
-	<Attribute name="FIY1"                     type="EPICS_PV" source="D08-FE-FI-STP-Y1.RBV"                             dbrtype="DBR_STRING" description="Filter1 position (mm)"/>
-	<Attribute name="FIY2"                     type="EPICS_PV" source="D08-FE-FI-STP-Y2.RBV"                             dbrtype="DBR_STRING" description="Filter2 position (mm)"/>
-	<Attribute name="MirrorBenderVCMPressure"  type="EPICS_PV" source="D08-OP-VCM:getTransPressure"                      dbrtype="DBR_STRING" description="Mirror Bender VCM Pressure (bar)"/>
-	<Attribute name="MirrorBenderVFMPressure"  type="EPICS_PV" source="D08-OP-VFM:getTransPressure"                      dbrtype="DBR_STRING" description="Mirror Bender VFM Pressure (bar)"/>
-	<Attribute name="HighVoltagePowerSupply1"  type="EPICS_PV" source="D08-PS-HVPS1:calcRealVoltage"                     dbrtype="DBR_STRING" description="High Voltage Power Supply1 (V)"/>
-	<Attribute name="HighVoltagePowerSupply2"  type="EPICS_PV" source="D08-PS-HVPS2:calcRealVoltage"                     dbrtype="DBR_STRING" description="High Voltage Power Supply2 (V)"/>
-	<Attribute name="HighVoltagePowerSupply3"  type="EPICS_PV" source="D08-PS-HVPS3:calcRealVoltage"                     dbrtype="DBR_STRING" description="High Voltage Power Supply3 (V)"/>
-	<Attribute name="HVPS1Current"             type="EPICS_PV" source="D08-PS-HVPS1:calcRealCurrent"                     dbrtype="DBR_STRING" description="High Voltage Power Supply1 Current (A)"/>
-	<Attribute name="HVPS2Current"             type="EPICS_PV" source="D08-PS-HVPS2:calcRealCurrent"                     dbrtype="DBR_STRING" description="High Voltage Power Supply2 Current (A)"/>
-	<Attribute name="HVPS3Current"             type="EPICS_PV" source="D08-PS-HVPS3:calcRealCurrent"                     dbrtype="DBR_STRING" description="High Voltage Power Supply3 Current (A)"/>
+	<Attribute name="WM1Position"              type="EPICS_PV" source="D08-OP-WM1-STP-Y.RBV"                             dbrtype="DBR_NATIVE" description="Wire monitor1 position (mm)"/>
+	<Attribute name="WM2Position"              type="EPICS_PV" source="D08-OP-WM2-STP-Y.RBV"                             dbrtype="DBR_NATIVE" description="Wire monitor2 position (mm)"/>
+	<Attribute name="WM1Voltage"               type="EPICS_PV" source="D08-OP-WM1:getVoltage"                            dbrtype="DBR_NATIVE" description="Wire monitor1 voltage (V)"/>
+	<Attribute name="WM2Voltage"               type="EPICS_PV" source="D08-OP-WM2:getVoltage"                            dbrtype="DBR_NATIVE" description="Wire monitor2 voltage (V)"/>
+	<Attribute name="FIY1"                     type="EPICS_PV" source="D08-FE-FI-STP-Y1.RBV"                             dbrtype="DBR_NATIVE" description="Filter1 position (mm)"/>
+	<Attribute name="FIY2"                     type="EPICS_PV" source="D08-FE-FI-STP-Y2.RBV"                             dbrtype="DBR_NATIVE" description="Filter2 position (mm)"/>
+	<Attribute name="MirrorBenderVCMPressure"  type="EPICS_PV" source="D08-OP-VCM:getTransPressure"                      dbrtype="DBR_NATIVE" description="Mirror Bender VCM Pressure (bar)"/>
+	<Attribute name="MirrorBenderVFMPressure"  type="EPICS_PV" source="D08-OP-VFM:getTransPressure"                      dbrtype="DBR_NATIVE" description="Mirror Bender VFM Pressure (bar)"/>
+	<Attribute name="HighVoltagePowerSupply1"  type="EPICS_PV" source="D08-PS-HVPS1:calcRealVoltage"                     dbrtype="DBR_NATIVE" description="High Voltage Power Supply1 (V)"/>
+	<Attribute name="HighVoltagePowerSupply2"  type="EPICS_PV" source="D08-PS-HVPS2:calcRealVoltage"                     dbrtype="DBR_NATIVE" description="High Voltage Power Supply2 (V)"/>
+	<Attribute name="HighVoltagePowerSupply3"  type="EPICS_PV" source="D08-PS-HVPS3:calcRealVoltage"                     dbrtype="DBR_NATIVE" description="High Voltage Power Supply3 (V)"/>
+	<Attribute name="HVPS1Current"             type="EPICS_PV" source="D08-PS-HVPS1:calcRealCurrent"                     dbrtype="DBR_NATIVE" description="High Voltage Power Supply1 Current (A)"/>
+	<Attribute name="HVPS2Current"             type="EPICS_PV" source="D08-PS-HVPS2:calcRealCurrent"                     dbrtype="DBR_NATIVE" description="High Voltage Power Supply2 Current (A)"/>
+	<Attribute name="HVPS3Current"             type="EPICS_PV" source="D08-PS-HVPS3:calcRealCurrent"                     dbrtype="DBR_NATIVE" description="High Voltage Power Supply3 Current (A)"/>
 	<Attribute name="OPVirtualMotorX"          type="EPICS_PV" source="D08-ES-TAB-X:t2.D"                                dbrtype="DBR_STRING" description="X virtual motor position(mm)"/>
 	<Attribute name="OPVirtualMotorY"          type="EPICS_PV" source="D08-ES-TAB-Y:t2.D"                                dbrtype="DBR_STRING" description="Y virtual motor position(mm)"/>
 	<Attribute name="OPVirtualMotorYaw"        type="EPICS_PV" source="D08-ES-TAB-X:t2.E"                                dbrtype="DBR_STRING" description="Yaw virtual motor position(mm)"/>
@@ -68,16 +68,10 @@
 	<Attribute name="VFM-XPosition"            type="EPICS_PV" source="D08-OP-VFM-STP-X.RBV"                             dbrtype="DBR_STRING" description="VFM  X motor position(mm)"/>
 	<Attribute name="IonizationChamber0AvgVoltage"     type="EPICS_PV" source="D08-ES-IC0:getAverageVoltage"             dbrtype="DBR_STRING" description="Ionization chamber0 voltage (V)"/>
 	<Attribute name="IonizationChamber0Voltage"        type="EPICS_PV" source="D08-ES-IC0:getVoltage"                    dbrtype="DBR_STRING" description="Ionization chamber0 avg. voltage (V)"/>
-	<Attribute name="IonizationChamber0Current"        type="EPICS_PV" source="D08-ES-IC0:getCurrent"                    dbrtype="DBR_STRING" description="Ionization chamber0 current (A)"/>
-	<Attribute name="IonizationChamber0AvgCurrent"     type="EPICS_PV" source="D08-ES-IC0:getAverageCurrent"             dbrtype="DBR_STRING" description="Ionization chamber0 avg. current (A)"/>
 	<Attribute name="IonizationChamber1Voltage"        type="EPICS_PV" source="D08-ES-IC1:getVoltage"                    dbrtype="DBR_STRING" description="Ionization chamber1 voltage (V)"/>
 	<Attribute name="IonizationChamber1AvgVoltage"     type="EPICS_PV" source="D08-ES-IC1:getAverageVoltage"             dbrtype="DBR_STRING" description="Ionization chamber1 avg. voltage (V)"/>
-	<Attribute name="IonizationChamber1Current"        type="EPICS_PV" source="D08-ES-IC1:getCurrent"                    dbrtype="DBR_STRING" description="Ionization chamber1 current (A)"/>
-	<Attribute name="IonizationChamber1AvgCurrent"     type="EPICS_PV" source="D08-ES-IC1:getAverageCurrent"             dbrtype="DBR_STRING" description="Ionization chamber1 avg. current (A)"/>
 	<Attribute name="IonizationChamber2Voltage"        type="EPICS_PV" source="D08-ES-IC2:getVoltage"                    dbrtype="DBR_STRING" description="Ionization chamber2 voltage (V)"/>
 	<Attribute name="IonizationChamber2AvgVoltage"     type="EPICS_PV" source="D08-ES-IC2:getAverageVoltage"             dbrtype="DBR_STRING" description="Ionization chamber2 avg. voltage (V)"/>
-	<Attribute name="IonizationChamber2Current"        type="EPICS_PV" source="D08-ES-IC2:getCurrent"                    dbrtype="DBR_STRING" description="Ionization chamber2 current (A)"/>
-	<Attribute name="IonizationChamber2AvgCurrent"     type="EPICS_PV" source="D08-ES-IC2:getAverageCurrent"             dbrtype="DBR_STRING" description="Ionization chamber2 avg. current (A)"/>
 
 	<Attribute name="ExperimentType"           type="EPICS_PV" source="XAFS:ExperimentType"                              dbrtype="DBR_STRING" description="Experiment type"/>
 	<Attribute name="ExperimentalFileName"     type="EPICS_PV" source="XAFS:ExperimentalFileName"                        dbrtype="DBR_STRING" description="Experimental file name"/>
