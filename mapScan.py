@@ -45,7 +45,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 		ZMQSPort = ZMQSettings["ZMQPort"]
 		ZMQSProtocol = ZMQSettings["ZMQProtocol"]
 		ZMQSender = ZMQSProtocol + "://" + ZMQSender + ":" + ZMQSPort
-
+		self.numChannels = PV(self.h5cfg["EPICSandIOCs"]["KETEKNumChannels"]).get(timeout=0.5)
 		context = zmq.Context()
 		self.sock = context.socket(zmq.PUB)
 		self.sock.connect(ZMQSender)  	# Connect instead of bind for the server
@@ -189,10 +189,12 @@ class MAPSCAN (XAFS_XRFSTEP):
 					# print(mcaData)
 					try:
 						# self.sock.send_pyobj(list(range(0,2048)))
-						self.sock.send_pyobj(list(mcaData[:2048]))
+						self.sock.send_pyobj(list(mcaData[:self.numChannels]))
 
 					except:
 						self.sock.send_pyobj("timeout")
+				self.closeH5File()
+
 		else:
 			if self.scanTopology == 'Snake':
 				xScanPoints, yScanPoints, xScanIndex, yScanIndex = self.snakeScanPoints(self.xRange,self.yRange)
@@ -215,10 +217,11 @@ class MAPSCAN (XAFS_XRFSTEP):
 				# print(mcaData)
 				try:
 					# self.sock.send_pyobj(list(range(0,2048)))
-					self.sock.send_pyobj(list(mcaData[:2048]))
+					self.sock.send_pyobj(list(mcaData[:self.numChannels]))
 
 				except:
 					self.sock.send_pyobj("timeout")	
+			self.closeH5File()
 
 		time.sleep(1)
 		print("#########################################################################")
@@ -262,20 +265,25 @@ class MAPSCAN (XAFS_XRFSTEP):
 		return (expData["KETEK-MCA1"])
 
 	def startZMQ(self, numPointsX, numPointsY, scanTopo = "seq", arrayIndexX = None, arrayIndexY=None):
+		self.writer.createRawDatasets(numPointsX, numPointsY)
 		self.writer.createDefaultDatasets(numPointsX, numPointsY)
 		self.writer.receiveData(numPointsX, numPointsY, scanTopo, arrayIndexX, arrayIndexY)
 		PV("XAFS:ScanEndTime").put(str(time.strftime('%Y-%m-%dT%H:%M:%S')), wait=True)
-		self.writer.closeFile()
 
 	def setupH5DXLayout(self):
 		self.writer = ZMQWriter(self.h5FileName, self.BasePath, h5CfgFile)
 		self.writer.createH5File()
 		self.writer.setupH5DXLayout()
 
+	def closeH5File(self):
+		closeFile = threading.Thread(target=self.writer.closeFile(), args=())
+		closeFile.start()
+		closeFile.join()
+
 	def signal_handler(self, sig, frame):
 		self.sock.send_pyobj("scanAborted")
 		PV("XAFS:ScanEndTime").put(str(time.strftime('%Y-%m-%dT%H:%M:%S')), wait=True)
-		self.writer.closeFile()
+		self.closeH5File()
 		super().signal_handler(self, sig, frame)
 
 	def writePVS(self):
@@ -337,7 +345,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 		PV(prefix + PVs[PVs.index("ScanEnergy")]).put(self.cfg['Energy'], wait=True)
 		# PV(prefix + PVs[PVs.index("ScanEdgeEnergy")]).put(, wait=True)
 		# PV(prefix + PVs[PVs.index("EnergyMode")]).put(, wait=True)
-		PV(prefix + PVs[PVs.index("SampleStoichiometry")]).put(self.cfg['ExpMetaData'][2]['stoichiometry'], wait=True)
-		PV(prefix + PVs[PVs.index("SamplePreperation")]).put(self.cfg['ExpMetaData'][3]['samplePrep'], wait=True)
+		# PV(prefix + PVs[PVs.index("SampleStoichiometry")]).put(self.cfg['ExpMetaData'][2]['stoichiometry'], wait=True)
+		# PV(prefix + PVs[PVs.index("SamplePreperation")]).put(self.cfg['ExpMetaData'][3]['samplePrep'], wait=True)
 		PV(prefix + PVs[PVs.index("UserComments")]).put(self.cfg['ExpMetaData'][7]['userCom'], wait=True)
 		PV(prefix + PVs[PVs.index("ExperimentComments")]).put(self.cfg['ExpMetaData'][8]['expCom'], wait=True)
