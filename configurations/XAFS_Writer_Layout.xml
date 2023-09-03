@@ -31,10 +31,10 @@
 		  <dataset      name="life_time"      source="ndattribute"  ndattribute="LifeTime"      when="OnFileClose">
 			<attribute  name="units"          source="constant"     value="H"         type="string" />
 		  </dataset>
-	  	</group><!-- /source -->
+		  </group><!-- /source -->
 
 		<group name="detection_system">
-	  	</group><!-- /detection_system -->
+		  </group><!-- /detection_system -->
 
 		<group name="wire_monitors">
 		  <dataset      name="wm1_position"    source="ndattribute"   ndattribute="WM1Position" when="OnFileClose">
@@ -488,7 +488,7 @@
 				<dataset 		name="photon_shutter" 	source="ndattribute" 	ndattribute="OPVA_PhotonShutterIonPump" when="OnFileClose">
 					<attribute 	name="units" 			source="constant" 		value="mbar" type="string" />
 				</dataset>
-		  	</group> <!-- pumps -->
+			  </group> <!-- pumps -->
 
 			<group name="gauges">
 				<dataset 		name="vcm" 			source="ndattribute" ndattribute="OP_VCMGauge" when="OnFileClose">
@@ -667,6 +667,7 @@
 			</group><!-- /optics_hutch -->
 		  </group><!-- /optics -->
 		</group> <!-- /cooling -->
+	  </group><!-- /instrument -->
 
 		<group name="sample">
 			<group name="experiment">
@@ -694,7 +695,6 @@
 			<dataset      name="user_comments"        source="ndattribute"      ndattribute="UserComments" />
 			</group><!-- /experimenter -->
 		</group><!-- /sample -->
-	  </group><!-- /instrument -->
 	</group><!-- /measurement -->
 
 	<group name="process">

@@ -67,11 +67,11 @@
 	<Attribute name="VFM-Y3Position"           type="EPICS_PV" source="D08-OP-VFM-STP-Y3.RBV"                            dbrtype="DBR_STRING" description="VFM  Y3 motor position"/>
 	<Attribute name="VFM-XPosition"            type="EPICS_PV" source="D08-OP-VFM-STP-X.RBV"                             dbrtype="DBR_STRING" description="VFM  X motor position"/>
 	<Attribute name="INSITU"            	   type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSX1.RBV"                dbrtype="DBR_STRING" description="DCM in-situ position"/>
-	<Attribute name="Crystal1Y"            	   type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSX1.RBV"                dbrtype="DBR_STRING" description="DCM crystal1 Y position"/>
-	<Attribute name="Crystal1Roll"             type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSX1.RBV"                dbrtype="DBR_STRING" description="DCM crystal1 roll"/>
-	<Attribute name="Crystal2Roll"             type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSX1.RBV"                dbrtype="DBR_STRING" description="DCM crystal2 roll"/>
-	<Attribute name="Crystal2Pitch"            type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSX1.RBV"                dbrtype="DBR_STRING" description="DCM crystal2 pitch"/>
-	<Attribute name="Theta"            	   	   type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSX1.RBV"                dbrtype="DBR_STRING" description="DCM theta"/>
+	<Attribute name="Crystal1Y"            	   type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSY1.RBV"                dbrtype="DBR_STRING" description="DCM crystal1 Y position"/>
+	<Attribute name="Crystal1Roll"             type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-ROTX1.RBV"                dbrtype="DBR_STRING" description="DCM crystal1 roll"/>
+	<Attribute name="Crystal2Roll"             type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-ROLZ1.RBV"                dbrtype="DBR_STRING" description="DCM crystal2 roll"/>
+	<Attribute name="Crystal2Pitch"            type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-ROLZ2.RBV"                dbrtype="DBR_STRING" description="DCM crystal2 pitch"/>
+	<Attribute name="Theta"            	   	   type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-PITZ2.RBV"                dbrtype="DBR_STRING" description="DCM theta"/>
 	<Attribute name="IonizationChamber0AvgVoltage"     type="EPICS_PV" source="D08-ES-IC0:getAverageVoltage"             dbrtype="DBR_STRING" description="Ionization chamber0 voltage (V)"/>
 	<Attribute name="IonizationChamber0Voltage"        type="EPICS_PV" source="D08-ES-IC0:getVoltage"                    dbrtype="DBR_STRING" description="Ionization chamber0 avg. voltage (V)"/>
 	<Attribute name="IonizationChamber1Voltage"        type="EPICS_PV" source="D08-ES-IC1:getVoltage"                    dbrtype="DBR_STRING" description="Ionization chamber1 voltage (V)"/>
