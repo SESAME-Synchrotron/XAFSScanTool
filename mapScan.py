@@ -193,7 +193,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 
 					except:
 						self.sock.send_pyobj("timeout")
-				self.closeH5File()
+			self.closeH5File()
 
 		else:
 			if self.scanTopology == 'Snake':
