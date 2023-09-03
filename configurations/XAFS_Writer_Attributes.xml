@@ -38,34 +38,34 @@
 	<Attribute name="WSLT-YD"                          type="EPICS_PV" source="D08-FE-WSLT-STP-YD.RBV"                   dbrtype="DBR_STRING" description="White beam slit YD position"/>
 	<Attribute name="WSLT-XW"                          type="EPICS_PV" source="D08-FE-WSLT-STP-XW.RBV"                   dbrtype="DBR_STRING" description="White beam slit XW position"/>
 	<Attribute name="WSLT-XR"                          type="EPICS_PV" source="D08-FE-WSLT-STP-XR.RBV"                   dbrtype="DBR_STRING" description="White beam slit XR position"/>
-	<Attribute name="MSLT-HorizontalSizePosition"      type="EPICS_PV" source="D08-FE-MSLT-X:t2.C"                       dbrtype="DBR_STRING" description="Mono beam slit horizontal size position"/>
-	<Attribute name="MSLT-HorizontalCenterPosition"    type="EPICS_PV" source="D08-FE-MSLT-X:t2.D"                       dbrtype="DBR_STRING" description="Mono beam slit horizontal center position"/>
-	<Attribute name="MSLT-VerticalSizePosition"        type="EPICS_PV" source="D08-FE-MSLT-Y:t2.C"                       dbrtype="DBR_STRING" description="Mono beam slit vertical size position"/>
-	<Attribute name="MSLT-VerticalCenterPosition"      type="EPICS_PV" source="D08-FE-MSLT-Y:t2.D"                       dbrtype="DBR_STRING" description="Mono beam slit vertical center position"/>
-	<Attribute name="MSLT-YU"                          type="EPICS_PV" source="D08-FE-MSLT-STP-YU.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit YU position"/>
-	<Attribute name="MSLT-YD"                          type="EPICS_PV" source="D08-FE-MSLT-STP-YD.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit YD position"/>
-	<Attribute name="MSLT-XW"                          type="EPICS_PV" source="D08-FE-MSLT-STP-XW.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit XW position"/>
-	<Attribute name="MSLT-XR"                          type="EPICS_PV" source="D08-FE-MSLT-STP-XR.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit XR position"/>
+	<Attribute name="MSLT-HorizontalSizePosition"      type="EPICS_PV" source="D08-OP-MSLT-X:t2.C"                       dbrtype="DBR_STRING" description="Mono beam slit horizontal size position"/>
+	<Attribute name="MSLT-HorizontalCenterPosition"    type="EPICS_PV" source="D08-OP-MSLT-X:t2.D"                       dbrtype="DBR_STRING" description="Mono beam slit horizontal center position"/>
+	<Attribute name="MSLT-VerticalSizePosition"        type="EPICS_PV" source="D08-OP-MSLT-Y:t2.C"                       dbrtype="DBR_STRING" description="Mono beam slit vertical size position"/>
+	<Attribute name="MSLT-VerticalCenterPosition"      type="EPICS_PV" source="D08-OP-MSLT-Y:t2.D"                       dbrtype="DBR_STRING" description="Mono beam slit vertical center position"/>
+	<Attribute name="MSLT-YU"                          type="EPICS_PV" source="D08-OP-MSLT-STP-YU.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit YU position"/>
+	<Attribute name="MSLT-YD"                          type="EPICS_PV" source="D08-OP-MSLT-STP-YD.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit YD position"/>
+	<Attribute name="MSLT-XW"                          type="EPICS_PV" source="D08-OP-MSLT-STP-XW.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit XW position"/>
+	<Attribute name="MSLT-XR"                          type="EPICS_PV" source="D08-OP-MSLT-STP-XR.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit XR position"/>
 	<Attribute name="SMP-XPosition"            type="EPICS_PV" source="D08-ES-SMP-STP-X.RBV"                             dbrtype="DBR_STRING" description="Sample X motor position"/>
 	<Attribute name="SMP-YPosition"            type="EPICS_PV" source="D08-ES-SMP-STP-Y.RBV"                             dbrtype="DBR_STRING" description="Sample Y motor position"/>
 	<Attribute name="SMP-ZPosition"            type="EPICS_PV" source="D08-ES-SMP-STP-Z.RBV"                             dbrtype="DBR_STRING" description="Sample Z motor position"/>
 	<Attribute name="SMP-RotationPosition"     type="EPICS_PV" source="D08-ES-SMP-STP-ROT.RBV"                           dbrtype="DBR_STRING" description="Sample rotation motor position"/>
 	<Attribute name="SWXPosition"              type="EPICS_PV" source="D08-ES-SMP-STP-SWX.RBV"                           dbrtype="DBR_STRING" description="Sample SWX motor position"/>
-	<Attribute name="SWYPosition"              type="EPICS_PV" source="D08-ES-SMP-STP-SWY.RBV"                           dbrtype="DBR_STRING" description="Sample SWY motor position"/>
+	<Attribute name="SWYPosition"              type="EPICS_PV" source="D08-ES-SMP-STP-SWZ.RBV"                           dbrtype="DBR_STRING" description="Sample SWY motor position"/>
 	<Attribute name="VCM-VirtualMotorY"        type="EPICS_PV" source="D08-OP-VCM:t2.D"                                  dbrtype="DBR_STRING" description="VCM Y virtual motor position"/>
 	<Attribute name="VCM-VirtualMotorPitch"    type="EPICS_PV" source="D08-OP-VCM:t2.E"                                  dbrtype="DBR_STRING" description="VCM Pitch virtual motor position"/>
 	<Attribute name="VCM-VirtualMotorRoll"     type="EPICS_PV" source="D08-OP-VCM:t2.F"                                  dbrtype="DBR_STRING" description="VCM Roll virtual motor position"/>
 	<Attribute name="VCM-Y1Position"           type="EPICS_PV" source="D08-OP-VCM-STP-Y1.RBV"                            dbrtype="DBR_STRING" description="VCM  Y1 motor position"/>
 	<Attribute name="VCM-Y2Position"           type="EPICS_PV" source="D08-OP-VCM-STP-Y2.RBV"                            dbrtype="DBR_STRING" description="VCM  Y2 motor position"/>
 	<Attribute name="VCM-Y3Position"           type="EPICS_PV" source="D08-OP-VCM-STP-Y3.RBV"                            dbrtype="DBR_STRING" description="VCM  Y3 motor position"/>
-	<Attribute name="VCM-XPosition"            type="EPICS_PV" source="D08-OP-VCM-STP-X.RBV"                             dbrtype="DBR_STRING" description="VCM  X motor position"/>
+	<Attribute name="VCM-XPosition"            type="EPICS_PV" source="D08-OP-VCM-STP-X1.RBV"                             dbrtype="DBR_STRING" description="VCM  X motor position"/>
 	<Attribute name="VFM-VirtualMotorY"        type="EPICS_PV" source="D08-OP-VFM:t2.D"                                  dbrtype="DBR_STRING" description="VFM Y virtual motor position"/>
 	<Attribute name="VFM-VirtualMotorPitch"    type="EPICS_PV" source="D08-OP-VFM:t2.E"                                  dbrtype="DBR_STRING" description="VFM Pitch virtual motor position"/>
 	<Attribute name="VFM-VirtualMotorRoll"     type="EPICS_PV" source="D08-OP-VFM:t2.F"                                  dbrtype="DBR_STRING" description="VFM Roll virtual motor position"/>
 	<Attribute name="VFM-Y1Position"           type="EPICS_PV" source="D08-OP-VFM-STP-Y1.RBV"                            dbrtype="DBR_STRING" description="VFM  Y1 motor position"/>
 	<Attribute name="VFM-Y2Position"           type="EPICS_PV" source="D08-OP-VFM-STP-Y2.RBV"                            dbrtype="DBR_STRING" description="VFM  Y2 motor position"/>
 	<Attribute name="VFM-Y3Position"           type="EPICS_PV" source="D08-OP-VFM-STP-Y3.RBV"                            dbrtype="DBR_STRING" description="VFM  Y3 motor position"/>
-	<Attribute name="VFM-XPosition"            type="EPICS_PV" source="D08-OP-VFM-STP-X.RBV"                             dbrtype="DBR_STRING" description="VFM  X motor position"/>
+	<Attribute name="VFM-XPosition"            type="EPICS_PV" source="D08-OP-VFM-STP-X1.RBV"                             dbrtype="DBR_STRING" description="VFM  X motor position"/>
 	<Attribute name="INSITU"            	   type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSX1.RBV"                dbrtype="DBR_STRING" description="DCM in-situ position"/>
 	<Attribute name="Crystal1Y"            	   type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSY1.RBV"                dbrtype="DBR_STRING" description="DCM crystal1 Y position"/>
 	<Attribute name="Crystal1Roll"             type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-ROTX1.RBV"                dbrtype="DBR_STRING" description="DCM crystal1 roll"/>
