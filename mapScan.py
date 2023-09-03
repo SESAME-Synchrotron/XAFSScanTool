@@ -50,11 +50,12 @@ class MAPSCAN (XAFS_XRFSTEP):
 		self.sock = context.socket(zmq.PUB)
 		self.sock.connect(ZMQSender)  	# Connect instead of bind for the server
 
-		self.writePVS()
+		self.writePVS()		# write the config data in PVs
+
 		""" setup h5 file layout """
 		h5Layout = threading.Thread(target=self.setupH5DXLayout, args=())
 		h5Layout.start()
-		h5Layout.join()
+		h5Layout.join()		# waiting until finishing setup h5 layout
 
 		self.checkMapScanPara()
 		self.MoveDCM(self.scanEnergy)
@@ -173,8 +174,9 @@ class MAPSCAN (XAFS_XRFSTEP):
 		if self.scanTopology == 'Sequential':
 
 			""" start zmq reciever socket """
-			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,), daemon=True)
+			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,), daemon=True)		# run ZMQ reciever socket in background
 			zmqRec.start()
+
 			overAllPointsCounter = len(self.xRange) * len(self.yRange)
 			for y in self.yRange:
 				self.checkPause()
@@ -189,10 +191,10 @@ class MAPSCAN (XAFS_XRFSTEP):
 					# print(mcaData)
 					try:
 						# self.sock.send_pyobj(list(range(0,2048)))
-						self.sock.send_pyobj(list(mcaData[:self.numChannels]))
+						self.sock.send_pyobj(list(mcaData[:self.numChannels]))		# send MCA data array with the dimension of #channels
 
 					except:
-						self.sock.send_pyobj("timeout")
+						self.sock.send_pyobj("timeout")		# parse "timeout" if PV not acquired
 			self.closeH5File()
 
 		else:
@@ -203,7 +205,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 			overAllPointsCounter = len(xScanPoints)
 
 			""" start zmq reciever socket """
-			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,self.scanTopology, xScanIndex, yScanIndex,), daemon=True)
+			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,self.scanTopology, xScanIndex, yScanIndex,), daemon=True)	# run ZMQ reciever socket in background
 			zmqRec.start()
 
 			for i in range (len(xScanPoints)):
@@ -217,10 +219,10 @@ class MAPSCAN (XAFS_XRFSTEP):
 				# print(mcaData)
 				try:
 					# self.sock.send_pyobj(list(range(0,2048)))
-					self.sock.send_pyobj(list(mcaData[:self.numChannels]))
+					self.sock.send_pyobj(list(mcaData[:self.numChannels]))		# send MCA data array with the dimension of #channels
 
 				except:
-					self.sock.send_pyobj("timeout")	
+					self.sock.send_pyobj("timeout")		# parse "timeout" if PV not acquired
 			self.closeH5File()
 
 		time.sleep(1)
@@ -278,10 +280,10 @@ class MAPSCAN (XAFS_XRFSTEP):
 	def closeH5File(self):
 		closeFile = threading.Thread(target=self.writer.closeFile(), args=())
 		closeFile.start()
-		closeFile.join()
+		closeFile.join()		# waiting until finishing closing file
 
 	def signal_handler(self, sig, frame):
-		self.sock.send_pyobj("scanAborted")
+		self.sock.send_pyobj("scanAborted")		# parse scanAborted if the scan has been aborted
 		PV("XAFS:ScanEndTime").put(str(time.strftime('%Y-%m-%dT%H:%M:%S')), wait=True)
 		self.closeH5File()
 		super().signal_handler(self, sig, frame)
@@ -296,6 +298,8 @@ class MAPSCAN (XAFS_XRFSTEP):
 		"""
 
 		CLIMessage("writePVs...", "I")
+		log.info("writePVs...")
+
 		prefix = "XAFS:"
 		PVs = self.h5cfg["writerPVs"]
 		PV(prefix + PVs[PVs.index("ExperimentType")]).put(self.cfg['expType'], wait=True)
@@ -349,3 +353,6 @@ class MAPSCAN (XAFS_XRFSTEP):
 		# PV(prefix + PVs[PVs.index("SamplePreperation")]).put(self.cfg['ExpMetaData'][3]['samplePrep'], wait=True)
 		PV(prefix + PVs[PVs.index("UserComments")]).put(self.cfg['ExpMetaData'][7]['userCom'], wait=True)
 		PV(prefix + PVs[PVs.index("ExperimentComments")]).put(self.cfg['ExpMetaData'][8]['expCom'], wait=True)
+
+		CLIMessage("Finishing writePVs...", "I")
+		log.info("Finishing writePVs...")		
