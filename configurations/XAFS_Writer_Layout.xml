@@ -667,37 +667,37 @@
 			</group><!-- /optics_hutch -->
 		  </group><!-- /optics -->
 		</group> <!-- /cooling -->
+
+		<group name="sample">
+			<group name="experiment">
+				<dataset      name="proposal"                     source="ndattribute"      ndattribute="ProposalNumber" />
+				<dataset      name="title"                        source="ndattribute"      ndattribute="ProposalTitle" />
+				<dataset      name="mono_name"                    source="ndattribute"      ndattribute="MonoName" />
+				<dataset      name="mono_d_spacing"               source="ndattribute"      ndattribute="MonoDSpacing" />
+				<dataset      name="mono_settling_time"           source="ndattribute"      ndattribute="MonoSettlingTime" />
+				<dataset      name="beamline_collimation"         source="ndattribute"      ndattribute="BeamlineCollimation" />
+				<dataset      name="scan_energy"                  source="ndattribute"      ndattribute="ScanEnergy" />
+				<dataset      name="energy_mode"                  source="ndattribute"      ndattribute="EnergyMode" />
+				<dataset      name="experiment_comments"  source="ndattribute"      ndattribute="ExperimentComments" />
+				<dataset      name="sample_name"   source="ndattribute" ndattribute="Sample" />
+				<dataset      name="exp_file_name" source="ndattribute" ndattribute="ExperimentalFileName" />
+				<dataset      name="exp_file_path" source="ndattribute" ndattribute="ExperimentalFilePath" />
+				<group name="HarmonicRejection">
+					<dataset      name="mirror_coating_vcm"           source="ndattribute"      ndattribute="MirrorCoatingVCM" />
+					<dataset      name="mirror_coating_vfm"           source="ndattribute"      ndattribute="MirrorCoatingVFM" />
+				</group><!-- /HarmonicRejection -->
+			</group><!-- /experiment -->
+
+			<group name="experimenter">
+			<dataset      name="personal_info"        source="ndattribute"      ndattribute="PersonalInfo" />
+			<dataset      name="email"                source="ndattribute"      ndattribute="UserEmail" />
+			<dataset      name="user_comments"        source="ndattribute"      ndattribute="UserComments" />
+			</group><!-- /experimenter -->
+		</group><!-- /sample -->
 	  </group><!-- /instrument -->
+	</group><!-- /measurement -->
 
-	  <group name="sample">
-		<group name="experiment">
-		  <dataset      name="proposal"                     source="ndattribute"      ndattribute="ProposalNumber" />
-		  <dataset      name="title"                        source="ndattribute"      ndattribute="ProposalTitle" />
-		  <dataset      name="mono_name"                    source="ndattribute"      ndattribute="MonoName" />
-		  <dataset      name="mono_d_spacing"               source="ndattribute"      ndattribute="MonoDSpacing" />
-		  <dataset      name="mono_settling_time"           source="ndattribute"      ndattribute="MonoSettlingTime" />
-		  <dataset      name="beamline_collimation"         source="ndattribute"      ndattribute="BeamlineCollimation" />
-		  <dataset      name="scan_energy"                  source="ndattribute"      ndattribute="ScanEnergy" />
-		  <dataset      name="energy_mode"                  source="ndattribute"      ndattribute="EnergyMode" />
-		  <dataset      name="experiment_comments"  source="ndattribute"      ndattribute="ExperimentComments" />
-		  <dataset        name="sample_name"   source="ndattribute" ndattribute="Sample" />
-		  <group name="HarmonicRejection">
-			<dataset      name="mirror_coating_vcm"           source="ndattribute"      ndattribute="MirrorCoatingVCM" />
-			<dataset      name="mirror_coating_vfm"           source="ndattribute"      ndattribute="MirrorCoatingVFM" />
-		  </group><!-- /HarmonicRejection -->
-		</group><!-- /experiment -->
-
-		<group name="experimenter">
-		  <dataset      name="personal_info"        source="ndattribute"      ndattribute="PersonalInfo" />
-		  <dataset      name="email"                source="ndattribute"      ndattribute="UserEmail" />
-		  <dataset      name="user_comments"        source="ndattribute"      ndattribute="UserComments" />
-		</group><!-- /experimenter -->
-
-		<dataset        name="exp_file_name" source="ndattribute" ndattribute="ExperimentalFileName" />
-		<dataset        name="exp_file_path" source="ndattribute" ndattribute="ExperimentalFilePath" />
-	  </group><!-- /sample -->
-
-	  <group name="process">
+	<group name="process">
 		<group name="data_writing">
 		  <dataset      name="writer_name"      source="constant"   value="XAFS/XRF-ZMQ-DXFile-Writer" type="string" />
 		  <dataset      name="writer_version"   source="constant"   value="1.0 Released"               type="string" />
@@ -760,9 +760,5 @@
 
 		</group><!-- /acquisition -->
 	</group><!-- /process -->
-
-	<group name="defaults" ndattr_default="true">
-	</group><!-- /defaults -->
-	</group><!-- /measurement -->
 
 </hdf5_layout>
