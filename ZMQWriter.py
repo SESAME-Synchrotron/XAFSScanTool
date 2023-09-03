@@ -62,7 +62,7 @@ class ZMQWriter (H5Writer):
 
             # create datasets
             datasetOnH5 = self.h5File.create_dataset(defaultDatasets[dataset]["dataset"],
-            dtype=defaultDatasets[dataset]["dtype"], shape=len(numPointsX) * len(numPointsY))
+            dtype=defaultDatasets[dataset]["dtype"], shape=len(numPointsX) * len(numPointsY), chunks=True)
 
             # add attributes to the created dataset
             for att in defaultDatasets[dataset]["attributes"]:
@@ -100,7 +100,7 @@ class ZMQWriter (H5Writer):
 
                 # create datasets
                 datasetOnH5 = self.h5File.create_dataset(rawDatasets[dataset]["dataset"],
-                dtype=_dtype, shape=(len(numPointsY), len(numPointsX)))
+                dtype=_dtype, shape=(len(numPointsY), len(numPointsX)), chunks=True)
 
                 # add attributes to the created dataset
                 for att in rawDatasets[dataset]["attributes"]:
@@ -169,7 +169,7 @@ class ZMQWriter (H5Writer):
         else:
             PV(self.prefix + self.PVs[self.PVs.index("ReceivedPoints")]).put(self.totalPoints, wait=True)
             self.h5file[self.data][y, x, :] = data
-            self.h5file[self.pixel][y:x] = PV(self.configFile["EPICSandIOCs"]["KETEKNetValue"]).get(timeout=self.PVTimeout)
+            self.h5file[self.pixel][y,x] = PV(self.configFile["EPICSandIOCs"]["KETEKNetValue"]).get(timeout=self.PVTimeout)
             self.h5file[self.indexX][self.totalPoints-1] = x
             self.h5file[self.indexY][self.totalPoints-1] = y
             self.h5file[self.positionX][self.totalPoints-1] = self.arrayXPositions[x]
