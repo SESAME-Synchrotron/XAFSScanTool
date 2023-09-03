@@ -82,12 +82,12 @@
 	<Attribute name="FEV_SlitsIonPump"     		   	   type="EPICS_PV" source="FE08-VA-IP2:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump slits front-end voltage (V)"/>
 	<Attribute name="FEV_PhotonShutterIonPump"     	   type="EPICS_PV" source="FE08-VA-IP3:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump photon shutter front-end voltage (V)"/>
 	<Attribute name="FEV_TriggerUnitIonPump"     	   type="EPICS_PV" source="FE08-VA-IP4:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump trigger unit front-end voltage (V)"/>
-	<Attribute name="OPVA_VCMIonPump"     	   		   type="EPICS_PV" source="D08-OP-IP1:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump VCM optics voltage (V)"/>
-	<Attribute name="OPVA_WireMonitorIonPump"     	   type="EPICS_PV" source="D08-OP-IP2:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump wire monitor optics voltage (V)"/>
-	<Attribute name="OPVA_MonochromatorIonPump"        type="EPICS_PV" source="D08-OP-IP3:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump monochromater optics voltage (V)"/>
-	<Attribute name="OPVA_SlitsIonPump"     	   	   type="EPICS_PV" source="D08-OP-IP4:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump slits optics voltage (V)"/>
-	<Attribute name="OPVA_VFMIonPump"     	   		   type="EPICS_PV" source="D08-OP-IP5:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump vfm optics voltage (V)"/>
-	<Attribute name="OPVA_PhotonShutterIonPump"        type="EPICS_PV" source="D08-OP-IP6:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump photon shutter optics voltage (V)"/>
+	<Attribute name="OPV_VCMIonPump"     	   		   type="EPICS_PV" source="D08-OP-IP1:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump VCM optics voltage (V)"/>
+	<Attribute name="OPV_WireMonitorIonPump"     	   type="EPICS_PV" source="D08-OP-IP2:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump wire monitor optics voltage (V)"/>
+	<Attribute name="OPV_MonochromatorIonPump"        type="EPICS_PV" source="D08-OP-IP3:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump monochromater optics voltage (V)"/>
+	<Attribute name="OPV_SlitsIonPump"     	   	   type="EPICS_PV" source="D08-OP-IP4:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump slits optics voltage (V)"/>
+	<Attribute name="OPV_VFMIonPump"     	   		   type="EPICS_PV" source="D08-OP-IP5:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump vfm optics voltage (V)"/>
+	<Attribute name="OPV_PhotonShutterIonPump"        type="EPICS_PV" source="D08-OP-IP6:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump photon shutter optics voltage (V)"/>
 	<Attribute name="FEVA_FixedMaskIonPump"       	   type="EPICS_PV" source="FE08-VA-IP1:getPressure"             	 dbrtype="DBR_STRING" description="Ion pump fixed mask front-end pressure (mbar)"/>
 	<Attribute name="FEVA_SlitsIonPump"        		   type="EPICS_PV" source="FE08-VA-IP2:getPressure"             	 dbrtype="DBR_STRING" description="Ion pump slits front-end pressure (mbar)"/>
 	<Attribute name="FEVA_PhotonShutterIonPump"        type="EPICS_PV" source="FE08-VA-IP3:getPressure"             	 dbrtype="DBR_STRING" description="Ion pump photon shutter front-end pressure (mbar)"/>

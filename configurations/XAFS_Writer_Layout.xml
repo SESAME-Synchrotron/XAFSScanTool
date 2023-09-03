@@ -370,27 +370,27 @@
 			</group><!-- front_end -->
 
 			<group name="optics">
-				<dataset 		name="vcm" 		source="ndattribute" 	ndattribute="OPVA_VCMIonPump" when="OnFileClose">
+				<dataset 		name="vcm" 		source="ndattribute" 	ndattribute="OPV_VCMIonPump" when="OnFileClose">
 					<attribute 	name="units" 			source="constant" 		value="V" type="string" />
 				</dataset>
 
-				<dataset 		name="wire" 	source="ndattribute" 	ndattribute="OPVA_WireMonitorIonPump" when="OnFileClose">
+				<dataset 		name="wire" 	source="ndattribute" 	ndattribute="OPV_WireMonitorIonPump" when="OnFileClose">
 					<attribute 	name="units" 			source="constant" 		value="V" type="string" />
 				</dataset>
 
-				<dataset 		name="monochromator" 	source="ndattribute" 	ndattribute="OPVA_MonochromatorIonPump" when="OnFileClose">
+				<dataset 		name="monochromator" 	source="ndattribute" 	ndattribute="OPV_MonochromatorIonPump" when="OnFileClose">
 					<attribute 	name="units" 			source="constant" 		value="V" type="string" />
 				</dataset>
 
-				<dataset 		name="slits" 	source="ndattribute" 	ndattribute="OPVA_SlitsIonPump" when="OnFileClose">
+				<dataset 		name="slits" 	source="ndattribute" 	ndattribute="OPV_SlitsIonPump" when="OnFileClose">
 					<attribute 	name="units" 			source="constant" 		value="V" type="string" />
 				</dataset>
 
-				<dataset 		name="vfm" 		source="ndattribute" 	ndattribute="OPVA_VFMIonPump" when="OnFileClose">
+				<dataset 		name="vfm" 		source="ndattribute" 	ndattribute="OPV_VFMIonPump" when="OnFileClose">
 					<attribute 	name="units" 			source="constant" 		value="V" type="string" />
 				</dataset>
 
-				<dataset 		name="photon_shutter" 	source="ndattribute" 	ndattribute="OPVA_PhotonShutterIonPump" when="OnFileClose">
+				<dataset 		name="photon_shutter" 	source="ndattribute" 	ndattribute="OPV_PhotonShutterIonPump" when="OnFileClose">
 					<attribute 	name="units" 			source="constant" 		value="V" type="string" />
 				</dataset>
 			</group><!-- optics -->
