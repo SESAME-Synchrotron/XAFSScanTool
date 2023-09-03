@@ -132,22 +132,22 @@
 	<Attribute name="OPTHC11"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC11:getTemperature"           dbrtype="DBR_STRING" description="Monochromater in-situ temperature(C)"/>
 	<Attribute name="OPTHC12"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC12:getTemperature"           dbrtype="DBR_STRING" description="VFM motor temperature(C)"/>
 	<Attribute name="OPTHC13"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC13:getTemperature"           dbrtype="DBR_STRING" description="Optics hutch thermocouple13 (C)"/>
-	<Attribute name="OPPTC1"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT1:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC2"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT2:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC3"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT3:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC4"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT4:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC5"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT5:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC6"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT6:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC7"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT7:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC8"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT8:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC9"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT9:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC10"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT10:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC11"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT11:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC12"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT12:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC13"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT13:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC14"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT14:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC15"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT15:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
-	<Attribute name="OPPTC16"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT16:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT1"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT1:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT2"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT2:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT3"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT3:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT4"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT4:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT5"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT5:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT6"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT6:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT7"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT7:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT8"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT8:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT9"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT9:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT10"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT10:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT11"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT11:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT12"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT12:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT13"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT13:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT14"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT14:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT15"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT15:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPT16"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT16:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
 
 	<Attribute name="ExperimentType"           type="EPICS_PV" source="XAFS:ExperimentType"                              dbrtype="DBR_STRING" description="Experiment type"/>
 	<Attribute name="ExperimentalFileName"     type="EPICS_PV" source="XAFS:ExperimentalFileName"                        dbrtype="DBR_STRING" description="Experimental file name"/>
