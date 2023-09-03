@@ -6,72 +6,148 @@
 	<Attribute name="MachineStatus"            type="EPICS_PV" source="Machine:Status"                                   dbrtype="DBR_STRING" description="Machine Status"/>
 	<Attribute name="MachineEnergy"            type="EPICS_PV" source="SR-DI:getBeamEnergy"                              dbrtype="DBR_NATIVE" description="machine energy (GeV)"/>
 	<Attribute name="LifeTime"                 type="EPICS_PV" source="SR-DI:getBeamLifetime"                            dbrtype="DBR_STRING" description="Beam life time (H)"/>
-	<Attribute name="WM1Position"              type="EPICS_PV" source="D08-OP-WM1-STP-Y.RBV"                             dbrtype="DBR_NATIVE" description="Wire monitor1 position (mm)"/>
-	<Attribute name="WM2Position"              type="EPICS_PV" source="D08-OP-WM2-STP-Y.RBV"                             dbrtype="DBR_NATIVE" description="Wire monitor2 position (mm)"/>
+	<Attribute name="WM1Position"              type="EPICS_PV" source="D08-OP-WM1-STP-Y.RBV"                             dbrtype="DBR_NATIVE" description="Wire monitor1 position"/>
+	<Attribute name="WM2Position"              type="EPICS_PV" source="D08-OP-WM2-STP-Y.RBV"                             dbrtype="DBR_NATIVE" description="Wire monitor2 position"/>
 	<Attribute name="WM1Voltage"               type="EPICS_PV" source="D08-OP-WM1:getVoltage"                            dbrtype="DBR_NATIVE" description="Wire monitor1 voltage (V)"/>
 	<Attribute name="WM2Voltage"               type="EPICS_PV" source="D08-OP-WM2:getVoltage"                            dbrtype="DBR_NATIVE" description="Wire monitor2 voltage (V)"/>
-	<Attribute name="FIY1"                     type="EPICS_PV" source="D08-FE-FI-STP-Y1.RBV"                             dbrtype="DBR_NATIVE" description="Filter1 position (mm)"/>
-	<Attribute name="FIY2"                     type="EPICS_PV" source="D08-FE-FI-STP-Y2.RBV"                             dbrtype="DBR_NATIVE" description="Filter2 position (mm)"/>
-	<Attribute name="MirrorBenderVCMPressure"  type="EPICS_PV" source="D08-OP-VCM:getTransPressure"                      dbrtype="DBR_NATIVE" description="Mirror Bender VCM Pressure (bar)"/>
-	<Attribute name="MirrorBenderVFMPressure"  type="EPICS_PV" source="D08-OP-VFM:getTransPressure"                      dbrtype="DBR_NATIVE" description="Mirror Bender VFM Pressure (bar)"/>
-	<Attribute name="HighVoltagePowerSupply1"  type="EPICS_PV" source="D08-PS-HVPS1:calcRealVoltage"                     dbrtype="DBR_NATIVE" description="High Voltage Power Supply1 (V)"/>
-	<Attribute name="HighVoltagePowerSupply2"  type="EPICS_PV" source="D08-PS-HVPS2:calcRealVoltage"                     dbrtype="DBR_NATIVE" description="High Voltage Power Supply2 (V)"/>
-	<Attribute name="HighVoltagePowerSupply3"  type="EPICS_PV" source="D08-PS-HVPS3:calcRealVoltage"                     dbrtype="DBR_NATIVE" description="High Voltage Power Supply3 (V)"/>
-	<Attribute name="HVPS1Current"             type="EPICS_PV" source="D08-PS-HVPS1:calcRealCurrent"                     dbrtype="DBR_NATIVE" description="High Voltage Power Supply1 Current (A)"/>
-	<Attribute name="HVPS2Current"             type="EPICS_PV" source="D08-PS-HVPS2:calcRealCurrent"                     dbrtype="DBR_NATIVE" description="High Voltage Power Supply2 Current (A)"/>
-	<Attribute name="HVPS3Current"             type="EPICS_PV" source="D08-PS-HVPS3:calcRealCurrent"                     dbrtype="DBR_NATIVE" description="High Voltage Power Supply3 Current (A)"/>
-	<Attribute name="OPVirtualMotorX"          type="EPICS_PV" source="D08-ES-TAB-X:t2.D"                                dbrtype="DBR_STRING" description="X virtual motor position(mm)"/>
-	<Attribute name="OPVirtualMotorY"          type="EPICS_PV" source="D08-ES-TAB-Y:t2.D"                                dbrtype="DBR_STRING" description="Y virtual motor position(mm)"/>
-	<Attribute name="OPVirtualMotorYaw"        type="EPICS_PV" source="D08-ES-TAB-X:t2.E"                                dbrtype="DBR_STRING" description="Yaw virtual motor position(mm)"/>
-	<Attribute name="OPVirtualMotorPitch"      type="EPICS_PV" source="D08-ES-TAB-Y:t2.E"                                dbrtype="DBR_STRING" description="Pitch virtual motor position(mm)"/>
-	<Attribute name="OPVirtualMotorRoll"       type="EPICS_PV" source="D08-ES-TAB-Y:t2.F"                                dbrtype="DBR_STRING" description="Roll virtual motor position(mm)"/>
-	<Attribute name="OPTAB-X1"                 type="EPICS_PV" source="D08-ES-TAB-STP-X1.RBV"                            dbrtype="DBR_STRING" description="Tab-X1 motor position(mm)"/>
-	<Attribute name="OPTAB-X2"                 type="EPICS_PV" source="D08-ES-TAB-STP-X2.RBV"                            dbrtype="DBR_STRING" description="Tab-X2 motor position(mm)"/>
-	<Attribute name="OPTAB-y1"                 type="EPICS_PV" source="D08-ES-TAB-STP-Y1.RBV"                            dbrtype="DBR_STRING" description="Tab-Y1 motor position(mm)"/>
-	<Attribute name="OPTAB-y2"                 type="EPICS_PV" source="D08-ES-TAB-STP-Y2.RBV"                            dbrtype="DBR_STRING" description="Tab-Y2 motor position(mm)"/>
-	<Attribute name="OPTAB-y3"                 type="EPICS_PV" source="D08-ES-TAB-STP-Y3.RBV"                            dbrtype="DBR_STRING" description="Tab-Y3 motor position(mm)"/>
-	<Attribute name="WSLT-HorizontalSizePosition"      type="EPICS_PV" source="D08-FE-WSLT-X:t2.C"                       dbrtype="DBR_STRING" description="White beam slit position (mm)"/>
-	<Attribute name="WSLT-HorizontalCenterPosition"    type="EPICS_PV" source="D08-FE-WSLT-X:t2.D"                       dbrtype="DBR_STRING" description="White beam slit position (mm)"/>
-	<Attribute name="WSLT-VerticalSizePosition"        type="EPICS_PV" source="D08-FE-WSLT-Y:t2.C"                       dbrtype="DBR_STRING" description="White beam slit position (mm)"/>
-	<Attribute name="WSLT-VerticalCenterPosition"      type="EPICS_PV" source="D08-FE-WSLT-Y:t2.D"                       dbrtype="DBR_STRING" description="White beam slit position (mm)"/>
-	<Attribute name="WSLT-YU"                          type="EPICS_PV" source="D08-FE-WSLT-STP-YU.RBV"                   dbrtype="DBR_STRING" description="White beam slit position (mm)"/>
-	<Attribute name="WSLT-YD"                          type="EPICS_PV" source="D08-FE-WSLT-STP-YD.RBV"                   dbrtype="DBR_STRING" description="White beam slit position (mm)"/>
-	<Attribute name="WSLT-XW"                          type="EPICS_PV" source="D08-FE-WSLT-STP-XW.RBV"                   dbrtype="DBR_STRING" description="White beam slit position (mm)"/>
-	<Attribute name="WSLT-XR"                          type="EPICS_PV" source="D08-FE-WSLT-STP-XR.RBV"                   dbrtype="DBR_STRING" description="White beam slit position (mm)"/>
-	<Attribute name="MSLT-HorizontalSizePosition"      type="EPICS_PV" source="D08-FE-MSLT-X:t2.C"                       dbrtype="DBR_STRING" description="Mono beam slit position (mm)"/>
-	<Attribute name="MSLT-HorizontalCenterPosition"    type="EPICS_PV" source="D08-FE-MSLT-X:t2.D"                       dbrtype="DBR_STRING" description="Mono beam slit position (mm)"/>
-	<Attribute name="MSLT-VerticalSizePosition"        type="EPICS_PV" source="D08-FE-MSLT-Y:t2.C"                       dbrtype="DBR_STRING" description="Mono beam slit position (mm)"/>
-	<Attribute name="MSLT-VerticalCenterPosition"      type="EPICS_PV" source="D08-FE-MSLT-Y:t2.D"                       dbrtype="DBR_STRING" description="Mono beam slit position (mm)"/>
-	<Attribute name="MSLT-YU"                          type="EPICS_PV" source="D08-FE-MSLT-STP-YU.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit position (mm)"/>
-	<Attribute name="MSLT-YD"                          type="EPICS_PV" source="D08-FE-MSLT-STP-YD.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit position (mm)"/>
-	<Attribute name="MSLT-XW"                          type="EPICS_PV" source="D08-FE-MSLT-STP-XW.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit position (mm)"/>
-	<Attribute name="MSLT-XR"                          type="EPICS_PV" source="D08-FE-MSLT-STP-XR.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit position (mm)"/>
-	<Attribute name="SMP-XPosition"            type="EPICS_PV" source="D08-ES-SMP-STP-X.RBV"                             dbrtype="DBR_STRING" description="Sample X motor position(mm)"/>
-	<Attribute name="SMP-YPosition"            type="EPICS_PV" source="D08-ES-SMP-STP-Y.RBV"                             dbrtype="DBR_STRING" description="Sample Y motor position(mm)"/>
-	<Attribute name="SMP-ZPosition"            type="EPICS_PV" source="D08-ES-SMP-STP-Z.RBV"                             dbrtype="DBR_STRING" description="Sample Z motor position(mm)"/>
-	<Attribute name="SMP-RotationPosition"     type="EPICS_PV" source="D08-ES-SMP-STP-ROT.RBV"                           dbrtype="DBR_STRING" description="Sample rotation motor position(mm)"/>
-	<Attribute name="SWXPosition"              type="EPICS_PV" source="D08-ES-SMP-STP-SWX.RBV"                           dbrtype="DBR_STRING" description="Sample SWX motor position(mm)"/>
-	<Attribute name="SWYPosition"              type="EPICS_PV" source="D08-ES-SMP-STP-SWY.RBV"                           dbrtype="DBR_STRING" description="Sample SWY motor position(mm)"/>
-	<Attribute name="VCM-VirtualMotorY"        type="EPICS_PV" source="D08-OP-VCM:t2.D"                                  dbrtype="DBR_STRING" description="VCM Y virtual motor position(mm)"/>
-	<Attribute name="VCM-VirtualMotorPitch"    type="EPICS_PV" source="D08-OP-VCM:t2.E"                                  dbrtype="DBR_STRING" description="VCM Pitch virtual motor position(mm)"/>
-	<Attribute name="VCM-VirtualMotorRoll"     type="EPICS_PV" source="D08-OP-VCM:t2.F"                                  dbrtype="DBR_STRING" description="VCM Roll virtual motor position(mm)"/>
-	<Attribute name="VCM-Y1Position"           type="EPICS_PV" source="D08-OP-VCM-STP-Y1.RBV"                            dbrtype="DBR_STRING" description="VCM  Y1 motor position(mm)"/>
-	<Attribute name="VCM-Y2Position"           type="EPICS_PV" source="D08-OP-VCM-STP-Y2.RBV"                            dbrtype="DBR_STRING" description="VCM  Y2 motor position(mm)"/>
-	<Attribute name="VCM-Y3Position"           type="EPICS_PV" source="D08-OP-VCM-STP-Y3.RBV"                            dbrtype="DBR_STRING" description="VCM  Y3 motor position(mm)"/>
-	<Attribute name="VCM-XPosition"            type="EPICS_PV" source="D08-OP-VCM-STP-X.RBV"                             dbrtype="DBR_STRING" description="VCM  X motor position(mm)"/>
-	<Attribute name="VFM-VirtualMotorY"        type="EPICS_PV" source="D08-OP-VFM:t2.D"                                  dbrtype="DBR_STRING" description="VFM Y virtual motor position(mm)"/>
-	<Attribute name="VFM-VirtualMotorPitch"    type="EPICS_PV" source="D08-OP-VFM:t2.E"                                  dbrtype="DBR_STRING" description="VFM Pitch virtual motor position(mm)"/>
-	<Attribute name="VFM-VirtualMotorRoll"     type="EPICS_PV" source="D08-OP-VFM:t2.F"                                  dbrtype="DBR_STRING" description="VFM Roll virtual motor position(mm)"/>
-	<Attribute name="VFM-Y1Position"           type="EPICS_PV" source="D08-OP-VFM-STP-Y1.RBV"                            dbrtype="DBR_STRING" description="VFM  Y1 motor position(mm)"/>
-	<Attribute name="VFM-Y2Position"           type="EPICS_PV" source="D08-OP-VFM-STP-Y2.RBV"                            dbrtype="DBR_STRING" description="VFM  Y2 motor position(mm)"/>
-	<Attribute name="VFM-Y3Position"           type="EPICS_PV" source="D08-OP-VFM-STP-Y3.RBV"                            dbrtype="DBR_STRING" description="VFM  Y3 motor position(mm)"/>
-	<Attribute name="VFM-XPosition"            type="EPICS_PV" source="D08-OP-VFM-STP-X.RBV"                             dbrtype="DBR_STRING" description="VFM  X motor position(mm)"/>
+	<Attribute name="FIY1"                     type="EPICS_PV" source="D08-FE-FI-STP-Y1.RBV"                             dbrtype="DBR_NATIVE" description="Filter1 position"/>
+	<Attribute name="FIY2"                     type="EPICS_PV" source="D08-FE-FI-STP-Y2.RBV"                             dbrtype="DBR_NATIVE" description="Filter2 position"/>
+	<Attribute name="MirrorBenderVCMPressure"  type="EPICS_PV" source="D08-OP-VCM:getTransPressure"                      dbrtype="DBR_NATIVE" description="Mirror bender VCM pressure (bar)"/>
+	<Attribute name="MirrorBenderVFMPressure"  type="EPICS_PV" source="D08-OP-VFM:getTransPressure"                      dbrtype="DBR_NATIVE" description="Mirror bender VFM pressure (bar)"/>
+	<Attribute name="HighVoltagePowerSupply1"  type="EPICS_PV" source="D08-PS-HVPS1:calcRealVoltage"                     dbrtype="DBR_NATIVE" description="High voltage power supply1 (V)"/>
+	<Attribute name="HighVoltagePowerSupply2"  type="EPICS_PV" source="D08-PS-HVPS2:calcRealVoltage"                     dbrtype="DBR_NATIVE" description="High voltage power supply2 (V)"/>
+	<Attribute name="HighVoltagePowerSupply3"  type="EPICS_PV" source="D08-PS-HVPS3:calcRealVoltage"                     dbrtype="DBR_NATIVE" description="High voltage power supply3 (V)"/>
+	<Attribute name="HVPS1Current"             type="EPICS_PV" source="D08-PS-HVPS1:calcRealCurrent"                     dbrtype="DBR_NATIVE" description="High voltage power supply1 Current (A)"/>
+	<Attribute name="HVPS2Current"             type="EPICS_PV" source="D08-PS-HVPS2:calcRealCurrent"                     dbrtype="DBR_NATIVE" description="High voltage power supply2 Current (A)"/>
+	<Attribute name="HVPS3Current"             type="EPICS_PV" source="D08-PS-HVPS3:calcRealCurrent"                     dbrtype="DBR_NATIVE" description="High voltage power supply3 Current (A)"/>
+	<Attribute name="OPVirtualMotorX"          type="EPICS_PV" source="D08-ES-TAB-X:t2.D"                                dbrtype="DBR_STRING" description="X virtual motor position"/>
+	<Attribute name="OPVirtualMotorY"          type="EPICS_PV" source="D08-ES-TAB-Y:t2.D"                                dbrtype="DBR_STRING" description="Y virtual motor position"/>
+	<Attribute name="OPVirtualMotorYaw"        type="EPICS_PV" source="D08-ES-TAB-X:t2.E"                                dbrtype="DBR_STRING" description="Yaw virtual motor position"/>
+	<Attribute name="OPVirtualMotorPitch"      type="EPICS_PV" source="D08-ES-TAB-Y:t2.E"                                dbrtype="DBR_STRING" description="Pitch virtual motor position"/>
+	<Attribute name="OPVirtualMotorRoll"       type="EPICS_PV" source="D08-ES-TAB-Y:t2.F"                                dbrtype="DBR_STRING" description="Roll virtual motor position"/>
+	<Attribute name="OPTAB-X1"                 type="EPICS_PV" source="D08-ES-TAB-STP-X1.RBV"                            dbrtype="DBR_STRING" description="Tab-X1 motor position"/>
+	<Attribute name="OPTAB-X2"                 type="EPICS_PV" source="D08-ES-TAB-STP-X2.RBV"                            dbrtype="DBR_STRING" description="Tab-X2 motor position"/>
+	<Attribute name="OPTAB-y1"                 type="EPICS_PV" source="D08-ES-TAB-STP-Y1.RBV"                            dbrtype="DBR_STRING" description="Tab-Y1 motor position"/>
+	<Attribute name="OPTAB-y2"                 type="EPICS_PV" source="D08-ES-TAB-STP-Y2.RBV"                            dbrtype="DBR_STRING" description="Tab-Y2 motor position"/>
+	<Attribute name="OPTAB-y3"                 type="EPICS_PV" source="D08-ES-TAB-STP-Y3.RBV"                            dbrtype="DBR_STRING" description="Tab-Y3 motor position"/>
+	<Attribute name="WSLT-HorizontalSizePosition"      type="EPICS_PV" source="D08-FE-WSLT-X:t2.C"                       dbrtype="DBR_STRING" description="White beam slit horizontal size position"/>
+	<Attribute name="WSLT-HorizontalCenterPosition"    type="EPICS_PV" source="D08-FE-WSLT-X:t2.D"                       dbrtype="DBR_STRING" description="White beam slit horizontal center position"/>
+	<Attribute name="WSLT-VerticalSizePosition"        type="EPICS_PV" source="D08-FE-WSLT-Y:t2.C"                       dbrtype="DBR_STRING" description="White beam slit vertical size position"/>
+	<Attribute name="WSLT-VerticalCenterPosition"      type="EPICS_PV" source="D08-FE-WSLT-Y:t2.D"                       dbrtype="DBR_STRING" description="White beam slit vertical center position"/>
+	<Attribute name="WSLT-YU"                          type="EPICS_PV" source="D08-FE-WSLT-STP-YU.RBV"                   dbrtype="DBR_STRING" description="White beam slit YU position"/>
+	<Attribute name="WSLT-YD"                          type="EPICS_PV" source="D08-FE-WSLT-STP-YD.RBV"                   dbrtype="DBR_STRING" description="White beam slit YD position"/>
+	<Attribute name="WSLT-XW"                          type="EPICS_PV" source="D08-FE-WSLT-STP-XW.RBV"                   dbrtype="DBR_STRING" description="White beam slit XW position"/>
+	<Attribute name="WSLT-XR"                          type="EPICS_PV" source="D08-FE-WSLT-STP-XR.RBV"                   dbrtype="DBR_STRING" description="White beam slit XR position"/>
+	<Attribute name="MSLT-HorizontalSizePosition"      type="EPICS_PV" source="D08-FE-MSLT-X:t2.C"                       dbrtype="DBR_STRING" description="Mono beam slit horizontal size position"/>
+	<Attribute name="MSLT-HorizontalCenterPosition"    type="EPICS_PV" source="D08-FE-MSLT-X:t2.D"                       dbrtype="DBR_STRING" description="Mono beam slit horizontal center position"/>
+	<Attribute name="MSLT-VerticalSizePosition"        type="EPICS_PV" source="D08-FE-MSLT-Y:t2.C"                       dbrtype="DBR_STRING" description="Mono beam slit vertical size position"/>
+	<Attribute name="MSLT-VerticalCenterPosition"      type="EPICS_PV" source="D08-FE-MSLT-Y:t2.D"                       dbrtype="DBR_STRING" description="Mono beam slit vertical center position"/>
+	<Attribute name="MSLT-YU"                          type="EPICS_PV" source="D08-FE-MSLT-STP-YU.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit YU position"/>
+	<Attribute name="MSLT-YD"                          type="EPICS_PV" source="D08-FE-MSLT-STP-YD.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit YD position"/>
+	<Attribute name="MSLT-XW"                          type="EPICS_PV" source="D08-FE-MSLT-STP-XW.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit XW position"/>
+	<Attribute name="MSLT-XR"                          type="EPICS_PV" source="D08-FE-MSLT-STP-XR.RBV"                   dbrtype="DBR_STRING" description="Mono beam slit XR position"/>
+	<Attribute name="SMP-XPosition"            type="EPICS_PV" source="D08-ES-SMP-STP-X.RBV"                             dbrtype="DBR_STRING" description="Sample X motor position"/>
+	<Attribute name="SMP-YPosition"            type="EPICS_PV" source="D08-ES-SMP-STP-Y.RBV"                             dbrtype="DBR_STRING" description="Sample Y motor position"/>
+	<Attribute name="SMP-ZPosition"            type="EPICS_PV" source="D08-ES-SMP-STP-Z.RBV"                             dbrtype="DBR_STRING" description="Sample Z motor position"/>
+	<Attribute name="SMP-RotationPosition"     type="EPICS_PV" source="D08-ES-SMP-STP-ROT.RBV"                           dbrtype="DBR_STRING" description="Sample rotation motor position"/>
+	<Attribute name="SWXPosition"              type="EPICS_PV" source="D08-ES-SMP-STP-SWX.RBV"                           dbrtype="DBR_STRING" description="Sample SWX motor position"/>
+	<Attribute name="SWYPosition"              type="EPICS_PV" source="D08-ES-SMP-STP-SWY.RBV"                           dbrtype="DBR_STRING" description="Sample SWY motor position"/>
+	<Attribute name="VCM-VirtualMotorY"        type="EPICS_PV" source="D08-OP-VCM:t2.D"                                  dbrtype="DBR_STRING" description="VCM Y virtual motor position"/>
+	<Attribute name="VCM-VirtualMotorPitch"    type="EPICS_PV" source="D08-OP-VCM:t2.E"                                  dbrtype="DBR_STRING" description="VCM Pitch virtual motor position"/>
+	<Attribute name="VCM-VirtualMotorRoll"     type="EPICS_PV" source="D08-OP-VCM:t2.F"                                  dbrtype="DBR_STRING" description="VCM Roll virtual motor position"/>
+	<Attribute name="VCM-Y1Position"           type="EPICS_PV" source="D08-OP-VCM-STP-Y1.RBV"                            dbrtype="DBR_STRING" description="VCM  Y1 motor position"/>
+	<Attribute name="VCM-Y2Position"           type="EPICS_PV" source="D08-OP-VCM-STP-Y2.RBV"                            dbrtype="DBR_STRING" description="VCM  Y2 motor position"/>
+	<Attribute name="VCM-Y3Position"           type="EPICS_PV" source="D08-OP-VCM-STP-Y3.RBV"                            dbrtype="DBR_STRING" description="VCM  Y3 motor position"/>
+	<Attribute name="VCM-XPosition"            type="EPICS_PV" source="D08-OP-VCM-STP-X.RBV"                             dbrtype="DBR_STRING" description="VCM  X motor position"/>
+	<Attribute name="VFM-VirtualMotorY"        type="EPICS_PV" source="D08-OP-VFM:t2.D"                                  dbrtype="DBR_STRING" description="VFM Y virtual motor position"/>
+	<Attribute name="VFM-VirtualMotorPitch"    type="EPICS_PV" source="D08-OP-VFM:t2.E"                                  dbrtype="DBR_STRING" description="VFM Pitch virtual motor position"/>
+	<Attribute name="VFM-VirtualMotorRoll"     type="EPICS_PV" source="D08-OP-VFM:t2.F"                                  dbrtype="DBR_STRING" description="VFM Roll virtual motor position"/>
+	<Attribute name="VFM-Y1Position"           type="EPICS_PV" source="D08-OP-VFM-STP-Y1.RBV"                            dbrtype="DBR_STRING" description="VFM  Y1 motor position"/>
+	<Attribute name="VFM-Y2Position"           type="EPICS_PV" source="D08-OP-VFM-STP-Y2.RBV"                            dbrtype="DBR_STRING" description="VFM  Y2 motor position"/>
+	<Attribute name="VFM-Y3Position"           type="EPICS_PV" source="D08-OP-VFM-STP-Y3.RBV"                            dbrtype="DBR_STRING" description="VFM  Y3 motor position"/>
+	<Attribute name="VFM-XPosition"            type="EPICS_PV" source="D08-OP-VFM-STP-X.RBV"                             dbrtype="DBR_STRING" description="VFM  X motor position"/>
+	<Attribute name="INSITU"            	   type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSX1.RBV"                dbrtype="DBR_STRING" description="DCM in-situ position"/>
+	<Attribute name="Crystal1Y"            	   type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSX1.RBV"                dbrtype="DBR_STRING" description="DCM crystal1 Y position"/>
+	<Attribute name="Crystal1Roll"             type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSX1.RBV"                dbrtype="DBR_STRING" description="DCM crystal1 roll"/>
+	<Attribute name="Crystal2Roll"             type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSX1.RBV"                dbrtype="DBR_STRING" description="DCM crystal2 roll"/>
+	<Attribute name="Crystal2Pitch"            type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSX1.RBV"                dbrtype="DBR_STRING" description="DCM crystal2 pitch"/>
+	<Attribute name="Theta"            	   	   type="EPICS_PV" source="D08R1-MO-MC2:OH-DCM-STP-TRSX1.RBV"                dbrtype="DBR_STRING" description="DCM theta"/>
 	<Attribute name="IonizationChamber0AvgVoltage"     type="EPICS_PV" source="D08-ES-IC0:getAverageVoltage"             dbrtype="DBR_STRING" description="Ionization chamber0 voltage (V)"/>
 	<Attribute name="IonizationChamber0Voltage"        type="EPICS_PV" source="D08-ES-IC0:getVoltage"                    dbrtype="DBR_STRING" description="Ionization chamber0 avg. voltage (V)"/>
 	<Attribute name="IonizationChamber1Voltage"        type="EPICS_PV" source="D08-ES-IC1:getVoltage"                    dbrtype="DBR_STRING" description="Ionization chamber1 voltage (V)"/>
 	<Attribute name="IonizationChamber1AvgVoltage"     type="EPICS_PV" source="D08-ES-IC1:getAverageVoltage"             dbrtype="DBR_STRING" description="Ionization chamber1 avg. voltage (V)"/>
 	<Attribute name="IonizationChamber2Voltage"        type="EPICS_PV" source="D08-ES-IC2:getVoltage"                    dbrtype="DBR_STRING" description="Ionization chamber2 voltage (V)"/>
 	<Attribute name="IonizationChamber2AvgVoltage"     type="EPICS_PV" source="D08-ES-IC2:getAverageVoltage"             dbrtype="DBR_STRING" description="Ionization chamber2 avg. voltage (V)"/>
+	<Attribute name="FEV_FixedMaskIonPump"     		   type="EPICS_PV" source="FE08-VA-IP1:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump fixed mask front-end voltage (V)"/>
+	<Attribute name="FEV_SlitsIonPump"     		   	   type="EPICS_PV" source="FE08-VA-IP2:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump slits front-end voltage (V)"/>
+	<Attribute name="FEV_PhotonShutterIonPump"     	   type="EPICS_PV" source="FE08-VA-IP3:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump photon shutter front-end voltage (V)"/>
+	<Attribute name="FEV_TriggerUnitIonPump"     	   type="EPICS_PV" source="FE08-VA-IP4:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump trigger unit front-end voltage (V)"/>
+	<Attribute name="OPVA_VCMIonPump"     	   		   type="EPICS_PV" source="D08-OP-IP1:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump VCM optics voltage (V)"/>
+	<Attribute name="OPVA_WireMonitorIonPump"     	   type="EPICS_PV" source="D08-OP-IP2:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump wire monitor optics voltage (V)"/>
+	<Attribute name="OPVA_MonochromatorIonPump"        type="EPICS_PV" source="D08-OP-IP3:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump monochromater optics voltage (V)"/>
+	<Attribute name="OPVA_SlitsIonPump"     	   	   type="EPICS_PV" source="D08-OP-IP4:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump slits optics voltage (V)"/>
+	<Attribute name="OPVA_VFMIonPump"     	   		   type="EPICS_PV" source="D08-OP-IP5:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump vfm optics voltage (V)"/>
+	<Attribute name="OPVA_PhotonShutterIonPump"        type="EPICS_PV" source="D08-OP-IP6:getVoltage"             		 dbrtype="DBR_STRING" description="Ion pump photon shutter optics voltage (V)"/>
+	<Attribute name="FEVA_FixedMaskIonPump"       	   type="EPICS_PV" source="FE08-VA-IP1:getPressure"             	 dbrtype="DBR_STRING" description="Ion pump fixed mask front-end pressure (mbar)"/>
+	<Attribute name="FEVA_SlitsIonPump"        		   type="EPICS_PV" source="FE08-VA-IP2:getPressure"             	 dbrtype="DBR_STRING" description="Ion pump slits front-end pressure (mbar)"/>
+	<Attribute name="FEVA_PhotonShutterIonPump"        type="EPICS_PV" source="FE08-VA-IP3:getPressure"             	 dbrtype="DBR_STRING" description="Ion pump photon shutter front-end pressure (mbar)"/>
+	<Attribute name="FEVA_TriggerUnitIonPump"          type="EPICS_PV" source="FE08-VA-IP4:getPressure"             	 dbrtype="DBR_STRING" description="Ion pump trigger unit front-end pressure (mbar)"/>
+	<Attribute name="FE_FixedMaskGauge"       	   	   type="EPICS_PV" source="FE08-VA-IMG1:getPressure"             	 dbrtype="DBR_STRING" description="Gauge fixed mask front-end pressure (mbar)"/>
+	<Attribute name="FE_SlitsIonGauge"        		   type="EPICS_PV" source="FE08-VA-IMG2:getPressure"             	 dbrtype="DBR_STRING" description="Gauge slits front-end pressure (mbar)"/>
+	<Attribute name="FE_TriggerUnitGauge"          	   type="EPICS_PV" source="FE08-VA-IMG3:getPressure"             	 dbrtype="DBR_STRING" description="Gauge trigger unit front-end pressure (mbar)"/>
+	<Attribute name="FEGV1"          	   			   type="EPICS_PV" source="FE08-VA-GV1:getNumberOfOpens"             dbrtype="DBR_STRING" description="Valve1 #Opens (#)"/>
+	<Attribute name="FEGV2"          	   			   type="EPICS_PV" source="FE08-VA-GV2:getNumberOfOpens"             dbrtype="DBR_STRING" description="Valve2 #Opens (#)"/>
+	<Attribute name="FEGV3"          	   			   type="EPICS_PV" source="FE08-VA-GV3:getNumberOfOpens"             dbrtype="DBR_STRING" description="Valve3 #Opens (#)"/>
+	<Attribute name="FEGV4"          	   			   type="EPICS_PV" source="FE08-VA-GV4:getNumberOfOpens"             dbrtype="DBR_STRING" description="Valve4 #Opens (#)"/>
+	<Attribute name="FE_PhotonShutter"          	   type="EPICS_PV" source="FE08-VA-PHSH:getNumberOfOpens"            dbrtype="DBR_STRING" description="Photon shutter front-end #Opens (#)"/>
+	<Attribute name="FrontEndShutter"          	   	   type="EPICS_PV" source="FE08-VA-FSH:getNumberOfOpens"             dbrtype="DBR_STRING" description="Front end shutter #Opens (#)"/>
+	<Attribute name="FE_PhotonStopper"          	   type="EPICS_PV" source="FE08-VA-PHST:getNumberOfOpens"            dbrtype="DBR_STRING" description="Photon stopper front-end #Opens (#)"/>
+	<Attribute name="OPVA_VCMIonPump"          	   	   type="EPICS_PV" source="D08-OP-IP1:getPressure"            		 dbrtype="DBR_STRING" description="Ion pump VCM optics pressure (mbar)"/>
+	<Attribute name="OPVA_WireMonitorIonPump"          type="EPICS_PV" source="D08-OP-IP2:getPressure"            		 dbrtype="DBR_STRING" description="Ion pump wire monitor optics pressure (mbar)"/>
+	<Attribute name="OPVA_MonochromatorIonPump"        type="EPICS_PV" source="D08-OP-IP3:getPressure"            		 dbrtype="DBR_STRING" description="Ion pump monochromater optics pressure (mbar)"/>
+	<Attribute name="OPVA_SlitsIonPump"          	   type="EPICS_PV" source="D08-OP-IP4:getPressure"            		 dbrtype="DBR_STRING" description="Ion pump slits optics pressure (mbar)"/>
+	<Attribute name="OPVA_VFMIonPump"          	   	   type="EPICS_PV" source="D08-OP-IP5:getPressure"            		 dbrtype="DBR_STRING" description="Ion pump vfm optics pressure (mbar)"/>
+	<Attribute name="OPVA_PhotonShutterIonPump"        type="EPICS_PV" source="D08-OP-IP6:getPressure"            		 dbrtype="DBR_STRING" description="Ion pump photon shutter optics pressure (mbar)"/>
+	<Attribute name="OP_VCMGauge"        			   type="EPICS_PV" source="D08-OP-IMG1:getPressure"            		 dbrtype="DBR_STRING" description="Gauge VCM optics pressure (mbar)"/>
+	<Attribute name="OP_DCMGauge"        			   type="EPICS_PV" source="D08-OP-IMG2:getPressure"            		 dbrtype="DBR_STRING" description="Gauge DCM optics pressure (mbar)"/>
+	<Attribute name="OP_MSltGauge"        			   type="EPICS_PV" source="D08-OP-IMG3:getPressure"            		 dbrtype="DBR_STRING" description="Gauge mono slits optics pressure (mbar)"/>
+	<Attribute name="OP_OPShGauge"        			   type="EPICS_PV" source="D08-OP-IMG4:getPressure"            		 dbrtype="DBR_STRING" description="Gauge VFM optics pressure (mbar)"/>
+	<Attribute name="OP_VFMGauge"        			   type="EPICS_PV" source="D08-OP-IMG5:getPressure"            		 dbrtype="DBR_STRING" description="Gauge shutter optics pressure (mbar)"/>
+	<Attribute name="OP_ExpGauge"        			   type="EPICS_PV" source="D08-OP-IMG6:getPressure"            		 dbrtype="DBR_STRING" description="Gauge experimental optics pressure (mbar)"/>
+	<Attribute name="FEGV1"          	   			   type="EPICS_PV" source="D08-OP-VA-GV1:getNumberOfOpens"           dbrtype="DBR_STRING" description="Valve1 #Opens (#)"/>
+	<Attribute name="FEGV2"          	   			   type="EPICS_PV" source="D08-OP-VA-GV2:getNumberOfOpens"           dbrtype="DBR_STRING" description="Valve2 #Opens (#)"/>
+	<Attribute name="FEGV3"          	   			   type="EPICS_PV" source="D08-OP-VA-GV3:getNumberOfOpens"           dbrtype="DBR_STRING" description="Valve3 #Opens (#)"/>
+	<Attribute name="FEGV4"          	   			   type="EPICS_PV" source="D08-OP-VA-GV4:getNumberOfOpens"           dbrtype="DBR_STRING" description="Valve4 #Opens (#)"/>
+	<Attribute name="FE_PhotonShutter"          	   type="EPICS_PV" source="D08-OP-VA-PHSH:getNumberOfOpens"          dbrtype="DBR_STRING" description="Photon shutter optics #Opens (#)"/>
+	<Attribute name="FETHC1"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC1:getTemperature"            dbrtype="DBR_STRING" description="Front-end thermocouple1 (C)"/>
+	<Attribute name="FETHC2"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC2:getTemperature"            dbrtype="DBR_STRING" description="Front-end thermocouple2 (C)"/>
+	<Attribute name="FETHC3"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC3:getTemperature"            dbrtype="DBR_STRING" description="Front-end thermocouple3 (C)"/>
+	<Attribute name="FETHC4"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC4:getTemperature"            dbrtype="DBR_STRING" description="Front-end thermocouple4 (C)"/>
+	<Attribute name="FETHC5"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC5:getTemperature"            dbrtype="DBR_STRING" description="Front-end thermocouple5 (C)"/>
+	<Attribute name="OPTHC6"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC6:getTemperature"            dbrtype="DBR_STRING" description="Optics hutch thermocouple6 (C)"/>
+	<Attribute name="OPTHC7"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC7:getTemperature"            dbrtype="DBR_STRING" description="Optics hutch thermocouple7 (C)"/>
+	<Attribute name="OPTHC8"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC8:getTemperature"            dbrtype="DBR_STRING" description="Optics hutch thermocouple8 (C)"/>
+	<Attribute name="OPTHC9"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC9:getTemperature"            dbrtype="DBR_STRING" description="Monochromater Bragg temperature (C)"/>
+	<Attribute name="OPTHC10"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC10:getTemperature"           dbrtype="DBR_STRING" description="Monochromater T2 temperature (C)"/>
+	<Attribute name="OPTHC11"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC11:getTemperature"           dbrtype="DBR_STRING" description="Monochromater in-situ temperature(C)"/>
+	<Attribute name="OPTHC12"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC12:getTemperature"           dbrtype="DBR_STRING" description="VFM motor temperature(C)"/>
+	<Attribute name="OPTHC13"          	   			   type="EPICS_PV" source="DO8-OP-CO-THC13:getTemperature"           dbrtype="DBR_STRING" description="Optics hutch thermocouple13 (C)"/>
+	<Attribute name="OPPTC1"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT1:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC2"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT2:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC3"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT3:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC4"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT4:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC5"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT5:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC6"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT6:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC7"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT7:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC8"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT8:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC9"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT9:getTemperature"             dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC10"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT10:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC11"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT11:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC12"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT12:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC13"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT13:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC14"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT14:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC15"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT15:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
+	<Attribute name="OPPTC16"          	   			   type="EPICS_PV" source="DO8-OP-CO-PT16:getTemperature"            dbrtype="DBR_STRING" description="Monochromater PT100 (C)"/>
 
 	<Attribute name="ExperimentType"           type="EPICS_PV" source="XAFS:ExperimentType"                              dbrtype="DBR_STRING" description="Experiment type"/>
 	<Attribute name="ExperimentalFileName"     type="EPICS_PV" source="XAFS:ExperimentalFileName"                        dbrtype="DBR_STRING" description="Experimental file name"/>

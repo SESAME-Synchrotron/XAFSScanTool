@@ -31,7 +31,10 @@
 		  <dataset      name="life_time"      source="ndattribute"  ndattribute="LifeTime"      when="OnFileClose">
 			<attribute  name="units"          source="constant"     value="H"         type="string" />
 		  </dataset>
-		</group>
+	  	</group><!-- /source -->
+
+		<group name="detection_system">
+	  	</group><!-- /detection_system -->
 
 		<group name="wire_monitors">
 		  <dataset      name="wm1_position"    source="ndattribute"   ndattribute="WM1Position" when="OnFileClose">
@@ -296,27 +299,27 @@
 		</group><!-- vfm -->
 
 		<group name="dcm">
-		  <dataset      name="in_situ"        source="ndattribute"  ndattribute="" when="OnFileClose">
+		  <dataset      name="in_situ"        source="ndattribute"  ndattribute="INSITU" when="OnFileClose">
 			<attribute  name="units"          source="constant"     value="mm"        type="string" />
 		  </dataset>
 
-		  <dataset      name="crystal1_y"     source="ndattribute"  ndattribute="" when="OnFileClose">
-			<attribute  name="units"          source="constant"     value="mr"        type="string" />
+		  <dataset      name="crystal1_y"     source="ndattribute"  ndattribute="Crystal1Y" when="OnFileClose">
+			<attribute  name="units"          source="constant"     value="mm"        type="string" />
 		  </dataset>
 
-		  <dataset      name="crystal1_roll"  source="ndattribute"  ndattribute="" when="OnFileClose">
+		  <dataset      name="crystal1_roll"  source="ndattribute"  ndattribute="Crystal1Roll" when="OnFileClose">
 			<attribute  name="units"          source="constant"     value="deg"        type="string" />
 		  </dataset>
 
-		  <dataset      name="crystal2_roll"  source="ndattribute"  ndattribute="" when="OnFileClose">
+		  <dataset      name="crystal2_roll"  source="ndattribute"  ndattribute="Crystal2Roll" when="OnFileClose">
 			<attribute  name="units"          source="constant"     value="deg"        type="string" />
 		  </dataset>
 
-		  <dataset      name="crystal2_pitch" source="ndattribute"  ndattribute="" when="OnFileClose">
+		  <dataset      name="crystal2_pitch" source="ndattribute"  ndattribute="Crystal2Pitch" when="OnFileClose">
 			<attribute  name="units"          source="constant"     value="deg"        type="string" />
 		  </dataset>
 
-		  <dataset      name="theta"          source="ndattribute"  ndattribute="" when="OnFileClose">
+		  <dataset      name="theta"          source="ndattribute"  ndattribute="Theta" when="OnFileClose">
 			<attribute  name="units"          source="constant"     value="deg"        type="string" />
 		  </dataset>
 		</group><!-- dcm -->
@@ -458,7 +461,7 @@
 					<attribute 	name="number" 				source="constant" 		value="#" type="string" />
 				</dataset>
 			</group><!-- shutters -->
-		  </group> <!-- front-end -->
+		  </group> <!-- front_end -->
 
 		  <group name="optics">
 			<group name="pumps">
@@ -536,6 +539,7 @@
 					<attribute 	name="number" 			source="constant" 		value="#" type="string" />
 				</dataset>
 			</group><!-- shutters -->
+			</group> <!-- /optics -->
 		</group> <!-- /vacuum -->
 
 		<group name="cooling">
@@ -551,10 +555,116 @@
 			<dataset 		name="thc3" 	source="ndattribute" 	ndattribute="FETHC3" when="OnFileClose">
 				<attribute 	name="units" 	source="constant" 		value="c" type="string" />
 			</dataset>
-		  </group><!-- /frontend -->
+
+			<dataset 		name="thc4" 	source="ndattribute" 	ndattribute="FETHC4" when="OnFileClose">
+				<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+			</dataset>
+
+			<dataset 		name="thc5" 	source="ndattribute" 	ndattribute="FETHC5" when="OnFileClose">
+				<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+			</dataset>
+		  </group><!-- /front_end -->
 
 		  <group name="optics">
+			<group name="optics_hutch">
+				<dataset 		name="thc6" 	source="ndattribute" 	ndattribute="OPTHC6" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
 
+				<dataset 		name="thc7" 	source="ndattribute" 	ndattribute="OPTHC7" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="thc8" 	source="ndattribute" 	ndattribute="OPTHC8" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="thc12" 	source="ndattribute" 	ndattribute="OPTHC12" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="thc13" 	source="ndattribute" 	ndattribute="OPTHC13" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+			</group><!-- /optics_hutch -->
+
+			<group name="monochromater">
+				<dataset 		name="thc9" 	source="ndattribute" 	ndattribute="OPTHC9" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="thc10" 	source="ndattribute" 	ndattribute="OPTHC10" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="thc11" 	source="ndattribute" 	ndattribute="OPTHC11" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt1" 		source="ndattribute" 	ndattribute="OPPT1" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt2" 		source="ndattribute" 	ndattribute="OPPT2" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt3" 		source="ndattribute" 	ndattribute="OPPT3" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt4" 		source="ndattribute" 	ndattribute="OPPT4" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt5" 		source="ndattribute" 	ndattribute="OPPT5" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt6" 		source="ndattribute" 	ndattribute="OPPT6" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt7" 		source="ndattribute" 	ndattribute="OPPT7" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt8" 		source="ndattribute" 	ndattribute="OPPT8" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt9" 		source="ndattribute" 	ndattribute="OPPT9" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt10" 	source="ndattribute" 	ndattribute="OPPT10" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt11" 	source="ndattribute" 	ndattribute="OPPT11" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt12" 	source="ndattribute" 	ndattribute="OPPT12" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+				
+				<dataset 		name="pt13" 	source="ndattribute" 	ndattribute="OPPT13" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt14" 	source="ndattribute" 	ndattribute="OPPT14" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt15" 	source="ndattribute" 	ndattribute="OPPT15" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+
+				<dataset 		name="pt16" 	source="ndattribute" 	ndattribute="OPPT16" when="OnFileClose">
+					<attribute 	name="units" 	source="constant" 		value="c" type="string" />
+				</dataset>
+			</group><!-- /optics_hutch -->
 		  </group><!-- /optics -->
 		</group> <!-- /cooling -->
 	  </group><!-- /instrument -->
@@ -569,6 +679,8 @@
 		  <dataset      name="beamline_collimation"         source="ndattribute"      ndattribute="BeamlineCollimation" />
 		  <dataset      name="scan_energy"                  source="ndattribute"      ndattribute="ScanEnergy" />
 		  <dataset      name="energy_mode"                  source="ndattribute"      ndattribute="EnergyMode" />
+		  <dataset      name="experiment_comments"  source="ndattribute"      ndattribute="ExperimentComments" />
+		  <dataset        name="sample_name"   source="ndattribute" ndattribute="Sample" />
 		  <group name="HarmonicRejection">
 			<dataset      name="mirror_coating_vcm"           source="ndattribute"      ndattribute="MirrorCoatingVCM" />
 			<dataset      name="mirror_coating_vfm"           source="ndattribute"      ndattribute="MirrorCoatingVFM" />
@@ -579,14 +691,11 @@
 		  <dataset      name="personal_info"        source="ndattribute"      ndattribute="PersonalInfo" />
 		  <dataset      name="email"                source="ndattribute"      ndattribute="UserEmail" />
 		  <dataset      name="user_comments"        source="ndattribute"      ndattribute="UserComments" />
-		  <dataset      name="experiment_comments"  source="ndattribute"      ndattribute="ExperimentComments" />
 		</group><!-- /experimenter -->
 
 		<dataset        name="exp_file_name" source="ndattribute" ndattribute="ExperimentalFileName" />
 		<dataset        name="exp_file_path" source="ndattribute" ndattribute="ExperimentalFilePath" />
-		<dataset        name="sample_name"   source="ndattribute" ndattribute="Sample" />
 	  </group><!-- /sample -->
-	</group><!-- /measurement -->
 
 	  <group name="process">
 		<group name="data_writing">
@@ -654,5 +763,6 @@
 
 	<group name="defaults" ndattr_default="true">
 	</group><!-- /defaults -->
+	</group><!-- /measurement -->
 
 </hdf5_layout>
