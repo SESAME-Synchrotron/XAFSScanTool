@@ -147,8 +147,10 @@ class ZMQWriter (H5Writer):
                 self.writingData(x, y)
 
         self.h5file.close()
-        CLIMessage(f"total recieved points: {self.totalPoints - len(self.missedPoints)} | missed points index: {'No missed points' if len(self.missedPoints) == 0 else self.missedPoints}", "I")
-        log.info(f"total recieved points: {self.totalPoints - len(self.missedPoints)} | missed points index: {'No missed points' if len(self.missedPoints) == 0 else self.missedPoints}")
+        CLIMessage(f"""total recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.totalPoints}| 
+                   missed points index: {'No missed points' if len(self.missedPoints) == 0 else self.missedPoints}""", "I")
+        log.info(f"""total recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.totalPoints}| 
+                   missed points index: {'No missed points' if len(self.missedPoints) == 0 else self.missedPoints}""")
 
     def writingData(self, x, y):
         """
@@ -170,8 +172,18 @@ class ZMQWriter (H5Writer):
             PV(self.prefix + self.PVs[self.PVs.index("ReceivedPoints")]).put(self.totalPoints, wait=True)
             self.h5file[self.data][y, x, :] = data
             self.h5file[self.pixel][y,x] = PV(self.configFile["EPICSandIOCs"]["KETEKNetValue"]).get(timeout=self.PVTimeout)
-            CLIMessage(f"Total Points: {self.numXPoints * self.numYPoints} | current index point: {x, y} | remaining points: {self.numXPoints * self.numYPoints - self.totalPoints}", "I")
-            log.info(f"Total Points: {self.numXPoints * self.numYPoints} | current index point: {x, y} | remaining points: {self.numXPoints * self.numYPoints - self.totalPoints}")
+            CLIMessage(f"""Total Points: {self.numXPoints * self.numYPoints} |
+                        current point index: {x, y} |
+                        current point position: {self.arrayXPositions[x], self.arrayYPositions[y]} |
+                        collected points: {self.totalPoints} |
+                        missed points: {'0' if len(self.missedPoints) == 0 else self.missedPoints} |
+                        remaining points: {self.numXPoints * self.numYPoints - self.totalPoints}""", "I")
+            log.info(f"""Total Points: {self.numXPoints * self.numYPoints} |
+                        current point index: {x, y} |
+                        current point position: {self.arrayXPositions[x], self.arrayYPositions[y]} |
+                        collected points: {self.totalPoints} |
+                        missed points: {'0' if len(self.missedPoints) == 0 else self.missedPoints} |
+                        remaining points: {self.numXPoints * self.numYPoints - self.totalPoints}""")
         
         self.h5file[self.indexX][self.totalPoints-1] = x
         self.h5file[self.indexY][self.totalPoints-1] = y
