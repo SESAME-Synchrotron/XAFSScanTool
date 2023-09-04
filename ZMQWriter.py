@@ -147,9 +147,9 @@ class ZMQWriter (H5Writer):
                 self.writingData(x, y)
 
         self.h5file.close()
-        CLIMessage(f"total recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.totalPoints}| " 
+        CLIMessage(f"total recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.numXPoints * self.numYPoints}| " 
                    f"missed points index: {'No missed points' if len(self.missedPoints) == 0 else self.missedPoints}", "I")
-        log.info(f"total recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.totalPoints}| "
+        log.info(f"total recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.numXPoints * self.numYPoints}| "
                    f"missed points index: {'No missed points' if len(self.missedPoints) == 0 else self.missedPoints}")
 
     def writingData(self, x, y):
@@ -166,8 +166,8 @@ class ZMQWriter (H5Writer):
             log.error(f"missed point index ({x, y})")
             CLIMessage(f"missed point index ({x, y})", "W")
         elif data == "scanAborted":
-            CLIMessage(f"scan has been aborted >>> recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.totalPoints}", "E")
-            log.info(f"scan has been aborted >>> recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.totalPoints}")
+            CLIMessage(f"scan has been aborted >>> recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.numXPoints * self.numYPoints}", "E")
+            log.info(f"scan has been aborted >>> recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.numXPoints * self.numYPoints}")
             self.h5File.close()
         else:
             PV(self.prefix + self.PVs[self.PVs.index("ReceivedPoints")]).put(self.totalPoints, wait=True)
