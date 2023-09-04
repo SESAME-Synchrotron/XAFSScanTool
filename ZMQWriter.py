@@ -166,7 +166,8 @@ class ZMQWriter (H5Writer):
             log.error(f"missed point index ({x, y})")
             CLIMessage(f"missed point index ({x, y})", "W")
         elif data == "scanAborted":
-            CLIMessage(f"scan has been aborted", "E")
+            CLIMessage(f"scan has been aborted >>> recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.totalPoints}", "E")
+            log.info(f"scan has been aborted >>> recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.totalPoints}")
             self.h5File.close()
         else:
             PV(self.prefix + self.PVs[self.PVs.index("ReceivedPoints")]).put(self.totalPoints, wait=True)
