@@ -136,23 +136,23 @@ dmypy.json
 .DS_Store
 
 # Install directories
-IOCs/bin/
-IOCs/cfg/
-IOCs/db/
-IOCs/dbd/
-IOCs/html/
-IOCs/include/
-IOCs/lib/
-IOCs/templates/
+/IOCs/XAFS_DAQ/bin/
+/IOCs/XAFS_DAQ/cfg/
+/IOCs/XAFS_DAQ/db/
+/IOCs/XAFS_DAQ/dbd/
+/IOCs/XAFS_DAQ/html/
+/IOCs/XAFS_DAQ/include/
+/IOCs/XAFS_DAQ/lib/
+/IOCs/XAFS_DAQ/templates/
 
 # Local configuration files
-IOCs/configure/*.local
+/IOCs/XAFS_DAQ/configure/*.local
 
 # iocBoot generated files
-IOCs/iocBoot/*ioc*/cdCommands
-IOCs/iocBoot/*ioc*/dllPath.bat
-IOCs/iocBoot/*ioc*/envPaths
-IOCs/iocBoot/*ioc*/relPaths.sh
+/IOCs/XAFS_DAQ/iocBoot/*ioc*/cdCommands
+/IOCs/XAFS_DAQ/iocBoot/*ioc*/dllPath.bat
+/IOCs/XAFS_DAQ/iocBoot/*ioc*/envPaths
+/IOCs/XAFS_DAQ/iocBoot/*ioc*/relPaths.sh
 
 # Build directories
 O.*/
