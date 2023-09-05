@@ -134,3 +134,25 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .DS_Store
+
+# Install directories
+/IOCs/bin/
+/IOCs/cfg/
+/IOCs/db/
+/IOCs/dbd/
+/IOCs/html/
+/IOCs/include/
+/IOCs/lib/
+/IOCs/templates/
+
+# Local configuration files
+/IOCs/configure/*.local
+
+# iocBoot generated files
+/IOCs/iocBoot/*ioc*/cdCommands
+/IOCs/iocBoot/*ioc*/dllPath.bat
+/IOCs/iocBoot/*ioc*/envPaths
+/IOCs/iocBoot/*ioc*/relPaths.sh
+
+# Build directories
+O.*/
