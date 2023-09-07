@@ -107,6 +107,9 @@
 		},
 		"SMP:Y":{
 			"pvname":"D08-ES-SMP-STP-Y"
+		},
+		"SMP:Rot":{
+			"pvname":"D08-ES-SMP-STP-ROT"
 		}
 	}
 }

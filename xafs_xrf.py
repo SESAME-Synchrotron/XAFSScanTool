@@ -201,7 +201,7 @@ class XAFS_XRF:
 		self.motors["SMP:X"].move(SP)
 		time.sleep(1) 
 		while not self.motors["SMP:X"].done_moving:
-			CLIMessage("sample X moving ...", "IG")
+			CLIMessage("Sample stage | axis X is moving ...", "IG")
 			time.sleep(1)
 	
 	def MoveSmpY(self,SP):
@@ -210,7 +210,16 @@ class XAFS_XRF:
 		self.motors["SMP:Y"].move(SP)
 		time.sleep(1) 
 		while not self.motors["SMP:Y"].done_moving:
-			CLIMessage("sample Y moving ...", "IG")
+			CLIMessage("Sample stage | axis Y is moving ...", "IG")
+			time.sleep(1)
+
+	def MoveSmpRot(self,SP):
+		log.info("Move sample rotation axis to: {}".format(SP))
+		self.motors["SMP:Rot"].put("stop_go",3) # Go
+		self.motors["SMP:Rot"].move(SP)
+		time.sleep(1) 
+		while not self.motors["SMP:Rot"].done_moving:
+			CLIMessage("sample rotation axis is moving ...", "IG")
 			time.sleep(1)
 
 	def clearPlot(self):

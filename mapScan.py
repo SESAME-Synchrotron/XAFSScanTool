@@ -32,8 +32,9 @@ class MAPSCAN (XAFS_XRFSTEP):
 		self.ROIYEnd       = self.cfg['ROIYEnd']
 		self.scanResX      = self.cfg['ResX']
 		self.scanResY      = self.cfg['ResY']
+		self.rotStageAngle = self.cfg["ROIRot"]
 		self.scanEnergy    = self.cfg['Energy']
-		self.scanTopology  = self.cfg["ExpMetaData"][9]["mapScanTopology"]
+		self.scanTopology  = self.cfg["ExpMetaData"][6]["mapScanTopology"]
 		self.FrameDuration = self.cfg["IntTime"]
 
 		""" read XAFS_writer cfg file"""
@@ -170,6 +171,8 @@ class MAPSCAN (XAFS_XRFSTEP):
 		log.info ('Scan range for X axis: {}'.format(self.xRange))
 		log.info ('Scan range for Y axis: {}'.format(self.yRange))
 		log.info('Scan Topology: {}'.format(self.scanTopology))
+
+		self.MoveSmpRot(self.rotStageAngle)
 
 		if self.scanTopology == 'Sequential':
 
@@ -322,10 +325,10 @@ class MAPSCAN (XAFS_XRFSTEP):
 			PV(prefix + PVs[PVs.index("PIEmail")]).put("No Data", wait=True)
 
 		PV(prefix + PVs[PVs.index("ScanTopo")]).put(self.scanTopology, wait=True)
-		PV(prefix + PVs[PVs.index("ElementEdge")]).put(self.cfg['ExpMetaData'][0]['edge'], wait=True)
-		PV(prefix + PVs[PVs.index("MonoName")]).put(self.cfg['ExpMetaData'][6]['Mono'], wait=True)
+		# PV(prefix + PVs[PVs.index("ElementEdge")]).put(self.cfg['ExpMetaData'][0]['edge'], wait=True)
+		PV(prefix + PVs[PVs.index("MonoName")]).put(self.cfg['ExpMetaData'][3]['Mono'], wait=True)
 
-		if self.cfg['ExpMetaData'][6]['Mono'] == "Si 111":
+		if self.cfg['ExpMetaData'][3]['Mono'] == "Si 111":
 			PV(prefix + PVs[PVs.index("MonoDSpacing")]).put(3.1356, wait=True)
 		else:
 			PV(prefix + PVs[PVs.index("MonoDSpacing")]).put(1.6374, wait=True)
@@ -342,8 +345,8 @@ class MAPSCAN (XAFS_XRFSTEP):
 		PV(prefix + PVs[PVs.index("ResolutionY")]).put(self.scanResY, wait=True)
 		PV(prefix + PVs[PVs.index("BeamlineCollimation")]).put("slits", wait=True)
 		PV(prefix + PVs[PVs.index("BeamlineFocusing")]).put(0, wait=True)
-		PV(prefix + PVs[PVs.index("MirrorCoatingVCM")]).put(self.cfg['ExpMetaData'][4]['vcm'], wait=True)
-		PV(prefix + PVs[PVs.index("MirrorCoatingVFM")]).put(self.cfg['ExpMetaData'][5]['vfm'], wait=True)
+		PV(prefix + PVs[PVs.index("MirrorCoatingVCM")]).put(self.cfg['ExpMetaData'][1]['vcm'], wait=True)
+		PV(prefix + PVs[PVs.index("MirrorCoatingVFM")]).put(self.cfg['ExpMetaData'][2]['vfm'], wait=True)
 		PV(prefix + PVs[PVs.index("ExpStartTime")]).put(self.expStartTimeDF, wait=True)
 		PV(prefix + PVs[PVs.index("ScanStartTime")]).put(self.creationTime, wait=True)
 		PV(prefix + PVs[PVs.index("ScanEnergy")]).put(self.cfg['Energy'], wait=True)
@@ -351,8 +354,8 @@ class MAPSCAN (XAFS_XRFSTEP):
 		# PV(prefix + PVs[PVs.index("EnergyMode")]).put(, wait=True)
 		# PV(prefix + PVs[PVs.index("SampleStoichiometry")]).put(self.cfg['ExpMetaData'][2]['stoichiometry'], wait=True)
 		# PV(prefix + PVs[PVs.index("SamplePreperation")]).put(self.cfg['ExpMetaData'][3]['samplePrep'], wait=True)
-		PV(prefix + PVs[PVs.index("UserComments")]).put(self.cfg['ExpMetaData'][7]['userCom'], wait=True)
-		PV(prefix + PVs[PVs.index("ExperimentComments")]).put(self.cfg['ExpMetaData'][8]['expCom'], wait=True)
+		PV(prefix + PVs[PVs.index("UserComments")]).put(self.cfg['ExpMetaData'][4]['userCom'], wait=True)
+		PV(prefix + PVs[PVs.index("ExperimentComments")]).put(self.cfg['ExpMetaData'][5]['expCom'], wait=True)
 
 		CLIMessage("Finishing writePVs...", "I")
 		log.info("Finishing writePVs...")		

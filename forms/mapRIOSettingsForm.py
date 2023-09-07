@@ -62,6 +62,7 @@ class Ui_Dialog(object):
         self.label_2.setObjectName("label_2")
         self.gridLayout.addWidget(self.label_2, 1, 0, 1, 1)
         self.mapROIZ = QtWidgets.QLineEdit(self.layoutWidget)
+        self.mapROIZ.setEnabled(False)
         self.mapROIZ.setObjectName("mapROIZ")
         self.gridLayout.addWidget(self.mapROIZ, 4, 1, 1, 1)
         self.label_3 = QtWidgets.QLabel(self.layoutWidget)
@@ -89,6 +90,7 @@ class Ui_Dialog(object):
         self.label_5.setText(_translate("Dialog", "Y end"))
         self.label_6.setText(_translate("Dialog", "Z"))
         self.label_2.setText(_translate("Dialog", "X start"))
+        self.mapROIZ.setText(_translate("Dialog", "0"))
         self.label_3.setText(_translate("Dialog", "X end"))
 
 

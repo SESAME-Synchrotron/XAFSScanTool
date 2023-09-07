@@ -73,8 +73,8 @@ class ConfigGUI:
 
 		self.guiObj.sampleName.textChanged.connect(self.getFoilElementEnergy)
 		self.guiObj.edge.currentTextChanged.connect(self.getFoilElementEnergy)
-		self.guiObj.mapEdgeElement.textChanged.connect(self.getFoilElementEnergy)
-		self.guiObj.mapEdge.currentTextChanged.connect(self.getFoilElementEnergy)
+		# self.guiObj.mapEdgeElement.textChanged.connect(self.getFoilElementEnergy)
+		# self.guiObj.mapEdge.currentTextChanged.connect(self.getFoilElementEnergy)
 
 		self.Qwiz.exec_()
 	def onClose(self):
@@ -96,10 +96,10 @@ class ConfigGUI:
 		else:
 			self.guiObj.sampleName.setReadOnly(False)
 			self.guiObj.sampleName.setStyleSheet("QLineEdit {background : green;}")
-			self.guiObj.mapEdgeElement.setStyleSheet("QLineEdit {background : green;}")
+			# self.guiObj.mapEdgeElement.setStyleSheet("QLineEdit {background : green;}")
 			self.guiObj.sampleName.setText(caget(self.PVs["PV"]["ENGCAL:FoilElement"]["pvname"]))
 			self.guiObj.energy.setStyleSheet("QLineEdit {background : green;}")
-			self.guiObj.mapEdgeEnergy.setStyleSheet("QLineEdit {background : green;}")
+			# self.guiObj.mapEdgeEnergy.setStyleSheet("QLineEdit {background : green;}")
 			self.guiObj.energy.setText(str(caget(self.PVs["PV"]["ENGCAL:RealFoilEng"]["pvname"])))
 			self.guiObj.Mono.setEnabled(False)
 			self.guiObj.Mono.setStyleSheet("QComboBox {background : green;}")
@@ -227,10 +227,11 @@ class ConfigGUI:
 			except: 
 				CLIMessage ("Please provide a valid energy scan config file", 'W')
 		else:
-			try:
-				self.browseStepMapScanCfgFile()
-			except:
-				CLIMessage ("Please provide a valid mapping scan config file", 'W')
+			self.browseStepMapScanCfgFile()
+			# try:
+			# 	self.browseStepMapScanCfgFile()
+			# except:
+			# 	CLIMessage ("Please provide a valid mapping scan config file", 'W')
 
 	def browseStepMapScanCfgFile(self):
 		self.MapDefineROIGUI = MapDefineROIGUI()
@@ -265,8 +266,8 @@ class ConfigGUI:
 		if "KETEK" in self.cfg["detectors"]:
 			detCheckbox = getattr(self.mapDetectorGUI.mapDetectorGUI_UI, "KETEK")
 			detCheckbox.setChecked(True)
-		self.guiObj.mapEdge.setCurrentText(str(self.cfg["ExpMetaData"][0]["edge"]))
-		self.guiObj.mapEdgeElement.setText(str(self.cfg["ExpMetaData"][1]["mapEdgeElement"]))
+		# self.guiObj.mapEdge.setCurrentText(str(self.cfg["ExpMetaData"][0]["edge"]))
+		# self.guiObj.mapEdgeElement.setText(str(self.cfg["ExpMetaData"][1]["mapEdgeElement"]))
 
 		self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIXStart.setText(str(self.cfg['ROIXStart']))
 		self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIXEnd.setText(str(self.cfg['ROIXEnd']))
@@ -275,14 +276,14 @@ class ConfigGUI:
 		self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIZ.setText(str(self.cfg['ROIZ']))
 		self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIRot.setText(str(self.cfg['ROIRot']))
 
-		self.guiObj.mapStoichiometry.setText(str(self.cfg['ExpMetaData'][2]['stoichiometry']))
-		self.guiObj.mapSamplePrep.setText(str(self.cfg['ExpMetaData'][3]['samplePrep']))
-		self.guiObj.mapVCM.setCurrentText(str(self.cfg['ExpMetaData'][4]['vcm']))
-		self.guiObj.mapVFM.setCurrentText(str(self.cfg['ExpMetaData'][5]['vfm']))
-		self.guiObj.mapMono.setCurrentText(str(self.cfg['ExpMetaData'][6]['Mono']))
-		self.guiObj.mapUserCom.setText(str(self.cfg['ExpMetaData'][7]['userCom']))
-		self.guiObj.mapExpCom.setText(str(self.cfg['ExpMetaData'][8]['expCom']))
-		self.guiObj.mapScanTopology.setCurrentText(str(self.cfg["ExpMetaData"][9]["mapScanTopology"]))
+		# self.guiObj.mapStoichiometry.setText(str(self.cfg['ExpMetaData'][2]['stoichiometry']))
+		self.guiObj.mapSamplePrep.setText(str(self.cfg['ExpMetaData'][0]['samplePrep']))
+		self.guiObj.mapVCM.setCurrentText(str(self.cfg['ExpMetaData'][1]['vcm']))
+		self.guiObj.mapVFM.setCurrentText(str(self.cfg['ExpMetaData'][2]['vfm']))
+		self.guiObj.mapMono.setCurrentText(str(self.cfg['ExpMetaData'][3]['Mono']))
+		self.guiObj.mapUserCom.setText(str(self.cfg['ExpMetaData'][4]['userCom']))
+		self.guiObj.mapExpCom.setText(str(self.cfg['ExpMetaData'][5]['expCom']))
+		self.guiObj.mapScanTopology.setCurrentText(str(self.cfg["ExpMetaData"][6]["mapScanTopology"]))
 
 
 
@@ -421,7 +422,7 @@ class ConfigGUI:
 			self.cfg['ROIZ'] = mapROIYEnd
 
 			mapROIRot = self.MapDefineROIGUI.mapDefineROIGUI_UI.mapROIRot.text()
-			if mapROIRot == '' or not Common.regexvalidation('MapROI', mapROIRot):
+			if mapROIRot == '' or not Common.regexvalidation('Position', mapROIRot):
 				CLIMessage ("Please enter a valid value for ROI Rotation axis ", 'W')
 				return self.WizardPages.stepMapScanParameters.value
 			self.cfg['ROIRot'] = mapROIRot
@@ -461,34 +462,34 @@ class ConfigGUI:
 				CLIMessage('Please choose at least one detector', 'W')
 				return self.WizardPages.stepMapScanParameters.value
 
-			if self.guiObj.mapEdge.currentText() == "":
-				CLIMessage("Please choose the element edge", "W")
-				return self.WizardPages.stepMapScanParameters.value
-			else:
-				expMetaData.append({"edge":self.guiObj.mapEdge.currentText()})
+			# if self.guiObj.mapEdge.currentText() == "":
+			# 	CLIMessage("Please choose the element edge", "W")
+			# 	return self.WizardPages.stepMapScanParameters.value
+			# else:
+			# 	expMetaData.append({"edge":self.guiObj.mapEdge.currentText()})
 
-			if self.guiObj.mapEdgeElement.text() == "":
-				CLIMessage("Please enter the periodic element for this experiment", "W")
-				return self.WizardPages.stepMapScanParameters.value
-			else:
-				if electronBindingEnergies(self.guiObj.mapEdgeElement.text()).elementExist():
-					self.getFoilElementEnergy()
-					expMetaData.append({"mapEdgeElement":self.guiObj.mapEdgeElement.text()})
-				else:
-					Common.show_message(QtWidgets.QMessageBox.Critical,
-						"""Enter a valid format of the foil element being used!! \n Allowed elements are:
-						H, He, Li, Be, B, C, N, O, F, Ne, Na, Mg, Al, Si, P, S, Cl, Ar, K, Ca, Sc, Ti
-						V, Cr, Mn, Fe, Co, Ni, Cu, Zn, Ga, Ge, As, Se, Br, Kr, Rb, Sr, Y, Zr, Nb, Mo, Tc,
-						Ru, Rh, Pd, Ag, Cd, In, Sn, Sb, Te, I, Xe, Cs, Ba, La, Ce, Pr, Nd, Pm, Sm, Eu, Gd,
-						Tb, Dy, Ho, Er, Tm, Yb, Lu, Hf, Ta, W, Re, Os, Ir, Pt, Au, Hg, Tl, Pb, Bi, Po, At,
-						Rn, Fr, Ra, Ac, Th, Pa, U ""","XAFS/XRF Scan tool",
-						QtWidgets.QMessageBox.Ok)
-					return self.WizardPages.stepMapScanParameters.value
+			# if self.guiObj.mapEdgeElement.text() == "":
+			# 	CLIMessage("Please enter the periodic element for this experiment", "W")
+			# 	return self.WizardPages.stepMapScanParameters.value
+			# else:
+			# 	if electronBindingEnergies(self.guiObj.mapEdgeElement.text()).elementExist():
+			# 		self.getFoilElementEnergy()
+			# 		expMetaData.append({"mapEdgeElement":self.guiObj.mapEdgeElement.text()})
+			# 	else:
+			# 		Common.show_message(QtWidgets.QMessageBox.Critical,
+			# 			"""Enter a valid format of the foil element being used!! \n Allowed elements are:
+			# 			H, He, Li, Be, B, C, N, O, F, Ne, Na, Mg, Al, Si, P, S, Cl, Ar, K, Ca, Sc, Ti
+			# 			V, Cr, Mn, Fe, Co, Ni, Cu, Zn, Ga, Ge, As, Se, Br, Kr, Rb, Sr, Y, Zr, Nb, Mo, Tc,
+			# 			Ru, Rh, Pd, Ag, Cd, In, Sn, Sb, Te, I, Xe, Cs, Ba, La, Ce, Pr, Nd, Pm, Sm, Eu, Gd,
+			# 			Tb, Dy, Ho, Er, Tm, Yb, Lu, Hf, Ta, W, Re, Os, Ir, Pt, Au, Hg, Tl, Pb, Bi, Po, At,
+			# 			Rn, Fr, Ra, Ac, Th, Pa, U ""","XAFS/XRF Scan tool",
+			# 			QtWidgets.QMessageBox.Ok)
+			# 		return self.WizardPages.stepMapScanParameters.value
 
-			if self.guiObj.mapStoichiometry.text() == "":
-				expMetaData.append({"stoichiometry":"NONE"})
-			else:
-				expMetaData.append({"stoichiometry":self.guiObj.mapStoichiometry.text()})
+			# if self.guiObj.mapStoichiometry.text() == "":
+			# 	expMetaData.append({"stoichiometry":"NONE"})
+			# else:
+			# 	expMetaData.append({"stoichiometry":self.guiObj.mapStoichiometry.text()})
 
 			if self.guiObj.mapSamplePrep.text() == "":
 				CLIMessage("Please enter the sample preperation for this experiment", "W")
@@ -798,18 +799,18 @@ class ConfigGUI:
 					self.guiObj.energy.setText(str(elementEnergy))
 				else:
 					self.guiObj.energy.setText(None)
-			elif self.cfg['scanType'] == 'stepMapScan':
-				edge = self.guiObj.mapEdge.currentText()
-				foilElement = self.guiObj.mapEdgeElement.text()
-				if edge == "":
-					edge = "K" # goes to default
-				if foilElement == "":
-					self.guiObj.mapEdgeEnergy.setText(None)
-				elif electronBindingEnergies(foilElement).elementExist():
-					elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
-					self.guiObj.mapEdgeEnergy.setText(str(elementEnergy))
-				else:
-					self.guiObj.energy.setText(None)
+			# elif self.cfg['scanType'] == 'stepMapScan':
+			# 	edge = self.guiObj.mapEdge.currentText()
+			# 	# foilElement = self.guiObj.mapEdgeElement.text()
+			# 	if edge == "":
+			# 		edge = "K" # goes to default
+			# 	if foilElement == "":
+			# 		self.guiObj.mapEdgeEnergy.setText(None)
+			# 	elif electronBindingEnergies(foilElement).elementExist():
+			# 		elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
+			# 		self.guiObj.mapEdgeEnergy.setText(str(elementEnergy))
+			# 	else:
+			# 		self.guiObj.energy.setText(None)
 		except:
 			pass
 
