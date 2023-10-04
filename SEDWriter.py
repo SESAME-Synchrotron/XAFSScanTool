@@ -13,12 +13,10 @@ camelCase is being used here with some deviations:
 ==============
 """
 
-import csv
-import os
-from os import path, makedirs
-import pathlib 
-from colorama import init, Fore, Back, Style
 import sys
+import csv
+from os import path, makedirs
+from colorama import init, Fore, Back, Style
 from SEDSS.UIMessage import UIMessage
 
 init() # this is to this is to initiate colorama 

@@ -162,7 +162,7 @@
 	<Attribute name="ScanStartTime"            type="EPICS_PV" source="XAFS:ScanStartTime"                               dbrtype="DBR_STRING" description="Scan start time (Y-m-d T HH:MM:SS)"/>
 	<Attribute name="ScanEndTime"              type="EPICS_PV" source="XAFS:ScanEndTime"                                 dbrtype="DBR_STRING" description="Scan end time (Y-m-d T HH:MM:SS)"/>
 	<Attribute name="ScanEnergy"               type="EPICS_PV" source="XAFS:ScanEnergy"                                  dbrtype="DBR_NATIVE" description="Scan energy (keV)"/>
-	<Attribute name="EnergyMode"               type="EPICS_PV" source="XAFS:EnergyMode"                                  dbrtype="DBR_STRING" description="Energy mode"/>
+	<!-- <Attribute name="EnergyMode"               type="EPICS_PV" source="XAFS:EnergyMode"                                  dbrtype="DBR_STRING" description="Energy mode"/> -->
 	<Attribute name="Sample"                   type="EPICS_PV" source="XAFS:Sample"                                      dbrtype="DBR_STRING" description="Sample name"/>
 	<Attribute name="UserComments"             type="EPICS_PV" source="XAFS:UserComments"                                dbrtype="DBR_STRING" description="User comments"/>
 	<Attribute name="ExperimentComments"       type="EPICS_PV" source="XAFS:ExperimentComments"                          dbrtype="DBR_STRING" description="Experiment comments"/>

@@ -678,7 +678,7 @@
 				<dataset      name="mono_settling_time"           source="ndattribute"      ndattribute="MonoSettlingTime" />
 				<dataset      name="beamline_collimation"         source="ndattribute"      ndattribute="BeamlineCollimation" />
 				<dataset      name="scan_energy"                  source="ndattribute"      ndattribute="ScanEnergy" />
-				<dataset      name="energy_mode"                  source="ndattribute"      ndattribute="EnergyMode" />
+				<!-- <dataset      name="energy_mode"                  source="ndattribute"      ndattribute="EnergyMode" /> -->
 				<dataset      name="experiment_comments"  source="ndattribute"      ndattribute="ExperimentComments" />
 				<dataset      name="sample_name"   source="ndattribute" ndattribute="Sample" />
 				<dataset      name="exp_file_name" source="ndattribute" ndattribute="ExperimentalFileName" />
