@@ -46,7 +46,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 		ZMQSPort = ZMQSettings["ZMQPort"]
 		ZMQSProtocol = ZMQSettings["ZMQProtocol"]
 		ZMQSender = ZMQSProtocol + "://" + ZMQSender + ":" + ZMQSPort
-		self.numChannels = PV(self.h5cfg["EPICSandIOCs"]["KETEKNumChannels"]).get(timeout=0.5)
+		self.numChannels = PV(self.h5cfg["EPICSandIOCs"]["KETEKNumChannels"]).get(timeout=1, use_monitor=False)
 		context = zmq.Context()
 		self.sock = context.socket(zmq.PUB)
 		self.sock.connect(ZMQSender)  	# Connect instead of bind for the server
@@ -65,7 +65,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 	def MoveDCM(self,SP, curentScanInfo=None):
 		super().MoveDCM(SP, curentScanInfo)
 		log.info('Moving to start energy: {}'.format(SP))
-		while not self.PVs["DCM:Energy:Moving"].get():
+		while not self.PVs["DCM:Energy:Moving"].get(timeout=1, use_monitor=False):
 				CLIMessage("DCM is moving to scan energy {}... ".format(SP), "IG")
 				self.motors["DCM:Theta"].put("stop_go",3)
 				self.motors["DCM:Y"].put("stop_go",3)

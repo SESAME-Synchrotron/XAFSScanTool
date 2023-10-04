@@ -5,7 +5,7 @@
 	"fileFormat": "DX",
 	"EPICSandIOCs":
 	{
-		"EPICSPVTimeout": 0.5,
+		"EPICSPVTimeout": 1,
 		"KETEKNumChannels": "D08-ES-SDD1:mca1.NORD",
 		"KETEKNetValue":"D08-ES-SDD1:mca1.R0N"
 	},

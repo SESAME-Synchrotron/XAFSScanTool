@@ -3,17 +3,17 @@ AN:
 1. getPVValueType() to be inhansed i.e. it returns data and type ... sometimes yhe one just needs the data only  
 2. _dataType to be validated or clarified with control group
 """
-from SEDWriter import SEDWriter
-from SEDSS.CLIMessage import CLIMessage
-from SEDSS.SEDSupport import readFile
-import xml.etree.ElementTree as ET
+import sys
+import time
 import h5py
 import datetime
 import log 
 from epics import PV
-import sys
-import time
+import xml.etree.ElementTree as ET
 
+from SEDWriter import SEDWriter
+from SEDSS.CLIMessage import CLIMessage
+from SEDSS.SEDSupport import readFile
 class H5Writer (SEDWriter): 
 	def __init__(self, fName, fPath, configFile, wMode="w"):
 		super().__init__(fName, fPath)
@@ -185,7 +185,7 @@ class H5Writer (SEDWriter):
 							"""
 							if elem.attrib.get("source") == "detector":
 								# get dimentiones of the frames from the driver to create hdf5 shape 
-								self.numChannels = PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get(timeout=self.PVTimeout)
+								self.numChannels = PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get(timeout=self.PVTimeout, use_monitor=False)
 								#define and set hdf5 chuncks 
 								_chunks = True																														
 									

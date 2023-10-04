@@ -100,12 +100,12 @@ class ZMQWriter (H5Writer):
 
                 # create datasets
                 datasetOnH5 = self.h5File.create_dataset(rawDatasets[dataset]["dataset"],
-                dtype=_dtype, shape=(len(numPointsY), len(numPointsX)), chunks=True)        # create a 2D dataset based on rows*cols >> y*x 
+                dtype=_dtype, shape=(len(numPointsY), len(numPointsX)), chunks=True)        # create a 2D dataset based on rows*cols >> y*x
 
                 # add attributes to the created dataset
                 for att in rawDatasets[dataset]["attributes"]:
                     datasetOnH5.attrs[att]=rawDatasets[dataset]["attributes"][att]
-        
+
         log.info("Raw datasets creation is done")
 
     def receiveData(self, numPointsX, numPointsY, scanTopo = "seq", arrayIndexX = None, arrayIndexY=None):
@@ -147,9 +147,9 @@ class ZMQWriter (H5Writer):
                 self.writingData(x, y)
 
         self.h5file.close()
-        CLIMessage(f"total recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.numXPoints * self.numYPoints}| " 
+        CLIMessage(f"total recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.numXPoints * self.numYPoints} | "
                    f"missed points index: {'No missed points' if len(self.missedPoints) == 0 else self.missedPoints}", "I")
-        log.info(f"total recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.numXPoints * self.numYPoints}| "
+        log.info(f"total recieved points: {self.totalPoints - len(self.missedPoints)} out of {self.numXPoints * self.numYPoints} | "
                    f"missed points index: {'No missed points' if len(self.missedPoints) == 0 else self.missedPoints}")
 
     def writingData(self, x, y):
@@ -172,20 +172,20 @@ class ZMQWriter (H5Writer):
         else:
             PV(self.prefix + self.PVs[self.PVs.index("ReceivedPoints")]).put(self.totalPoints, wait=True)
             self.h5file[self.data][y, x, :] = data
-            self.h5file[self.pixel][y,x] = PV(self.configFile["EPICSandIOCs"]["KETEKNetValue"]).get(timeout=self.PVTimeout)
+            self.h5file[self.pixel][y,x] = PV(self.configFile["EPICSandIOCs"]["KETEKNetValue"]).get(timeout=self.PVTimeout, use_monitor=False)
             CLIMessage(f"Total Points: {self.numXPoints * self.numYPoints} | "
                         f"current point index: {x, y} | "
                         f"current point position: {self.arrayXPositions[x], self.arrayYPositions[y]} | "
                         f"collected points: {self.totalPoints} | "
                         f"missed points: {'0' if len(self.missedPoints) == 0 else self.missedPoints} | "
                         f"remaining points: {self.numXPoints * self.numYPoints - self.totalPoints}", "I")
-            log.info(f"Total Points: {self.numXPoints * self.numYPoints} |"
+            log.info(f"Total Points: {self.numXPoints * self.numYPoints} | "
                         f"current point index: {x, y} | "
-                        f"current point position: {self.arrayXPositions[x], self.arrayYPositions[y]} | " 
+                        f"current point position: {self.arrayXPositions[x], self.arrayYPositions[y]} | "
                         f"collected points: {self.totalPoints} | "
                         f"missed points: {'0' if len(self.missedPoints) == 0 else self.missedPoints} | "
                         f"remaining points: {self.numXPoints * self.numYPoints - self.totalPoints}")
-        
+
         self.h5file[self.indexX][self.totalPoints-1] = x
         self.h5file[self.indexY][self.totalPoints-1] = y
         self.h5file[self.positionX][self.totalPoints-1] = self.arrayXPositions[x]
