@@ -787,33 +787,19 @@ class ConfigGUI:
 
 	def getFoilElementEnergy(self):
 		try:
-			if self.cfg['scanType'] == 'stepEngScan':
-				edge = self.guiObj.edge.currentText()
-				foilElement = self.guiObj.sampleName.text()
-				if edge == "":
-					edge = "K" # goes to default
-				if foilElement == "":
-					self.guiObj.energy.setText(None)
-				elif electronBindingEnergies(foilElement).elementExist():
-					elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
-					self.guiObj.energy.setText(str(elementEnergy))
-				else:
-					self.guiObj.energy.setText(None)
-			# elif self.cfg['scanType'] == 'stepMapScan':
-			# 	edge = self.guiObj.mapEdge.currentText()
-			# 	# foilElement = self.guiObj.mapEdgeElement.text()
-			# 	if edge == "":
-			# 		edge = "K" # goes to default
-			# 	if foilElement == "":
-			# 		self.guiObj.mapEdgeEnergy.setText(None)
-			# 	elif electronBindingEnergies(foilElement).elementExist():
-			# 		elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
-			# 		self.guiObj.mapEdgeEnergy.setText(str(elementEnergy))
-			# 	else:
-			# 		self.guiObj.energy.setText(None)
+			edge = self.guiObj.edge.currentText()
+			foilElement = self.guiObj.sampleName.text()
+			if edge == "":
+				edge = "K" # goes to default
+			if foilElement == "":
+				self.guiObj.energy.setText(None)
+			elif electronBindingEnergies(foilElement).elementExist():
+				elementEnergy = electronBindingEnergies(foilElement).getEdgeEnergy(edge)
+				self.guiObj.energy.setText(str(elementEnergy))
+			else:
+				self.guiObj.energy.setText(None)
 		except:
 			pass
-
 
 	def start(self):
 		NIntervals = self.guiObj.setNumofIterv.text()
