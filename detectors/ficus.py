@@ -69,12 +69,12 @@ class FICUS(Base):
 		time.sleep(FrameDuration +self.FicusReadOutTime)
 		#CLIMessage("Overall duration time : {}".format(FrameDuration+self.FicusReadOutTime))
 	
-		Elapsedtime							=	self.data["FICUS-e-time[sec]"]	=	self.PVs["Ficus:Elapsedtime"].get()
+		self.Elapsedtime							=	self.data["FICUS-e-time[sec]"]	=	self.PVs["Ficus:Elapsedtime"].get()
 		ROIs								=	self.PVs['Ficus:ROIs'].get()
-		ROIsE								= 	np.divide(ROIs,Elapsedtime)
+		ROIsE								= 	np.divide(ROIs,self.Elapsedtime)
 		self.data["FICUS-DEADTIME[%]"]		=	np.mean(self.PVs["Ficus:Deadtime"].get())
 		self.data["FICUS-INT_TIME[sec]"]	=	FrameDuration
-		self.data["FICUS-If"]				=	ROIsE[0]
+		self.data["FICUS-If"]				=	ROIs[0]
 		self.data["FICUS-ROI_0[c/s]"]		=	ROIs[0]
 		self.data["FICUS-ROI_1[c/s]"]		=	ROIs[1]
 		self.data["FICUS-ROI_2[c/s]"]		=	ROIs[2]
@@ -92,4 +92,4 @@ class FICUS(Base):
 		self.data["TRANS"]			=	self.trydiv(I0Dp,ItDp)
 		self.data["TransRef"]		=	self.trydiv(ItDp,It2Dp)
 		#self.data["FICUS-FLUOR"]			=	self.trydiv(IfDp,I0Dp)
-		self.data["FICUS-FLUOR"] =	IfDp/I0Dp
+		self.data["FICUS-FLUOR"] =	(IfDp/I0Dp)/self.Elapsedtime
