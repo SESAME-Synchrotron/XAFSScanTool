@@ -470,14 +470,28 @@ class XAFS_XRF:
 	def dataTransfer(self):
 		try:
 			SEDTransfer(self.localDataPath, self.paths["AutoCopyDS"]).scp()
+			print ("self.localDataPath :::::: ", self.localDataPath)
+			print ("self.paths[AutoCopyDS] ::::: ", self.paths["AutoCopyDS"])
 			if self.cfg["expType"] == "proposal":
 				SEDTransfer(self.localDataPath, self.paths["DS"]+":"+self.userinfo["Experimental_Data_Path"]).scp()
+				print ("self.paths[DS] ::::: ", self.paths["DS"])
+				print ("self.userinfo[Experimental_Data_Path] :::::: ", self.userinfo["Experimental_Data_Path"])
 			else: 
 				IHPath = path(self.paths['SED_TOP'], beamline = 'XAFS').getIHPath()
 				SEDTransfer(self.localDataPath, self.paths["DS"]+":"+IHPath).scp()
 			log.info("Data transfer is done")
 		except:
 			log.error("Problem transfering the data")
+
+		# self.PVs["Ficus:DetectorTemp"].put("10 second")
+		# self.PVs["Ficus:FPGATemp"].put("10 second")
+		# self.PVs["Ficus:LDOsTemp"].put("10 second")
+		# self.PVs["Ficus:ADCsTemp"].put("10 second")
+		# epics.PV("D08-ES-SDD2:setTempMon").put(1)
+		# epics.PV("D08-ES-SDD2:getDetectorsTemperatures.SCAN").put("10 second")
+		# epics.PV("D08-ES-SDD2:getFPGAsTempreture.SCAN").put("10 second")
+		# epics.PV("D08-ES-SDD2:getLDOsTempreture.SCAN").put("10 second")
+		# epics.PV("D08-ES-SDD2:getADCsTempreture.SCAN").put("10 second")
 
 	
 	def signal_handler(self, sig, frame):

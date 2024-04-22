@@ -7,5 +7,5 @@
 	"FicusROI0LowerLimit":0,
 	"KetekReadoutAvrageTime":0.0036, 
 	"ScanPointsToBeIgnored": [0],
-	"FicusReadOutTime":	2.5
+	"FicusReadOutTime":	0.07760
 }

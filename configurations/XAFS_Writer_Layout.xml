@@ -233,9 +233,9 @@
 			<attribute  name="units"        source="constant"     value="mm"        type="string" />
 		  </dataset>
 
-		  <dataset      name="smp-swy"      source="ndattribute"  ndattribute="SWYPosition" when="OnFileClose">
+		  <!-- <dataset      name="smp-swy"      source="ndattribute"  ndattribute="SWYPosition" when="OnFileClose">
 			<attribute  name="units"        source="constant"     value="mm" type="string" />
-		  </dataset>
+		  </dataset> -->
 		</group><!-- sample_stage -->
 
 		<group name="vcm">

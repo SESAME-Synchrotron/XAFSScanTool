@@ -3,6 +3,7 @@ import numpy as np
 from SEDSS.CLIMessage import CLIMessage
 from .base import Base
 from SEDSS.SEDFileManager import readFile
+import log
 
 
 class FICUS(Base):
@@ -12,24 +13,35 @@ class FICUS(Base):
 		self.paths	= paths
 		self.cfg = cfg
 
+		self.PVs["Ficus:DetectorTemp"].put("Passive")
+		self.PVs["Ficus:FPGATemp"].put("Passive")
+		self.PVs["Ficus:LDOsTemp"].put("Passive")
+		self.PVs["Ficus:ADCsTemp"].put("Passive")
+		self.PVs["Ficus:EnableTemp"].put(0)
+
+
 		self.PVs["Ficus:Erase"].put(1)
 		FicusBaseDir = self.paths["ficus_workstation_data_path"]
 		self.PVs["Ficus:Basedir"].put(FicusBaseDir)
 		self.PVs["Ficus_ExpID"].put(userinfo["Proposal"])
 		self.scanLimites = readFile("configurations/limites.json").readJSON()
 		self.FicusReadOutTime = self.scanLimites["FicusReadOutTime"] 
+		# self.PVs["Ficus:FrameDuration"].put(10)
 	
 	def ACQ(self,args):
 		#0: 5ms | 1: 7.5ms | 2: 10ms | 3: 25ms | 4: 50ms | 5: 75ms | 6: 100ms | 7: 250ms | 8: 500ms | 9: 750ms |
 		# 10: 1s | 11: 2.5s | 12: 5s | 13: 7.5s | 14: 10s
 		FrameDuration = args["FrameDuration"]
-		self.PVs["Ficus:FrameDuration"].put(FrameDuration)
+		time.sleep(0.01)
+		log.info("Luigi__ Ficus:Start")
 		self.PVs["Ficus:Start"].put(1)
 
 		CLIMessage("Set frame duration = {}".format(FrameDuration), "W")
 		# CLIMessage("Get frame duration = {}".format(epics.caget("D08-ES-SDD2:getFrameDuration")), "I")
 		
-
+		if args["startNewIntervalFlag"]:
+			CLIMessage("set ficus duration time for new scan interval", "E")
+			self.PVs["Ficus:FrameDuration"].put(FrameDuration)
 
 		if FrameDuration == 0:
 			FrameDuration = 0.005
@@ -62,14 +74,15 @@ class FICUS(Base):
 		elif FrameDuration ==14:
 			FrameDuration = 10
 		else:
+			CLIMessage("FrameDuration time is {} is not defined, setting the default value 1".format(FrameDuration), "E")
 			FrameDuration = 1
 
 		CLIMessage("Set frame duration = {}".format(FrameDuration), "W")
-
-		time.sleep(FrameDuration +self.FicusReadOutTime)
+		log.info("Luigi__ Start waiting time for FICUS data")
+		time.sleep(FrameDuration + self.FicusReadOutTime)
 		#CLIMessage("Overall duration time : {}".format(FrameDuration+self.FicusReadOutTime))
 	
-		self.Elapsedtime							=	self.data["FICUS-e-time[sec]"]	=	self.PVs["Ficus:Elapsedtime"].get()
+		self.Elapsedtime					=	self.data["FICUS-e-time[sec]"]	=	self.PVs["Ficus:Elapsedtime"].get()
 		ROIs								=	self.PVs['Ficus:ROIs'].get()
 		ROIsE								= 	np.divide(ROIs,self.Elapsedtime)
 		self.data["FICUS-DEADTIME[%]"]		=	np.mean(self.PVs["Ficus:Deadtime"].get())
@@ -83,6 +96,7 @@ class FICUS(Base):
 		self.data["FICUS-ROI_5[c/s]"]		=	ROIs[5]
 		self.data["FICUS-ROI_6[c/s]"]		=	ROIs[6]
 		self.data["FICUS-ROI_7[c/s]"]		=	ROIs[7]
+		log.info("Luigi__collecting FICUS Data is done")
 
 	def postACQ(self,args):
 		I0Dp	= self.data["IC1[V]"] = args["IC1[V]"]	

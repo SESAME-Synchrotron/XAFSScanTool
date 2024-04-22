@@ -2,7 +2,7 @@
     "PV":
     {
       "Ficus:Start":{
-        "pvname":"D08-ES-SDD2:earsestart"
+        "pvname":"D08-ES-SDD2:startAcquisition"
       },
       "Ficus:Connected":{
         "pvname":"D08-ES-SDD2:isConnected.RVAL"
@@ -39,6 +39,21 @@
       },
       "Ficus:Tempmon":{
         "pvname":"D08-ES-SDD2:setTempMon"
+      },
+      "Ficus:DetectorTemp":{
+        "pvname": "D08-ES-SDD2:getDetectorsTemperatures.SCAN"
+      },
+      "Ficus:FPGATemp":{
+        "pvname": "D08-ES-SDD2:getFPGAsTempreture.SCAN"
+      },
+      "Ficus:LDOsTemp":{
+        "pvname": "D08-ES-SDD2:getLDOsTempreture.SCAN"
+      },
+      "Ficus:ADCsTemp":{
+        "pvname": "D08-ES-SDD2:getADCsTempreture.SCAN"
+      },
+      "Ficus:EnableTemp": {
+      	"pvname": "D08-ES-SDD2:setTempMon"
       }
     }
 }

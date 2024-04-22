@@ -14,6 +14,7 @@ from SEDSS.SEDSupport import timeModule
 from energyCalibration import energyCalibration
 import log
 import glob
+import epics
 
 class ENGSCAN (XAFS_XRFSTEP):
 	def __init__(self, paths, cfg, testingMode = "No"):
@@ -33,6 +34,7 @@ class ENGSCAN (XAFS_XRFSTEP):
 				self.motors["DCM:Y"].put("stop_go",3)
 				self.PVs["DCM:Move"].put(1, wait=True)
 				time.sleep(self.cfg["settlingTime"])
+		log.info("Luigi__ Targit energy reached")
 
 	def startScan(self):
 		overAllPointsCounter = 0 
@@ -76,9 +78,10 @@ class ENGSCAN (XAFS_XRFSTEP):
 			endpoint = currentInterval["Endpoint"]
 			stepsize = currentInterval["Stepsize"]
 			FrameDuration = currentInterval["DetIntTime"]
-			#CLIMessage("FrameDuration from GUI::: {}".format(FrameDuration), "E")
 			ICsIntTime = currentInterval["IcsIntTime"]
 			stepUnit = currentInterval["stepUnit"]
+
+			newIntervalFlag = True
 			
 			if stepUnit == 1: 
 				points = self.drangeK(startpoint,endpoint,stepsize)
@@ -104,6 +107,11 @@ class ENGSCAN (XAFS_XRFSTEP):
 				args= {}
 				args["FrameDuration"] = FrameDuration
 				args["ICsIntTime"] = ICsIntTime
+				args["startNewIntervalFlag"] = False
+				if newIntervalFlag: 
+					args["startNewIntervalFlag"] = True
+					newIntervalFlag = False
+				
 				ACQdata = {}
 				detThreadList = []
 
@@ -113,12 +121,14 @@ class ENGSCAN (XAFS_XRFSTEP):
 					detThreadList.append(detThreading)
 				
 				log.info("Start detectors threads")
+				log.info("Luigi__ Start collecting data from detectors")
 				for thread in detThreadList: 
 					thread.start()
 
 				log.info("Joining the detector threads") 
 				for thread in detThreadList:
 					thread.join()
+				log.info("Luigi__ collecting data from detectors is done")
 
 				ACQdata={**ACQdata,**det.data}
 				log.info("Collecting data from detectors")
@@ -220,6 +230,11 @@ class ENGSCAN (XAFS_XRFSTEP):
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
+		epics.PV("D08-ES-SDD2:setTempMon").put(1)
+		epics.PV("D08-ES-SDD2:getDetectorsTemperatures.SCAN").put("10 second")
+		epics.PV("D08-ES-SDD2:getFPGAsTempreture.SCAN").put("10 second")
+		epics.PV("D08-ES-SDD2:getLDOsTempreture.SCAN").put("10 second")
+		epics.PV("D08-ES-SDD2:getADCsTempreture.SCAN").put("10 second")
 		
 		if self.cfg["expType"] == "EnergyCalibration":
 			i = 0 

@@ -51,7 +51,7 @@
 	<Attribute name="SMP-ZPosition"            type="EPICS_PV" source="D08-ES-SMP-STP-Z.RBV"                             dbrtype="DBR_STRING" description="Sample Z motor position"/>
 	<Attribute name="SMP-RotationPosition"     type="EPICS_PV" source="D08-ES-SMP-STP-ROT.RBV"                           dbrtype="DBR_STRING" description="Sample rotation motor position"/>
 	<Attribute name="SWXPosition"              type="EPICS_PV" source="D08-ES-SMP-STP-SWX.RBV"                           dbrtype="DBR_STRING" description="Sample SWX motor position"/>
-	<Attribute name="SWYPosition"              type="EPICS_PV" source="D08-ES-SMP-STP-SWZ.RBV"                           dbrtype="DBR_STRING" description="Sample SWY motor position"/>
+	<!-- <Attribute name="SWYPosition"              type="EPICS_PV" source="D08-ES-SMP-STP-SWZ.RBV"                           dbrtype="DBR_STRING" description="Sample SWY motor position"/> -->
 	<Attribute name="VCM-VirtualMotorY"        type="EPICS_PV" source="D08-OP-VCM:t2.D"                                  dbrtype="DBR_STRING" description="VCM Y virtual motor position"/>
 	<Attribute name="VCM-VirtualMotorPitch"    type="EPICS_PV" source="D08-OP-VCM:t2.E"                                  dbrtype="DBR_STRING" description="VCM Pitch virtual motor position"/>
 	<Attribute name="VCM-VirtualMotorRoll"     type="EPICS_PV" source="D08-OP-VCM:t2.F"                                  dbrtype="DBR_STRING" description="VCM Roll virtual motor position"/>

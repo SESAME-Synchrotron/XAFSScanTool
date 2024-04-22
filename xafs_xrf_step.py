@@ -14,6 +14,7 @@ class XAFS_XRFSTEP(XAFS_XRF):
 			self.motors["DCM:Theta"].put("stop_go",0, wait=True) # Stop
 			#time.sleep(0.1)
 			self.motors["DCM:Theta"].put("stop_go",3, wait=True) # Go
+			log.info("Luigi__ Start moving to target energy {}".format(SP))
 			self.PVs["DCM:Energy:SP"].put(SP, wait=True)
 			self.PVs["DCM:Move"].put(1, wait=True)
 			log.info("Move DCM to energy: {}".format(SP))
