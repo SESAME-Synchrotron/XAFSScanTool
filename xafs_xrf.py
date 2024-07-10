@@ -37,12 +37,13 @@ except ImportError as e:
 	print("PyQt5, epics, numpy")
 
 class XAFS_XRF:
-	def __init__(self, paths, cfg, testingMode):
+	def __init__(self, paths, cfg, testingMode, accPlotting):
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
 		self.loadPVS("xafs")
 		self.paths = paths
 		self.cfg = cfg
+		self.accPlotting = accPlotting.lower()
 		self.scanLimites = readFile("configurations/limites.json").readJSON()
 		log.info("Experiment configurations: ({})".format(json.dumps(self.cfg, indent=2, sort_keys=True)))
 		log.info("Experiment scan limites: ({})".format(json.dumps(self.scanLimites, indent=2, sort_keys=True)))

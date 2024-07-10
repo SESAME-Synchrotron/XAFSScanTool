@@ -7,8 +7,8 @@ from xafs_xrf import XAFS_XRF
 import log
 
 class XAFS_XRFSTEP(XAFS_XRF):
-	def __init__(self, paths, cfg, testingMode):
-		super().__init__(paths, cfg, testingMode)
+	def __init__(self, paths, cfg, testingMode, accPlotting):
+		super().__init__(paths, cfg, testingMode, accPlotting)
 	
 	def MoveDCM(self,SP, curentScanInfo):
 			self.motors["DCM:Theta"].put("stop_go",0, wait=True) # Stop

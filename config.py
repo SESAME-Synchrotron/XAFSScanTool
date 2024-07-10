@@ -298,6 +298,7 @@ class ConfigGUI:
 				self.guiObj.filePath.setText(self.cfgpath)
 				self.cfg = self.loadcfgfile(self.cfgpath)
 				self.cfg['scanType'] = 'stepEngScan'
+				self.scanTypeValue = 'stepEngScan'
 			except:
 				CLIMessage("Could not locate the config file", "W")
 				return self.WizardPages.stepEngScanParameters.value
@@ -306,6 +307,7 @@ class ConfigGUI:
 				NIntervals = self.cfg["NIntervals"]
 				Nsamples = self.cfg["Nsamples"]
 				Nscans = self.cfg["Nscans"]
+				scanToScanTime = self.cfg["ScanToScanTime"]
 				settlingTime = self.cfg["settlingTime"]
 			except:
 				UIMessage("Error reading config file",
@@ -318,6 +320,7 @@ class ConfigGUI:
 			self.guiObj.setNumofIterv.setText(str(NIntervals))
 			self.guiObj.setNumofSamples.setText(str(Nsamples))
 			self.guiObj.setNumofExafsScans.setText(str(Nscans))
+			self.guiObj.scan2scantime.setText(str(scanToScanTime))
 			self.guiObj.settlingTime.setText(str(settlingTime))
 			self.guiObj.setDataFileName.setText(self.cfg["DataFileName"])
 			self.guiObj.edge.setCurrentText(str(self.cfg["ExpMetaData"][3]["edge"]))
@@ -582,6 +585,11 @@ class ConfigGUI:
 				CLIMessage("Please enter valid settling time", "W")
 				return self.WizardPages.stepEngScanParameters.value
 
+			scanToScanTime = self.guiObj.scan2scantime.text()
+			if scanToScanTime == '' or not Common.regexvalidation("scanToScanTime", scanToScanTime):
+				CLIMessage("Please enter valid time format in seconds between the scans", "W")
+				return self.WizardPages.stepEngScanParameters.value
+
 
 
 			intervals = [{} for i in range(int(NIntervals))]
@@ -802,6 +810,7 @@ class ConfigGUI:
 			pass
 
 	def start(self):
+		self.cfg['scanType'] = self.scanTypeValue
 		NIntervals = self.guiObj.setNumofIterv.text()
 		if NIntervals == '' or not Common.validate(
 				"NIntervals", NIntervals,"Please enter valid Number of INtervals"):
@@ -836,6 +845,13 @@ class ConfigGUI:
 			return self.WizardPages.stepEngScanParameters.value
 		else:
 			self.cfg["settlingTime"]=float(settlingTime)
+
+		scanToScanTime = self.guiObj.scan2scantime.text()
+		if scanToScanTime == '' or not Common.regexvalidation("scanToScanTime", scanToScanTime):
+			CLIMessage("Please enter valid time format in seconds between the scans", "W")
+			return self.WizardPages.stepEngScanParameters.value
+		else:
+			self.cfg["ScanToScanTime"]=float(scanToScanTime)
 
 
 		intervals = [{} for i in range(int(NIntervals))]

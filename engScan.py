@@ -17,8 +17,8 @@ import glob
 import epics
 
 class ENGSCAN (XAFS_XRFSTEP):
-	def __init__(self, paths, cfg, testingMode = "No"):
-		super().__init__(paths, cfg, testingMode)
+	def __init__(self, paths, cfg, testingMode = "No", accPlotting = "No"):
+		super().__init__(paths, cfg, testingMode, accPlotting)
 
 		self.startScan()
 
@@ -39,7 +39,7 @@ class ENGSCAN (XAFS_XRFSTEP):
 	def startScan(self):
 		overAllPointsCounter = 0 
 		scanCounter = 0 
-		scanRefNumber = 0 
+		# scanRefNumber = 0 
 		pauseCounter = 0
 		startTime = time.time()
 
@@ -51,6 +51,8 @@ class ENGSCAN (XAFS_XRFSTEP):
 		#added by MZ on Aug 24, 20221
 		expData = {} # Experimental Data 
 
+		previousScan  = None
+
 		for sample,scan,interval in self.generateScanPoints():
 			log.info("Data collection: Sample# {}, Scan# {}, Interval# {}".format(sample, scan, interval))
 			self.checkPause()
@@ -59,8 +61,15 @@ class ENGSCAN (XAFS_XRFSTEP):
 			CLIMessage("Sample# {}".format(sample), "I")
 			CLIMessage("Interval# {}".format(interval), "I")
 			print ("#####################################################")
-			# comminted by MZ 
-			#self.clearPlot()
+			
+			if scan != previousScan: 
+				previousScan = scan
+				log.info ("Waiting {} seconds between the scans".format(self.cfg["ScanToScanTime"]))
+				if int (self.cfg["ScanToScanTime"])>0 and scan != 1:
+					timeModule.waitWithProgressBar(int(self.cfg["ScanToScanTime"]))
+				if self.accPlotting.strip().lower() != 'yes': 
+					self.clearPlot()
+					# CLIMessage(" self.accPlotting :::{}".format(self.accPlotting), "W")
 
 			# CSS GUI
 			self.PVs["SCAN:Nsamples"].put(self.cfg["Nsamples"])
@@ -88,10 +97,12 @@ class ENGSCAN (XAFS_XRFSTEP):
 			else:
 				points = self.drange(startpoint,endpoint,stepsize)
 
-			if scanRefNumber != scan:
-				scanRefNumber = scanRefNumber + 1 
-				scanCounter = 0
-				#self.creationTime = str(time.strftime("%Y%m%dT%H%M%S"))
+			# if scanRefNumber != scan:
+			# 	scanRefNumber = scanRefNumber + 1 
+			# 	scanCounter = 0
+			# 	self.clearPlot()
+			# 	#self.creationTime = str(time.strftime("%Y%m%dT%H%M%S"))
+
 				
 
 			for point in points:
