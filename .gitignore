@@ -156,3 +156,6 @@ dmypy.json
 
 # Build directories
 O.*/
+
+# test files
+test.*
