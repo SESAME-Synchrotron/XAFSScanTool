@@ -17,14 +17,13 @@ from SEDSS.UIMessage import UIMessage
 from SEDSS.SEDFileManager import readFile
 from SEDSS.SEDSupport import timeModule
 
-#from xafs import XAFS_XRF
 from xafs_xrf_step import XAFS_XRFSTEP
 from ZMQWriter import ZMQWriter
 
 h5CfgFile = "configurations/XAFS_Writer.json"
 class MAPSCAN (XAFS_XRFSTEP):
-	def __init__(self, paths, cfg, testingMode = "No"):
-		super().__init__(paths, cfg, testingMode)
+	def __init__(self, paths, cfg, testingMode="No", accPlotting="No"):
+		super().__init__(paths, cfg, testingMode, accPlotting)
 
 		self.ROIXStart     = self.cfg['ROIXStart']
 		self.ROIXEnd       = self.cfg['ROIXEnd']
@@ -62,16 +61,13 @@ class MAPSCAN (XAFS_XRFSTEP):
 		self.MoveDCM(self.scanEnergy)
 		self.startScan()
 
-	def MoveDCM(self,SP, curentScanInfo=None):
-		super().MoveDCM(SP, curentScanInfo)
+	def MoveDCM(self, SP):
+		super().MoveDCM(SP)
 		log.info('Moving to start energy: {}'.format(SP))
-		while not self.PVs["DCM:Energy:Moving"].get(timeout=1, use_monitor=False):
-				CLIMessage("DCM is moving to scan energy {}... ".format(SP), "IG")
-				self.motors["DCM:Theta"].put("stop_go",3)
-				self.motors["DCM:Y"].put("stop_go",3)
-				self.PVs["DCM:Move"].put(1, wait=True)
-				time.sleep(self.cfg["settlingTime"])
-				# print (self.cfg["settlingTime"])
+		while not self.motors["DCM:Energy:SP"].done_moving:
+			CLIMessage("DCM is moving to scan energy {}... ".format(SP), "IG")
+			self.motors["DCM:Y"].put("stop_go",3)
+			time.sleep(self.cfg["settlingTime"])
 
 	def checkMapScanPara (self):
 		if float(self.cfg['ResX']) < self.motors["SMP:X"].MRES:
@@ -311,7 +307,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 
 		if self.cfg["expType"] == "proposal":
 			try: 
-				self.propInfo = readFile("configrations/userinfo.json").readJSON()
+				self.propInfo = readFile("configurations/userinfo.json").readJSON()
 				PV(prefix + PVs[PVs.index("ProposalID")]).put(self.propInfo["Proposal"], wait=True)
 				PV(prefix + PVs[PVs.index("ProposalTittle")]).put(self.propInfo["Title"], wait=True)
 				PV(prefix + PVs[PVs.index("PI")]).put(self.propInfo["Proposer"], wait=True)

@@ -16,30 +16,26 @@ import log
 import glob
 import epics
 
-class ENGSCAN (XAFS_XRFSTEP):
+class ENGSCANSTEP(XAFS_XRFSTEP):
 	def __init__(self, paths, cfg, testingMode = "No", accPlotting = "No"):
 		super().__init__(paths, cfg, testingMode, accPlotting)
 
 		self.startScan()
 
-	def MoveDCM(self,SP, curentScanInfo=None): 
-		super().MoveDCM(SP, curentScanInfo)
-		while not self.PVs["DCM:Energy:Moving"].get():
-				if curentScanInfo == None:
-					CLIMessage("DCM is moving to start point ... ", "I")
-				else:
-					CLIMessage("DCM is moving ... to {} for Sample({}), Scan({}) and Interval({})".format(SP, 
-						curentScanInfo[0]["Sample"], curentScanInfo[1]["Scan"], curentScanInfo[2]["Interval"]), "IG")
-				self.motors["DCM:Theta"].put("stop_go",3)
-				self.motors["DCM:Y"].put("stop_go",3)
-				self.PVs["DCM:Move"].put(1, wait=True)
-				time.sleep(self.cfg["settlingTime"])
-		log.info("Luigi__ Targit energy reached")
+	def MoveDCM(self, SP, currentScanInfo=None): 
+		super().MoveDCM(SP)
+		time.sleep(2)
+		while not self.motors["DCM:Energy:SP"].done_moving:
+			if currentScanInfo == None:
+				CLIMessage(f"DCM is moving to {SP:.4f}, RBV: {self.PVs['DCM:Energy:RBV'].get():.4f} ... ", "IG")
+			else:
+				CLIMessage(f"DCM is moving ... to {SP:.4f} for Sample({currentScanInfo[0]['Sample']}), Scan({currentScanInfo[1]['Scan']}) and Interval({currentScanInfo[2]['Interval']})", "IG")
+			time.sleep(0.005)
+		time.sleep(self.cfg["settlingTime"])
 
 	def startScan(self):
 		overAllPointsCounter = 0 
 		scanCounter = 0 
-		# scanRefNumber = 0 
 		pauseCounter = 0
 		startTime = time.time()
 
@@ -48,7 +44,7 @@ class ENGSCAN (XAFS_XRFSTEP):
 		log.info("Start data collection ...{}".format(self.userinfo))
 		points		=	map(lambda intv: self.drange(intv["Startpoint"],intv["Endpoint"],intv["Stepsize"]),self.cfg["Intervals"])
 
-		#added by MZ on Aug 24, 20221
+		#added by MZ on Aug 24, 2021
 		expData = {} # Experimental Data 
 
 		previousScan  = None
@@ -69,7 +65,6 @@ class ENGSCAN (XAFS_XRFSTEP):
 					timeModule.waitWithProgressBar(int(self.cfg["ScanToScanTime"]))
 				if self.accPlotting.strip().lower() != 'yes': 
 					self.clearPlot()
-					# CLIMessage(" self.accPlotting :::{}".format(self.accPlotting), "W")
 
 			# CSS GUI
 			self.PVs["SCAN:Nsamples"].put(self.cfg["Nsamples"])
@@ -96,14 +91,6 @@ class ENGSCAN (XAFS_XRFSTEP):
 				points = self.drangeK(startpoint,endpoint,stepsize)
 			else:
 				points = self.drange(startpoint,endpoint,stepsize)
-
-			# if scanRefNumber != scan:
-			# 	scanRefNumber = scanRefNumber + 1 
-			# 	scanCounter = 0
-			# 	self.clearPlot()
-			# 	#self.creationTime = str(time.strftime("%Y%m%dT%H%M%S"))
-
-				
 
 			for point in points:
 				self.checkPause()
@@ -132,14 +119,12 @@ class ENGSCAN (XAFS_XRFSTEP):
 					detThreadList.append(detThreading)
 				
 				log.info("Start detectors threads")
-				log.info("Luigi__ Start collecting data from detectors")
 				for thread in detThreadList: 
 					thread.start()
 
 				log.info("Joining the detector threads") 
 				for thread in detThreadList:
 					thread.join()
-				log.info("Luigi__ collecting data from detectors is done")
 
 				ACQdata={**ACQdata,**det.data}
 				log.info("Collecting data from detectors")

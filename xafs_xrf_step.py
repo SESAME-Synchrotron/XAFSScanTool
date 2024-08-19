@@ -3,18 +3,20 @@ A derived class that inherits from XAFS_XRF class.
 this class is to include all common step scan methods. 
 """
 
-from xafs_xrf import XAFS_XRF
 import log
+from pandabox import PandA
+from xafs_xrf import XAFS_XRF
+from SEDSS.SEDFileManager import readFile
 
 class XAFS_XRFSTEP(XAFS_XRF):
 	def __init__(self, paths, cfg, testingMode, accPlotting):
 		super().__init__(paths, cfg, testingMode, accPlotting)
+		self.PVs["DCM:Speed"].put(0.14)
+		self.IPs = readFile("configurations/IPs.json").readJSON()
+		self.pandaBox = PandA(self.IPs["PandA"])
+		self.pandaBox.disableBit("A")
+		self.pandaBox.enableBit("B")
 	
-	def MoveDCM(self,SP, curentScanInfo):
-			self.motors["DCM:Theta"].put("stop_go",0, wait=True) # Stop
-			#time.sleep(0.1)
-			self.motors["DCM:Theta"].put("stop_go",3, wait=True) # Go
-			log.info("Luigi__ Start moving to target energy {}".format(SP))
-			self.PVs["DCM:Energy:SP"].put(SP, wait=True)
-			self.PVs["DCM:Move"].put(1, wait=True)
-			log.info("Move DCM to energy: {}".format(SP))
+	def MoveDCM(self, SP):
+		self.motors["DCM:Energy:SP"].move(SP)
+		log.info("Move DCM to energy: {}".format(SP))
