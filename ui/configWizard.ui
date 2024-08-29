@@ -105,35 +105,36 @@
       <x>20</x>
       <y>20</y>
       <width>371</width>
-      <height>99</height>
+      <height>135</height>
      </rect>
     </property>
     <property name="title">
      <string>Scan type</string>
     </property>
-    <widget class="QSplitter" name="splitter">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>321</width>
-       <height>40</height>
-      </rect>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <widget class="QRadioButton" name="stepEngScan">
-      <property name="text">
-       <string>Step scan | Energy scan</string>
-      </property>
-     </widget>
-     <widget class="QRadioButton" name="stepMapScan">
-      <property name="text">
-       <string>Step scan | Mapping scan at fixed energy</string>
-      </property>
-     </widget>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QSplitter" name="splitter">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <widget class="QRadioButton" name="stepEngScan">
+        <property name="text">
+         <string>Step scan | Energy scan</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="stepMapScan">
+        <property name="text">
+         <string>Step scan | Mapping scan at fixed energy</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="contScan">
+        <property name="text">
+         <string>Continuous on-the-fly-scan | Energy scan</string>
+        </property>
+       </widget>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QWizardPage" name="cfgFile">
@@ -221,7 +222,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QWizardPage" name="stepEngScanParameters">
+  <widget class="QWizardPage" name="stepContEngScanParameters">
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
@@ -234,7 +235,7 @@
     <property name="title">
      <string>Experiment setup parameters</string>
     </property>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>22</x>
@@ -1455,6 +1456,7 @@
   <tabstop>mapExpCom</tabstop>
   <tabstop>MapResX_2</tabstop>
   <tabstop>MapResY_2</tabstop>
+  <tabstop>scan2scantime</tabstop>
  </tabstops>
  <resources/>
  <connections/>

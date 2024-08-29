@@ -18,6 +18,7 @@ from SEDSS.SEDValueValidate import CSVProposal
 from SEDSS.SEDFileManager import path
 from electronBindingEnergies import electronBindingEnergies
 from  common import Common
+from linearIntervals import LINEARINTERVALS 
 
 class ConfigGUI:
 	class WizardPages(Enum):
@@ -26,7 +27,7 @@ class ConfigGUI:
 		scanType  	   		  = 2
 		cfgFile   	   		  = 3
 		loadCfg   	   		  = 4
-		stepEngScanParameters = 5
+		stepContEngScanParameters = 5
 		stepMapScanParameters = 6
 		startScan 	   		  = 7
 
@@ -55,9 +56,10 @@ class ConfigGUI:
 		self.guiObj.scanType.nextId = self.checkScanType
 		self.guiObj.cfgFile.nextId = self.cfgfile
 		self.guiObj.loadCfg.nextId = self.loadcfg
-		self.guiObj.stepEngScanParameters.nextId = self.checkStepEngScanConfig
+		self.guiObj.stepContEngScanParameters.nextId = self.checkStepContEngScanConfig
 		self.guiObj.stepMapScanParameters.nextId = self.checkStepMapScanConfig
 		self.Qwiz.button(QtWidgets.QWizard.FinishButton).clicked.connect(self.start)
+		# self.Qwiz.button(QtWidgets.QWizard.FinishButton).clicked.connect(self.validate)
 		self.Qwiz.button(QtWidgets.QWizard.CancelButton).clicked.connect(self.onClose)
 		self.Qwiz.button(QtWidgets.QWizard.BackButton).clicked.connect(self.energyCalConstraintsCheck) # AN: why it is checked with each next and back buttons??
 		self.Qwiz.button(QtWidgets.QWizard.NextButton).clicked.connect(self.energyCalConstraintsCheck)
@@ -154,15 +156,18 @@ class ConfigGUI:
 			self.scanTypeValue = 'stepMapScan'
 			self.cfg['scanType'] = 'stepMapScan'
 			return self.WizardPages.cfgFile.value
+		elif self.guiObj.contScan.isChecked():
+			self.scanTypeValue = 'contScan'
+			self.cfg['scanType'] = 'contScan'
+			return self.WizardPages.cfgFile.value
 		else:
-			# CLIMessage ("Please choose scan type", "W")
 			return self.WizardPages.scanType.value
 
 	def cfgfile(self):
 		if self.guiObj.Create.isChecked():
 			self.cfg["loadedConfig"] = "No"
-			if self.scanTypeValue == 'stepEngScan':
-				return self.WizardPages.stepEngScanParameters.value
+			if self.scanTypeValue in {'stepEngScan', 'contScan'}:
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				return self.WizardPages.stepMapScanParameters.value
 		else:
@@ -173,8 +178,8 @@ class ConfigGUI:
 		path = self.guiObj.filePath.text()
 		if not path == "":
 			self.cfg["loadedConfig"] = "Yes"
-			if self.scanTypeValue == 'stepEngScan':
-				return self.WizardPages.stepEngScanParameters.value
+			if self.scanTypeValue in {'stepEngScan', 'contScan'}:
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				return self.WizardPages.stepMapScanParameters.value
 		else:
@@ -221,11 +226,17 @@ class ConfigGUI:
 		self.MapDefineROIGUI.mapDefineROIGUI_Dialog.exec_()
 
 	def browseCfgFile(self):
+		# print(self.scanTypeValue)
 		if self.scanTypeValue == 'stepEngScan':
 			try: 
-				self.browseStepEngScanCfgFile()
+				self.browseStepContEngScanCfgFile()
 			except: 
 				CLIMessage ("Please provide a valid energy scan config file", 'W')
+		elif self.scanTypeValue == 'contScan':
+			try: 
+				self.browseStepContEngScanCfgFile()
+			except: 
+				CLIMessage ("Please provide a valid  continuous energy scan config file", 'W')
 		else:
 			self.browseStepMapScanCfgFile()
 			# try:
@@ -287,7 +298,7 @@ class ConfigGUI:
 
 
 
-	def browseStepEngScanCfgFile(self):
+	def browseStepContEngScanCfgFile(self):
 		try:
 			self.IntervalsGUI	= IntervalGUI()
 			self.SamplesGUI		= SamplePosGUI()
@@ -297,11 +308,15 @@ class ConfigGUI:
 			try:
 				self.guiObj.filePath.setText(self.cfgpath)
 				self.cfg = self.loadcfgfile(self.cfgpath)
-				self.cfg['scanType'] = 'stepEngScan'
-				self.scanTypeValue = 'stepEngScan'
+				if self.scanTypeValue == 'stepEngScan':
+					self.cfg['scanType'] = 'stepEngScan'
+					self.scanTypeValue = 'stepEngScan'
+				elif self.scanTypeValue == 'contScan':
+					self.cfg['scanType'] = 'contScan'
+					self.scanTypeValue = 'contScan'
 			except:
 				CLIMessage("Could not locate the config file", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 
 			try:
 				NIntervals = self.cfg["NIntervals"]
@@ -368,9 +383,10 @@ class ConfigGUI:
 			self.cfg["expType"] = self.masterExpType # to avoid overwriting the choosen exp type when load a config file
 		except:
 			CLIMessage("Problem reading the config file. Try another one","E")
-			return self.WizardPages.stepEngScanParameters.value
+			return self.WizardPages.stepContEngScanParameters.value
 
 	def checkStepMapScanConfig(self):
+		CLIMessage("checkStepMapScanConfig", "E")
 		self.mapDetectorsGUI = mapDetectorGUI()
 		# self.MapDefineROIGUI = MapDefineROIGUI()
 		expMetaData = []
@@ -556,39 +572,45 @@ class ConfigGUI:
 
 
 
-	def checkStepEngScanConfig(self):
+	def checkStepContEngScanConfig(self):
+		os.system('clear')
+		if self.scanTypeValue == "contScan":
+			self.guiObj.settlingTime.setText("0")
+			self.guiObj.settlingTime.setEnabled(False)
+		else:
+			self.guiObj.settlingTime.setEnabled(True)
 		expMetaData = []
 		try:
 			NIntervals = self.guiObj.setNumofIterv.text()
 			#print(NIntervals, type(NIntervals), "<-")
 			if NIntervals == '' or not Common.regexvalidation("NIntervals",NIntervals):
 				CLIMessage("Please enter valid Number of intervals","W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			self.IntervalsGUI.setIntervalsNumber(self.cfg)
 			Nsamples = self.guiObj.setNumofSamples.text()
 			if Nsamples == '' or not Common.regexvalidation("Nsample", Nsamples):
 				CLIMessage("Please enter valid number of Samples","W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 
 			Nscans = self.guiObj.setNumofExafsScans.text()
 			if Nscans == '' or not Common.regexvalidation("Nscans", Nscans):
 				CLIMessage("Please enter valid number of scans","W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 
 			DataFileName = self.guiObj.setDataFileName.text()
 			if DataFileName == '' or not Common.regexvalidation("DataFileName", DataFileName):
 				CLIMessage("Please enter a valid data file name", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 
 			settlingTime = self.guiObj.settlingTime.text()
 			if settlingTime == '' or not Common.regexvalidation("settlingTime", settlingTime):
 				CLIMessage("Please enter valid settling time", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 
 			scanToScanTime = self.guiObj.scan2scantime.text()
 			if scanToScanTime == '' or not Common.regexvalidation("scanToScanTime", scanToScanTime):
 				CLIMessage("Please enter valid time format in seconds between the scans", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 
 
 
@@ -602,7 +624,9 @@ class ConfigGUI:
 					start = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 0).text()
 					if start == '' or not Common.validate("Startpoint", start, "Please enter valid start point"):
 						CLIMessage("Please check/enter the start point for interval number {}".format(interval), "W")
-						return self.WizardPages.stepEngScanParameters.value
+						return self.WizardPages.stepContEngScanParameters.value
+					else:
+						intervals[interval]["Startpoint"] = float(start)
 
 				except:
 					CLIMessage("Please check/enter the start point for interval number {}".format(interval), "W")
@@ -611,7 +635,9 @@ class ConfigGUI:
 					end = self.IntervalsGUI.interval_UI.tableWidget.item(interval,1).text()
 					if end == '' or not Common.validate("Endpoint", end, "Please enter valid end point"):
 						CLIMessage("Please check/enter the end point for interval number {}".format(interval), "W")
-						return self.WizardPages.stepEngScanParameters.value
+						return self.WizardPages.stepContEngScanParameters.value
+					else:
+						intervals[interval]["Endpoint"] = float(end)
 				except:
 					CLIMessage("Please check/enter the end point for interval number {}".format(interval), "W")
 
@@ -619,7 +645,9 @@ class ConfigGUI:
 					stepsize = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 2).text()
 					if stepsize == '' or not Common.validate("Stepsize", end, "Please enter valid step size"):
 						CLIMessage("Please check/enter the step-size for interval number {}".format(interval), "W")
-						return self.WizardPages.stepEngScanParameters.value
+						return self.WizardPages.stepContEngScanParameters.value
+					else:
+						intervals[interval]["Stepsize"] = float(stepsize)
 				except:
 					CLIMessage("Please check/enter the step-size for interval number {}".format(interval), "W")
 
@@ -628,7 +656,9 @@ class ConfigGUI:
 					if IcIntTime == '' or not Common.validate("IcsIntTime", end,"Please enter valid IC integration time for "\
 						"interval number {}".format(interval)):
 						CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W")
-						return self.WizardPages.stepEngScanParameters.value
+						return self.WizardPages.stepContEngScanParameters.value
+					else:
+						intervals[interval]["IcsIntTime"] = float(IcIntTime)
 				except:
 					CLIMessage("Please check/enter the ICs integration time for interval number {}".format(interval), "W")
 
@@ -636,12 +666,13 @@ class ConfigGUI:
 				intervals[interval]["DetIntTime"] = self.IntervalsGUI.FicusIntTimeDic[interval]
 				intervals[interval]["stepUnit"] = self.IntervalsGUI.stepUnitDic[interval]
 
+
 				isExtTrigger = self.IntervalsGUI._AcqTimes[interval]
 				if isExtTrigger == 15:
 					ExtTriggerIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 5).text()
 					if ExtTriggerIntTime == '' or not Common.validate(
 							"ExtTriggerIntTime", ExtTriggerIntTime,"Please enter valid External Trigger duration"):
-						return self.WizardPages.stepEngScanParameters.value
+						return self.WizardPages.stepContEngScanParameters.value
 
 			SamplePositions = [{} for i in range(int(Nsamples))]
 			for sample in range(self.SamplesGUI.sample_UI.samplepositions.rowCount()):
@@ -649,13 +680,13 @@ class ConfigGUI:
 					Xposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 0).text()
 					if Xposition == '' or not Common.validate("Xposition", Xposition,"Please enter valid sample x position"):
 						CLIMessage("Please check/enter (x) position for sample number {}".format(sample), "W")
-						return self.WizardPages.stepEngScanParameters.value
+						return self.WizardPages.stepContEngScanParameters.value
 
 
 					Yposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 1).text()
 					if Yposition == '' or not Common.validate("Yposition", Yposition,"Please enter valid sample y position"):
 						CLIMessage("Please check/enter (y) position for sample number {}".format(sample), "W")
-						return self.WizardPages.stepEngScanParameters.value
+						return self.WizardPages.stepContEngScanParameters.value
 				except:
 					CLIMessage("Please check/enter (x,y) position for sample number {}".format(sample), "W")
 
@@ -663,35 +694,34 @@ class ConfigGUI:
 					sampleTitle = self.SamplesGUI.sample_UI.samplepositions.item(sample, 2).text()
 					if sampleTitle == '' or not Common.validate("sampleTitle", sampleTitle,"Please enter valid sample name"):
 						CLIMessage("Please check/enter sample name in the Samples dialog for the sameple number: {}".format(sample), "W")
-						return self.WizardPages.stepEngScanParameters.value
+						return self.WizardPages.stepContEngScanParameters.value
 				except:
 					CLIMessage("Please check/enter the sample name in the Samples dialog", "W")
-					return self.WizardPages.stepEngScanParameters.value
-
+					return self.WizardPages.stepContEngScanParameters.value
 
 			####################### Metadata section ##############################
 
 			if self.DetectorsGUI.detectors_UI.IC1GasMix.text() == "":
 				CLIMessage("Please enter the IC1 gas being used", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				expMetaData.append({"IC1GasMix":self.DetectorsGUI.detectors_UI.IC1GasMix.text()})
 
 			if self.DetectorsGUI.detectors_UI.IC2GasMix.text() == "":
 				CLIMessage("Please enter the IC2 gas being used", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				expMetaData.append({"IC2GasMix":self.DetectorsGUI.detectors_UI.IC2GasMix.text()})
 
 			if self.DetectorsGUI.detectors_UI.IC3GasMix.text() == "":
 				CLIMessage("Please enter the IC3 gas being used", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				expMetaData.append({"IC3GasMix":self.DetectorsGUI.detectors_UI.IC3GasMix.text()})
 
 			if self.guiObj.edge.currentText() == "":
 				CLIMessage("Please choose the element edge", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				#senderIndex = self.guiObj.edge.sender().index
 				#print(senderIndex)
@@ -699,7 +729,7 @@ class ConfigGUI:
 
 			if self.guiObj.sampleName.text() == "":
 				CLIMessage("Please enter the periodic element for this experiment", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				#if Common.regexvalidation("sampleName", self.guiObj.sampleName.text()):
 				if electronBindingEnergies(self.guiObj.sampleName.text()).elementExist():
@@ -718,13 +748,13 @@ class ConfigGUI:
 						Tb, Dy, Ho, Er, Tm, Yb, Lu, Hf, Ta, W, Re, Os, Ir, Pt, Au, Hg, Tl, Pb, Bi, Po, At,
 						Rn, Fr, Ra, Ac, Th, Pa, U ""","XAFS/XRF Scan tool",
 						QtWidgets.QMessageBox.Ok)
-					return self.WizardPages.stepEngScanParameters.value
+					return self.WizardPages.stepContEngScanParameters.value
 			##################################
 			energyVal = self.guiObj.energy.text()
 			#print (energyVal, type(energyVal))
 			if energyVal == "":
 				CLIMessage("Please enter energy", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				if Common.regexvalidation("energy", energyVal):
 					expMetaData.append({"energy":self.guiObj.energy.text()})
@@ -732,36 +762,36 @@ class ConfigGUI:
 					Common.show_message(QtWidgets.QMessageBox.Critical,
 						"Enter a valid energy please !!","XAFS/XRF Scan tool",
 						QtWidgets.QMessageBox.Ok)
-					return self.WizardPages.stepEngScanParameters.value
+					return self.WizardPages.stepContEngScanParameters.value
 			###################################
 
 			if self.guiObj.stoichiometry.text() == "":
 				expMetaData.append({"stoichiometry":"NONE"})
-				#return self.WizardPages.stepEngScanParameters.value
+				#return self.WizardPages.stepContEngScanParameters.value
 			else:
 				expMetaData.append({"stoichiometry":self.guiObj.stoichiometry.text()})
 
 			if self.guiObj.samplePrep.text() == "":
 				CLIMessage("Please enter the sample preperation for this experiment", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				expMetaData.append({"samplePrep":self.guiObj.samplePrep.text()})
 
 			if self.guiObj.vcm.currentText() == "":
 				CLIMessage("Mirror coating | Please choose vcm element", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				expMetaData.append({"vcm":self.guiObj.vcm.currentText()})
 
 			if self.guiObj.vfm.currentText() == "":
 				CLIMessage("Mirror coating | Please choose vfm element", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				expMetaData.append({"vfm":self.guiObj.vfm.currentText()})
 
 			if self.guiObj.Mono.currentText() == "":
 				CLIMessage("Mirror coating | Please choose the Mono Crystal", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				expMetaData.append({"Mono":self.guiObj.Mono.currentText()})
 				caput(self.PVs["PV"]["BLSetup:Crystal"]["pvname"], self.guiObj.Mono.currentText())
@@ -786,13 +816,84 @@ class ConfigGUI:
 			self.cfg["ExpMetaData"] = expMetaData
 
 			if not detectors:
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 
+			
+			self.cfg["Intervals"] = intervals
+			self.cfg["NIntervals"] = int (NIntervals)
+			self.cfg["detectors"] = detectors
+			
+			if self.scanTypeValue == "contScan":
+				intervals = LINEARINTERVALS (self.cfg)
+				linearIntervals = intervals.getIntervals()
+				# CLIMessage ("User Intervals (UI) and their corresponding Linear Intervals (LI):: ", "I")
+				# intervals.printIntervals()
+
+				self.cfg['linearIntervals(LI)'] = linearIntervals
+				
+
+				limits = readFile("configurations/limits.json").readJSON()
+				maxThetaSpeed = limits['monoThetaMaxSpeed']
+				minThetaSpeed = limits['monoThetaMinSpeed']
+
+				# print ('minThetaSpeed::  ', minThetaSpeed)
+				# print ('maxThetaSpeed::   ',maxThetaSpeed)
+
+
+				for i in linearIntervals: 
+					for j in i['linearIntervalsSpeed']:
+						if float(minThetaSpeed) > float (j):
+							CLIMessage("Intervals | please review continuous scan parameters of the interval number ({})".format(i['userInterval(ui)']+1), 'E')
+							CLIMessage("Intervals | The desired mono speed is lower than the minimum limit.", 'E')
+							CLIMessage("Intervals | Integration time or energy step size can be changed to calculating acceptable speed", 'E')
+							return self.WizardPages.stepContEngScanParameters.value
+						elif float(maxThetaSpeed) < float (j):
+							CLIMessage("Intervals | please review continuous scan parameters of the interval number ({})".format(i['userInterval(ui)']+1), 'E')
+							CLIMessage("Intervals | The desired mono speed is greater than the max limit.", 'E')
+							CLIMessage("Intervals | Integration time or energy step size can be changed to calculating acceptable speed", 'E')
+							return self.WizardPages.stepContEngScanParameters.value
 			return self.WizardPages.startScan.value
 		except:
 			print ("Check config")
-			return self.WizardPages.stepEngScanParameters.value
+			return self.WizardPages.stepContEngScanParameters.value			
+		
+	# def validate(self): 
+	# 	CLIMessage("*********************************************************************************************************************")
+	# 	if self.scanTypeValue == "contScan":
+	# 		intervals = LINEARINTERVALS (self.cfg)
+	# 		linearIntervals = intervals.getIntervals()
+	# 		CLIMessage ("User Intervals (UI) and their corresponding Linear Intervals (LI):: ", "I")
+	# 		intervals.printIntervals()
 
+	# 		self.cfg['linearIntervals(LI)'] = linearIntervals
+			
+
+	# 		limits = readFile("configurations/limits.json").readJSON()
+	# 		maxThetaSpeed = limits['monoThetaMaxSpeed']
+	# 		minThetaSpeed = limits['monoThetaMinSpeed']
+
+	# 		# print ('minThetaSpeed::  ', minThetaSpeed)
+	# 		# print ('maxThetaSpeed::   ',maxThetaSpeed)
+
+
+	# 		for i in linearIntervals: 
+	# 			for j in i['linearIntervalsSpeed']:
+	# 				if float(minThetaSpeed) > float (j):
+	# 					CLIMessage("Intervals | please review continuous scan parameters of the interval number ({})".format(i['userInterval(ui)']+1), 'E')
+	# 					CLIMessage("Intervals | The desired mono speed is lower than the minimum limit.", 'E')
+	# 					CLIMessage("Intervals | You can change integration time or energy step size to try calculating acceptable speed", 'E')
+	# 					self.WizardPages.stepContEngScanParameters.value
+	# 					self.checkStepContEngScanConfig
+	# 					self.WizardPages.stepContEngScanParameters.value
+	# 				elif float(maxThetaSpeed) < float (j):
+	# 					CLIMessage("Intervals | please review continuous scan parameters of the interval number ({})".format(i['userInterval(ui)']+1), 'E')
+	# 					CLIMessage("Intervals | The desired mono speed is greater than the max limit.", 'E')
+	# 					CLIMessage("Intervals | You can change integration time or energy step size to try calculating acceptable speed", 'E')
+	# 					self.WizardPages.stepContEngScanParameters.value
+	# 					self.checkStepContEngScanConfig
+	# 					self.WizardPages.stepContEngScanParameters.value
+	# 	else:
+	# 		self.start()
 	def getFoilElementEnergy(self):
 		try:
 			edge = self.guiObj.edge.currentText()
@@ -810,46 +911,47 @@ class ConfigGUI:
 			pass
 
 	def start(self):
+
 		self.cfg['scanType'] = self.scanTypeValue
 		NIntervals = self.guiObj.setNumofIterv.text()
 		if NIntervals == '' or not Common.validate(
 				"NIntervals", NIntervals,"Please enter valid Number of INtervals"):
 			CLIMessage("Please enter valid Number of intervals", "W")
-			return self.WizardPages.stepEngScanParameters.value
+			return self.WizardPages.stepContEngScanParameters.value
 		else:
 			self.cfg["NIntervals"] = int(NIntervals)
 
 		Nsamples = self.guiObj.setNumofSamples.text()
 		if Nsamples == '' or not Common.validate("Nsample", Nsamples, "Please enter valid Number of Samples"):
 			CLIMessage("Please enter a valid number of Samples, and, make sure to click on the Samples button to keep or change the default values","W")
-			return self.WizardPages.stepEngScanParameters.value
+			return self.WizardPages.stepContEngScanParameters.value
 		else:
 			self.cfg["Nsamples"] = int(Nsamples)
 
 		Nscans = self.guiObj.setNumofExafsScans.text()
 		if Nscans == '' or not Common.validate("Nscans", Nscans, "Please enter valid Number of scans"):
 			CLIMessage("Pleae enter a valid number of scans", "W")
-			return self.WizardPages.stepEngScanParameters.value
+			return self.WizardPages.stepContEngScanParameters.value
 		else:
 			self.cfg["Nscans"] = int(Nscans)
 		DataFileName = self.cfg["DataFileName"] = self.guiObj.setDataFileName.text()
 		if DataFileName == '' or not Common.validate("DataFileName", DataFileName,"Please enter valid data file name"):
 			CLIMessage("Please enter a valid data file name","W")
-			return self.WizardPages.stepEngScanParameters.value
+			return self.WizardPages.stepContEngScanParameters.value
 		else:
 			self.cfg["DataFileName"] = DataFileName
 
 		settlingTime = self.guiObj.settlingTime.text()
 		if settlingTime == '' or not Common.regexvalidation("settlingTime", settlingTime):
 			CLIMessage("Please enter valid settling time", "W")
-			return self.WizardPages.stepEngScanParameters.value
+			return self.WizardPages.stepContEngScanParameters.value
 		else:
 			self.cfg["settlingTime"]=float(settlingTime)
 
 		scanToScanTime = self.guiObj.scan2scantime.text()
 		if scanToScanTime == '' or not Common.regexvalidation("scanToScanTime", scanToScanTime):
 			CLIMessage("Please enter valid time format in seconds between the scans", "W")
-			return self.WizardPages.stepEngScanParameters.value
+			return self.WizardPages.stepContEngScanParameters.value
 		else:
 			self.cfg["ScanToScanTime"]=float(scanToScanTime)
 
@@ -859,28 +961,28 @@ class ConfigGUI:
 			start = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 0).text()
 			if start == '' or not Common.validate("Startpoint", start, "Please enter valid start point"):
 				CLIMessage("Intervals | Please enter a valid start point", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				intervals[interval]["Startpoint"] = float(start)
 
 			end = self.IntervalsGUI.interval_UI.tableWidget.item(interval,1).text()
 			if end == '' or not Common.validate("Endpoint", end, "Please enter valid end point"):
 				CLIMessage("Intervals | Please enter a valid end point", "W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				intervals[interval]["Endpoint"] = float(end)
 
 			stepsize = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 2).text()
 			if stepsize == '' or not Common.validate("Stepsize", end, "Please enter valid step size"):
 				CLIMessage("Intervals | Please enter a valid step size","W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				intervals[interval]["Stepsize"] = float(stepsize)
 
 			IcIntTime = self.IntervalsGUI.interval_UI.tableWidget.item(interval, 3).text()
 			if IcIntTime == '' or not Common.validate("IcsIntTime", end,"Please enter valid IC integration time"):
 				CLIMessage("Intervals | Please enter a valid IC integration time","W")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				intervals[interval]["IcsIntTime"] = float(IcIntTime)
 
@@ -894,7 +996,7 @@ class ConfigGUI:
 				if ExtTriggerIntTime == '' or not Common.validate(
 						"ExtTriggerIntTime", ExtTriggerIntTime,"Please enter valid External Trigger duration"):
 					CLIMessage("Intervals | Please enter a valid External Trigger duration")
-					return self.WizardPages.stepEngScanParameters.value
+					return self.WizardPages.stepContEngScanParameters.value
 				else:
 					intervals[interval]["ExtTrig"] = float(ExtTriggerIntTime)
 
@@ -903,20 +1005,20 @@ class ConfigGUI:
 			Xposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 0).text()
 			if Xposition == '' or not Common.validate("Xposition", Xposition,"Please enter valid sample x position"):
 				CLIMessage("Samples | Please enter a valid sample X position")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				SamplePositions[sample]["Xposition"] = Xposition
 			Yposition = self.SamplesGUI.sample_UI.samplepositions.item(sample, 1).text()
 			if Yposition == '' or not Common.validate("Yposition", Yposition,"Please enter valid sample y position"):
 				CLIMessage("Samples | Please enter a valid sample Y position")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				SamplePositions[sample]["Yposition"] = Yposition
 
 			sampleTitle = self.SamplesGUI.sample_UI.samplepositions.item(sample, 2).text()
 			if sampleTitle == '' or not Common.validate("sampleTitle", sampleTitle,"Please enter valid sample name in the Samples dialog"):
 				CLIMessage("Samples | Please enter a valid sample name in the Samples dialog")
-				return self.WizardPages.stepEngScanParameters.value
+				return self.WizardPages.stepContEngScanParameters.value
 			else:
 				SamplePositions[sample]["sampleTitle"] = sampleTitle
 
@@ -935,6 +1037,37 @@ class ConfigGUI:
 
 		self.cfg["Samplespositions"] = SamplePositions
 		print ("==========================================")
+
+		# self.cfg["Intervals"] = intervals
+		# if self.scanTypeValue == "contScan":
+		# 	intervals = LINEARINTERVALS (self.cfg)
+		# 	linearIntervals = intervals.getIntervals()
+		# 	CLIMessage ("User Intervals (UI) and their corresponding Linear Intervals (LI):: ", "I")
+		# 	intervals.printIntervals()
+
+		# 	self.cfg['linearIntervals(LI)'] = linearIntervals
+			
+
+		# 	limits = readFile("configurations/limits.json").readJSON()
+		# 	maxThetaSpeed = limits['monoThetaMaxSpeed']
+		# 	minThetaSpeed = limits['monoThetaMinSpeed']
+
+		# 	# print ('minThetaSpeed::  ', minThetaSpeed)
+		# 	# print ('maxThetaSpeed::   ',maxThetaSpeed)
+
+
+		# 	for i in linearIntervals: 
+		# 		for j in i['linearIntervalsSpeed']:
+		# 			if float(minThetaSpeed) > float (j):
+		# 				CLIMessage("Intervals | please review continuous scan parameters of the interval number ({})".format(i['userInterval(ui)']+1), 'E')
+		# 				CLIMessage("Intervals | The desired mono speed is lower than the minimum limit.", 'E')
+		# 				CLIMessage("Intervals | You can change integration time or energy step size to try calculating acceptable speed", 'E')
+		# 				return self.WizardPages.stepContEngScanParameters.value
+		# 			elif float(maxThetaSpeed) < float (j):
+		# 				CLIMessage("Intervals | please review continuous scan parameters of the interval number ({})".format(i['userInterval(ui)']+1), 'E')
+		# 				CLIMessage("Intervals | The desired mono speed is greater than the max limit.", 'E')
+		# 				CLIMessage("Intervals | You can change integration time or energy step size to try calculating acceptable speed", 'E')
+		# 				return self.WizardPages.stepContEngScanParameters.value
 
 	def loadcfgfile(self, cfgfilename):
 		try:
