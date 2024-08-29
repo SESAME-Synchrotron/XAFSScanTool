@@ -1,0 +1,23 @@
+{
+	"checkLimitsEvery": 0.5,
+	"SRLowerCurrent": 20,
+	"SRUpperCurrent": 300,
+	"ICI0LowerLimit": 0,
+	"KetekROI0LowerLimit": 0,
+	"FicusROI0LowerLimit": 0,
+	"KetekReadoutAvrageTime": 0.0036,
+	"ICsReadoutAvrageTime": 0.0036,
+	"ICsLatency": 0.02,
+	"KetekLatency": 0.02,
+	"FicusLatency": 0.0,
+	"MonoLatency": 0.11,
+	"ScanPointsToBeIgnored": [0],
+	"FicusReadOutTime":	0.07760,
+	"monoThetaMaxSpeed": 0.3,
+	"monoThetaMinSpeed": 0.0007,
+	"monoThetaDefaultSpeed": 0.14,
+	"monoThetaResolution": 0.00001388900,
+	"monoThetaOffset": 0.0279595444,
+	"minStepSize": 0.00014,
+	"linearFittingMaxErrorMargin":0.0005
+}

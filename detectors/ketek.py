@@ -58,12 +58,13 @@ class KETEK(Base):
 
 	def ACQCont(self, args):
 
-		time.sleep(args["ICsIntTime"] + self.scanLimits["KetekReadoutAvrageTime"])
+		intTime = args["ICsIntTime"]
+		time.sleep(intTime + self.scanLimits["KetekLatency"])
 
 		Elapsedtime						 = self.data["KETEK-e-time[sec]"] =	self.PVs["ketek_elapsedtime"].get()
 		ROIsE							 = [self.PVs["ketek_ROI_0"].get() / Elapsedtime,self.PVs["ketek_ROI_1"].get() / Elapsedtime,self.PVs["ketek_ROI_2"].get() / Elapsedtime,self.PVs["ketek_ROI_3"].get() / Elapsedtime,self.PVs["ketek_ROI_4"].get() / Elapsedtime,self.PVs["ketek_ROI_5"].get() / Elapsedtime,self.PVs["ketek_ROI_6"].get() / Elapsedtime,self.PVs["ketek_ROI_7"].get() / Elapsedtime]
 		self.data["KETEK-DEADTIME[%]"]	 = self.PVs["ketek_deadtime"].get()
-		self.data["KETEK-INT_TIME[sec]"] = args["ICsIntTime"]
+		self.data["KETEK-INT_TIME[sec]"] = intTime
 		self.data["KETEK-If"]			 = ROIsE[0]
 		self.data["KETEK-ROI_0[c/s]"]	 = self.PVs["ketek_ROI_0"].get()
 		self.data["KETEK-ROI_1[c/s]"]	 = self.PVs["ketek_ROI_1"].get()

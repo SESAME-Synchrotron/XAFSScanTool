@@ -5,5 +5,5 @@
   "log_file": "/tmp/xafscan.log",
   "AutoCopyDS": "dcasu@10.1.14.100:/PETRA/SED/XAFS/IH/XAFS-Instant-Data",
   "DS": "dcasu@10.1.14.100",
-  "SED_TOP": "/PETRA/SED",
+  "SED_TOP": "/PETRA/SED"
 }

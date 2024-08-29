@@ -14,23 +14,22 @@ except ImportError as error:
 	print("pyepics\nnumpy\nPyQt5\n")
 	sys.exit()
 
-# import xafs
-from engScan import ENGSCAN
+from engScanStep import ENGSCANSTEP
+from engScanCont import ENGSCANCONT
 from mapScan import MAPSCAN
 app = QtWidgets.QApplication(sys.argv)
 
 #########################################################
 parser = argparse.ArgumentParser(description="XAFS/XRF Scanning Tool "\
- "is a software developed by DCA at SESAME to collect exprimintal data from XAFS / XRF Beamline at SESAME ")
+ "is a software developed by DCA at SESAME to collect experimental data from XAFS/XRF Beamline at SESAME ")
 parser.add_argument('--testingMode', type=str,default = "No" ,help="Yes/No, default is No")
 parser.add_argument('--engCalib', type=str, default=None, help="Calibration data path (single xdi file)")
 parser.add_argument('--accPlotting', type=str, default="No", help="If Yes, plotting will not be flushed after each scan. This option works only with energy scan")
 #########################################################
 args = parser.parse_args()
 tMode = args.testingMode
-engCalib = args.engCalib 
+engCalib = args.engCalib
 accPlotting = args.accPlotting
-
 
 if __name__ == "__main__":
 
@@ -39,18 +38,14 @@ if __name__ == "__main__":
 
 	print(cfg)
 	print (engCalib)
-	
+
 	if engCalib != None:
 		x = energyCalibration.energyCalibration(engCalib)
 	elif cfg['scanType'] == 'stepEngScan':
-		ENGSCAN(paths = paths, cfg = cfg, testingMode = tMode, accPlotting = accPlotting)
+		ENGSCANSTEP(paths = paths, cfg = cfg, testingMode = tMode, accPlotting = accPlotting)
 	elif cfg['scanType'] == 'stepMapScan':
 		MAPSCAN(paths = paths, cfg = cfg, testingMode = tMode)
-	
-	sys.exit(app.exit())
+	elif cfg['scanType'] == 'contScan':
+		ENGSCANCONT(paths = paths, cfg = cfg, testingMode = tMode, accPlotting = accPlotting)
 
-	# if engCalib != None:
-	# 	x = energyCalibration.energyCalibration(engCalib)
-	# else:
-	# 	xafs.XAFSSCAN(testingMode = tMode)
-	# sys.exit(app.exit())
+	sys.exit(app.exit())
