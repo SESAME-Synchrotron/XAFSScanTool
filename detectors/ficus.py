@@ -24,8 +24,8 @@ class FICUS(Base):
 		FicusBaseDir = self.paths["ficus_workstation_data_path"]
 		self.PVs["Ficus:Basedir"].put(FicusBaseDir)
 		self.PVs["Ficus_ExpID"].put(userinfo["Proposal"])
-		self.scanLimites = readFile("configurations/limites.json").readJSON()
-		self.FicusReadOutTime = self.scanLimites["FicusReadOutTime"] 
+		self.scanLimits = readFile("configurations/limits.json").readJSON()
+		self.FicusReadOutTime = self.scanLimits["FicusReadOutTime"] 
 		# self.PVs["Ficus:FrameDuration"].put(10)
 	
 	def ACQ(self,args):
@@ -33,7 +33,6 @@ class FICUS(Base):
 		# 10: 1s | 11: 2.5s | 12: 5s | 13: 7.5s | 14: 10s
 		FrameDuration = args["FrameDuration"]
 		time.sleep(0.01)
-		log.info("Luigi__ Ficus:Start")
 		self.PVs["Ficus:Start"].put(1)
 
 		CLIMessage("Set frame duration = {}".format(FrameDuration), "W")
@@ -78,7 +77,6 @@ class FICUS(Base):
 			FrameDuration = 1
 
 		CLIMessage("Set frame duration = {}".format(FrameDuration), "W")
-		log.info("Luigi__ Start waiting time for FICUS data")
 		time.sleep(FrameDuration + self.FicusReadOutTime)
 		#CLIMessage("Overall duration time : {}".format(FrameDuration+self.FicusReadOutTime))
 	
@@ -96,7 +94,6 @@ class FICUS(Base):
 		self.data["FICUS-ROI_5[c/s]"]		=	ROIs[5]
 		self.data["FICUS-ROI_6[c/s]"]		=	ROIs[6]
 		self.data["FICUS-ROI_7[c/s]"]		=	ROIs[7]
-		log.info("Luigi__collecting FICUS Data is done")
 
 	def postACQ(self,args):
 		I0Dp	= self.data["IC1[V]"] = args["IC1[V]"]	

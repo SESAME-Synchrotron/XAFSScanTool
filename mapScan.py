@@ -3,7 +3,7 @@ Step mapping scan derived class
 
 '''
 import sys
-import os 
+import os
 import log
 import time
 import zmq
@@ -21,7 +21,7 @@ from xafs_xrf_step import XAFS_XRFSTEP
 from ZMQWriter import ZMQWriter
 
 h5CfgFile = "configurations/XAFS_Writer.json"
-class MAPSCAN (XAFS_XRFSTEP):
+class MAPSCAN(XAFS_XRFSTEP):
 	def __init__(self, paths, cfg, testingMode="No", accPlotting="No"):
 		super().__init__(paths, cfg, testingMode, accPlotting)
 
@@ -66,10 +66,11 @@ class MAPSCAN (XAFS_XRFSTEP):
 		log.info('Moving to start energy: {}'.format(SP))
 		while not self.motors["DCM:Energy:SP"].done_moving:
 			CLIMessage("DCM is moving to scan energy {}... ".format(SP), "IG")
-			self.motors["DCM:Y"].put("stop_go",3)
-			time.sleep(self.cfg["settlingTime"])
+			self.motors["DCM:Y"].put("stop_go", 3)
+			time.sleep(0.005)
+		time.sleep(self.cfg["settlingTime"])
 
-	def checkMapScanPara (self):
+	def checkMapScanPara(self):
 		if float(self.cfg['ResX']) < self.motors["SMP:X"].MRES:
 			UIMessage("Not allowed settings",
 				"X resolution scan parameter is less that the X axis motor resolution!!",
@@ -84,14 +85,14 @@ class MAPSCAN (XAFS_XRFSTEP):
 			log.error('Y resolution scan parameter is less that the Y axis motor resolution!!')
 			sys.exit()
 
-	def diagonalScanPoints (self, xRange, yRange):
+	def diagonalScanPoints(self, xRange, yRange):
 		"""
 		A method to return the xArray and yArray to scan in diagonal shape.
-		the method returns the follwoing:
+		the method returns the following:
 		xArray: contains the positions for motor X
 		yArray: contains the positions for motor y
-		xIndex: snak matrix index for x motor
-		yIndex: snak matrix index for y motor
+		xIndex: diagonal matrix index for x motor
+		yIndex: diagonal matrix index for y motor
 		positionMatrix:  a numpy matrix includes all positions
 		"""
 		positionsMatrix = np.zeros((len(yRange), len(xRange), 2))
@@ -109,9 +110,9 @@ class MAPSCAN (XAFS_XRFSTEP):
 		for diag in range(rows + cols - 1):
 			for i in range(max(0, diag - cols + 1), min(diag + 1, rows)):
 				j = diag - i
-				xArrayPos.append(positionsMatrix[i,j,0])
+				xArrayPos.append(positionsMatrix[i,j, 0])
 				xArrayIndex.append(j)
-				yArrayPos.append(positionsMatrix[i,j,1])
+				yArrayPos.append(positionsMatrix[i,j, 1])
 				yArrayIndex.append(i)
 
 		return xArrayPos, yArrayPos, xArrayIndex, yArrayIndex
@@ -121,15 +122,15 @@ class MAPSCAN (XAFS_XRFSTEP):
 		A method to return back the xArray and yArray to scan in snake shape
 		xArray: contains the positions for motor X
 		yArray: contains the positions for motor y
-		xIndex: snak matrix index for x motor
-		yIndex: snak matrix index for y motor
+		xIndex: snake matrix index for x motor
+		yIndex: snake matrix index for y motor
 		"""
 
 		xArray   = []
 		yArray   = []
 		xIndex   = []
 		yIndex   = []
-		xRevTemp = [] 
+		xRevTemp = []
 
 		positionsMatrix = np.zeros((len(yRange), len(xRange), 2))
 		for y in range(len(yRange)):
@@ -138,7 +139,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 
 		for i in range(len(positionsMatrix)):
 			if i % 2 == 0:
-				for x in range (len(xRange)):
+				for x in range(len(xRange)):
 					xArray.append(positionsMatrix[i][x][0])
 					xIndex.append(x)
 					yArray.append(positionsMatrix[i][x][1])
@@ -146,13 +147,13 @@ class MAPSCAN (XAFS_XRFSTEP):
 			else:
 				inversedMatrixRow = positionsMatrix[i][::-1] # reverse the the row order
 				xRevTemp.clear()
-				for x in range (len(xRange)):
+				for x in range(len(xRange)):
 					xArray.append(inversedMatrixRow[x][0])
 					xRevTemp.append(x)
 					yArray.append(inversedMatrixRow[x][1])
 					yIndex.append(i)
 				xIndex = xIndex + xRevTemp[::-1] # reverse x index
-				
+
 		return xArray, yArray, xIndex, yIndex
 
 	def startScan(self):
@@ -164,16 +165,16 @@ class MAPSCAN (XAFS_XRFSTEP):
 		mcaData = None
 		self.xRange = self.drange(self.ROIXStart, self.ROIXEnd, self.scanResX)
 		self.yRange = self.drange(self.ROIYStart, self.ROIYEnd, self.scanResY)
-		log.info ('Scan range for X axis: {}'.format(self.xRange))
-		log.info ('Scan range for Y axis: {}'.format(self.yRange))
+		log.info('Scan range for X axis: {}'.format(self.xRange))
+		log.info('Scan range for Y axis: {}'.format(self.yRange))
 		log.info('Scan Topology: {}'.format(self.scanTopology))
 
 		self.MoveSmpRot(self.rotStageAngle)
 
 		if self.scanTopology == 'Sequential':
 
-			""" start zmq reciever socket """
-			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,), daemon=True)		# run ZMQ reciever socket in background
+			""" start zmq receiver socket """
+			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,), daemon=True)		# run ZMQ receiver socket in background
 			zmqRec.start()
 
 			overAllPointsCounter = len(self.xRange) * len(self.yRange)
@@ -198,16 +199,16 @@ class MAPSCAN (XAFS_XRFSTEP):
 
 		else:
 			if self.scanTopology == 'Snake':
-				xScanPoints, yScanPoints, xScanIndex, yScanIndex = self.snakeScanPoints(self.xRange,self.yRange)
+				xScanPoints, yScanPoints, xScanIndex, yScanIndex = self.snakeScanPoints(self.xRange, self.yRange)
 			elif self.scanTopology == 'Diagonal':
-				xScanPoints, yScanPoints, xScanIndex, yScanIndex = self.diagonalScanPoints(self.xRange,self.yRange)
+				xScanPoints, yScanPoints, xScanIndex, yScanIndex = self.diagonalScanPoints(self.xRange, self.yRange)
 			overAllPointsCounter = len(xScanPoints)
 
-			""" start zmq reciever socket """
-			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,self.scanTopology, xScanIndex, yScanIndex,), daemon=True)	# run ZMQ reciever socket in background
+			""" start zmq receiver socket """
+			zmqRec = threading.Thread(target=self.startZMQ, args=(self.xRange, self.yRange,self.scanTopology, xScanIndex, yScanIndex,), daemon=True)	# run ZMQ receiver socket in background
 			zmqRec.start()
 
-			for i in range (len(xScanPoints)):
+			for i in range(len(xScanPoints)):
 				self.checkPause()
 				log.info('Move sample X to: {}'.format(xScanPoints[i]))
 				self.MoveSmpX(xScanPoints[i])
@@ -227,35 +228,35 @@ class MAPSCAN (XAFS_XRFSTEP):
 		time.sleep(1)
 		print("#########################################################################")
 		scanTime = timeModule.timer(startTime)
-		log.info("Scan is fininshed | actual scan time is: {}, total number of points: {}".format(str(scanTime), overAllPointsCounter))
+		log.info("Scan is finished | actual scan time is: {}, total number of points: {}".format(str(scanTime), overAllPointsCounter))
 		print("#########################################################################")
 		log.info("Data file folder: {}".format(self.localDataPath))
-		CLIMessage("Data file folder: {}".format(self.localDataPath),"M")
+		CLIMessage("Data file folder: {}".format(self.localDataPath), "M")
 		print("#################################################")
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
-	
+
 	def getDetectorData(self):
 
 		args 		  = {}
 		ACQdata 	  = {}
 		detThreadList = []
 		expData 	  = {}
-		
+
 		args["FrameDuration"] = self.FrameDuration
 		args["scanTopology"] = self.scanTopology
 
-		log.info("Collecting data from choosen detectors")
+		log.info("Collecting data from chosen detectors")
 		for det in self.detectors:
 			detThreading = threading.Thread(target=det.ACQ, args=(args,), daemon=True)
 			detThreadList.append(detThreading)
 
 		log.info("Start detectors threads")
-		for thread in detThreadList: 
+		for thread in detThreadList:
 			thread.start()
 
-		log.info("Joining the detector threads") 
+		log.info("Joining the detector threads")
 		for thread in detThreadList:
 			thread.join()
 
@@ -288,12 +289,12 @@ class MAPSCAN (XAFS_XRFSTEP):
 		super().signal_handler(self, sig, frame)
 
 	def writePVS(self):
-		
+
 		"""
 		This method has been implemented to write metadata on PVs in order to dump them in h5
 		file by the writer
 
-		** this the only way to implement this case, beacuse the DAQ System for this beamline is not IOC based
+		** this the only way to implement this case, because the DAQ System for this beamline is not IOC based
 		"""
 
 		CLIMessage("writePVs...", "I")
@@ -306,14 +307,14 @@ class MAPSCAN (XAFS_XRFSTEP):
 		PV(prefix + PVs[PVs.index("ExperimentalFilePath")]).put(self.BasePath, wait=True)
 
 		if self.cfg["expType"] == "proposal":
-			try: 
+			try:
 				self.propInfo = readFile("configurations/userinfo.json").readJSON()
 				PV(prefix + PVs[PVs.index("ProposalID")]).put(self.propInfo["Proposal"], wait=True)
 				PV(prefix + PVs[PVs.index("ProposalTittle")]).put(self.propInfo["Title"], wait=True)
 				PV(prefix + PVs[PVs.index("PI")]).put(self.propInfo["Proposer"], wait=True)
 				PV(prefix + PVs[PVs.index("PIEmail")]).put(self.propInfo["Email"], wait=True)
 			except:
-				CLIMessage("Can't generate porposal info","E") 
+				CLIMessage("Can't generate proposal info","E")
 		else:
 			PV(prefix + PVs[PVs.index("ProposalID")]).put("No Data", wait=True)
 			PV(prefix + PVs[PVs.index("ProposalTittle")]).put("No Data", wait=True)
@@ -328,7 +329,7 @@ class MAPSCAN (XAFS_XRFSTEP):
 			PV(prefix + PVs[PVs.index("MonoDSpacing")]).put(3.1356, wait=True)
 		else:
 			PV(prefix + PVs[PVs.index("MonoDSpacing")]).put(1.6374, wait=True)
-			
+
 		PV(prefix + PVs[PVs.index("MonoSettlingTime")]).put(self.cfg['settlingTime'], wait=True)
 		PV(prefix + PVs[PVs.index("IntTime")]).put(self.FrameDuration, wait=True)
 		PV(prefix + PVs[PVs.index("XStart")]).put(self.ROIXStart, wait=True)
@@ -354,4 +355,4 @@ class MAPSCAN (XAFS_XRFSTEP):
 		PV(prefix + PVs[PVs.index("ExperimentComments")]).put(self.cfg['ExpMetaData'][5]['expCom'], wait=True)
 
 		CLIMessage("Finishing writePVs...", "I")
-		log.info("Finishing writePVs...")		
+		log.info("Finishing writePVs...")
