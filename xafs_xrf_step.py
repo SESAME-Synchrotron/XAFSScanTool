@@ -12,8 +12,6 @@ class XAFS_XRFSTEP(XAFS_XRF):
 	def __init__(self, paths, cfg, testingMode, accPlotting):
 		super().__init__(paths, cfg, testingMode, accPlotting)
 		self.PVs["DCM:Speed"].put(0.14)
-		self.IPs = readFile("configurations/IPs.json").readJSON()
-		self.pandaBox = PandA(self.IPs["PandA"])
 		self.pandaBox.disableBit("A")
 		self.pandaBox.enableBit("B")
 	

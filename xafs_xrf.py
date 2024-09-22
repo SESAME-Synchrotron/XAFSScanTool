@@ -21,6 +21,7 @@ import itertools
 import threading
 import log
 
+from pandabox import PandA
 from common import Common
 from detectors.ficus import FICUS
 from detectors.ketek import KETEK
@@ -48,6 +49,10 @@ class XAFS_XRF:
 		self.cfg = cfg
 		self.accPlotting = accPlotting.lower()
 		self.scanLimits = readFile("configurations/limits.json").readJSON()
+
+		self.IPs = readFile("configurations/IPs.json").readJSON()
+		self.pandaBox = PandA(self.IPs["PandA"])
+		self.pandaBox.encoderSetp(int(self.PVs["DCM:Encoder"].get()))
 
 		log.info("Experiment configurations: ({})".format(json.dumps(self.cfg, indent=2, sort_keys=True)))
 		log.info("Experiment scan limits: ({})".format(json.dumps(self.scanLimits, indent=2, sort_keys=True)))
@@ -142,9 +147,9 @@ class XAFS_XRF:
 		log.info("Calculating energy points")
 		decimal.getcontext().prec = prec
 		points = []
-		r= decimal.Decimal(start)
+		r = decimal.Decimal(start)
 		step = decimal.Decimal(step)
-		while r <=stop:
+		while r <= stop:
 			points.append(float(r))
 			r += step
 		return points

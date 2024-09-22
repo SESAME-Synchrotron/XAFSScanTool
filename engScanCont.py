@@ -8,6 +8,7 @@ import time
 import threading
 import shutil
 import numpy as np
+import decimal
 import log
 
 from linearIntervals import LINEARINTERVALS
@@ -86,7 +87,6 @@ class ENGSCANCONT(XAFS_XRFCONT):
 				log.info(f"prepare pulse block, width: {ICsIntTime} sec")
 				self.pandaBox.pulse(1, ICsIntTime, 1)
 
-			self.PVs["ICsAvrTime"].put(ICsIntTime)
 			self.PVs["ketek_realtime"].put(ICsIntTime)
 			self.PVs["ketek_erasestart"].put(1)
 
@@ -109,7 +109,7 @@ class ENGSCANCONT(XAFS_XRFCONT):
 				theta = self.linearInterval.getThetaPosition(np.array(points))
 				theta = theta if i+1 == linearIntervalsCounts else theta[:-1]
 
-				theta2encoder = (theta + self.scanLimits["monoThetaOffset"]) / self.scanLimits["monoThetaResolution"]
+				theta2encoder = (theta + abs(self.PVs["DCM:Offset"].get())) / self.scanLimits["monoThetaResolution"]
 
 				log.info(f"Energy Start: {startpoint}, Energy End: {endpoint}")
 				log.info(f"Theta Start: {theta[0]}, Theta End: {theta[-1]}")
@@ -129,6 +129,7 @@ class ENGSCANCONT(XAFS_XRFCONT):
 				moveThread = threading.Thread(target=self.MoveDCM, args=(endpoint, speed,), daemon=True)
 				moveThread.start()
 
+				energyPoint = 0
 				for val in theta2encoder:
 					while True:
 						encoderReadout = int(self.PVs["DCM:Encoder"].get())
@@ -172,17 +173,16 @@ class ENGSCANCONT(XAFS_XRFCONT):
 							log.info("collecting data from detectors is done")
 
 							for det in self.detectors:
-								ACQdata={**ACQdata, **det.data}
+								ACQdata = {**ACQdata, **det.data}
 								expData.update(ACQdata)
 
 							log.info("Applying post acquisition for selected detectors if applicable")
 							for det in self.detectors:
 								det.postACQ(ACQdata)
-								ACQdata={**ACQdata,**det.data}
+								ACQdata = {**ACQdata, **det.data}
 								expData.update(ACQdata)
 
-							Energy = self.PVs["DCM:Energy:RBV"].get()
-
+							Energy = points[energyPoint]
 							ACQdata["Sample#"] = sample
 							ACQdata["Scan#"] = scan
 							ACQdata["Interval"] = interval
@@ -254,16 +254,17 @@ class ENGSCANCONT(XAFS_XRFCONT):
 							Stop DCM in case scan paused
 							"""
 							if scanPaused == 1:
-								self.motors["DCM:Theta"].put("stop_go", 1)
+								self.PVs["DCM:Ctrl"].put(1)
 								while self.PVs["SCAN:pause"].get() == 1:
 									time.sleep(0.005)
-								self.motors["DCM:Theta"].put("stop_go", 3)
+								self.PVs["DCM:Ctrl"].put(3)
 								self.motors["DCM:Energy:SP"].move(endpoint)
 
 							overAllPointsCounter = overAllPointsCounter + 1
 							scanCounter = scanCounter + 1
 							break
 						time.sleep(0.005)
+					energyPoint = energyPoint + 1
 				index = index + 1
 				"""
 				Transferring the data after each sub-interval
@@ -281,7 +282,26 @@ class ENGSCANCONT(XAFS_XRFCONT):
 		print("#################################################")
 		os.rename(f"SED_Scantool.log", f"SEDScanTool_{self.creationTime}.log")
 		shutil.move(f"SEDScanTool_{self.creationTime}.log", f"{self.localDataPath}/SEDScanTool_{self.creationTime}.log")
+		self.PVs["DCM:Speed"].put(float(self.scanLimits["monoThetaDefaultSpeed"]))
 		self.dataTransfer()
+
+	def drange(self, start, stop, step, prec=10):
+		log.info("Calculating energy points")
+		decimal.getcontext().prec = prec
+
+		# (quantize(decimal.Decimal('1.0000')) solve floating points issue
+		start = decimal.Decimal(start).quantize(decimal.Decimal('1.0000'))
+		stop = decimal.Decimal(stop).quantize(decimal.Decimal('1.0000'))
+		step = decimal.Decimal(step)
+
+		points = []
+		r = start
+
+		while r <= stop:
+			points.append(float(r))
+			r += step
+
+		return points
 
 	def signal_handler(self, sig, frame):
 		if self.lock != 2:
@@ -289,5 +309,8 @@ class ENGSCANCONT(XAFS_XRFCONT):
 			log.warning("disable pandABlocks")
 			self.pandaBox.disableBit("A")
 			log.warning("stop DCM")
-			self.motors["DCM:Theta"].put("stop_go", 0)
+			self.PVs["DCM:Ctrl"].put(0)
+			time.sleep(1)
+			self.PVs["DCM:Ctrl"].put(3)
+			self.PVs["DCM:Speed"].put(float(self.scanLimits["monoThetaDefaultSpeed"]))
 			super().signal_handler(sig, frame)

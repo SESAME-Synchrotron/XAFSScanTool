@@ -9,14 +9,17 @@
 		"DCM:Encoder":{
 			"pvname":"D08R1-MO-MC2:OH-DCM-STP-ROTX1.RRBV"
 		},
+		"DCM:Offset":{
+			"pvname":"D08R1-MO-MC2:OH-DCM-STP-ROTX1.OFF"
+		},
+		"DCM:Ctrl":{
+			"pvname":"D08R1-MO-MC2:V-OH-ENERGY.SPMG"
+		},
 		"ketek_erasestart":{
 			"pvname":"D08-ES-SDD1:mca1.ERST"
 		},
 		"ketek_realtime":{
 			"pvname":"D08-ES-SDD1:PresetReal"
-		},
-		"ICsAvrTime": {
-			"pvname": "D08-ES-DAQ:setAveragingTime"
 		},
 		"PLOT:Energy":{
 			"pvname":"PLOT:Energy"
@@ -111,7 +114,7 @@
 			"pvname":"D08R1-MO-MC2:OH-DCM-STP-TRSY1"
 		},
 		"SMP:X":{
-			"pvname":"D08R2-MO-MC2:C-EH-SMP-Z1"
+			"pvname":"D08R2-MO-MC2:A-EH-SMP-X1"
 		},
 		"SMP:Y":{
 			"pvname":"D08R2-MO-MC2:B-EH-SMP-Y1"
