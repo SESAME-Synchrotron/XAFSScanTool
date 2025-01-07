@@ -1,9 +1,10 @@
 {
-  "users_data_path": "/PETRA/SED/XAFS/SEM_6/20235127/ExpData/",
-  "local_data_path": "/home/control/XAFSScanTool/DATA",
-  "ficus_workstation_data_path": "D:\\DATA",
-  "log_file": "/tmp/xafscan.log",
-  "AutoCopyDS": "dcasu@10.1.14.100:/PETRA/SED/XAFS/IH/XAFS-Instant-Data",
-  "DS": "dcasu@10.1.14.100",
-  "SED_TOP": "/PETRA/SED"
+	"users_data_path": "/PETRA/SED/XAFS/SEM_7/20240062/ExpData",
+	"local_data_path": "/home/control/XAFSScanTool/DATA",
+	"ficus_workstation_data_path": "D:\\DATA",
+	"log_file": "/tmp/xafscan.log",
+	"AutoCopyDS": "dcasu@10.1.14.100:/PETRA/SED/XAFS/IH/XAFS-Instant-Data",
+	"DS": "dcasu@10.1.14.100",
+	"SED_TOP": "/PETRA/SED",
+	"SED_Test": "XAFS/testDevData"
 }

@@ -43,7 +43,7 @@ class XAFS_XRF:
 	def __init__(self, paths, cfg, testingMode, accPlotting):
 		log.setup_custom_logger("./SED_Scantool.log")
 		log.info("Start scanning tool")
-
+		self.testingMode = testingMode.strip().capitalize()
 		self.loadPVS("xafs")
 		self.paths = paths
 		self.cfg = cfg
@@ -66,7 +66,7 @@ class XAFS_XRF:
 
 		# Set ^C interrupt to abort the scan
 		signal.signal(signal.SIGINT, self.signal_handler)
-		if testingMode == "No":
+		if self.testingMode == "No":
 			log.info("Testing mode: No")
 			self.runPauseMonitor()
 		else:
@@ -474,20 +474,19 @@ class XAFS_XRF:
 		return stepSize_eV
 
 	def dataTransfer(self):
-		try:
-			SEDTransfer(self.localDataPath, self.paths["AutoCopyDS"]).scp()
-			print("self.localDataPath :::::: ", self.localDataPath)
-			print("self.paths[AutoCopyDS] ::::: ", self.paths["AutoCopyDS"])
-			if self.cfg["expType"] == "proposal":
-				SEDTransfer(self.localDataPath, self.paths["DS"] + ":" + self.userinfo["Experimental_Data_Path"]).scp()
-				print("self.paths[DS] ::::: ", self.paths["DS"])
-				print("self.userinfo[Experimental_Data_Path] :::::: ", self.userinfo["Experimental_Data_Path"])
-			else:
-				IHPath = path(self.paths['SED_TOP'], beamline = 'XAFS').getIHPath()
-				SEDTransfer(self.localDataPath, self.paths["DS"] + ":" + IHPath).scp()
-			log.info("Data transfer is done")
-		except:
-			log.error("Problem transferring the data")
+		if self.testingMode == "Yes":
+			SEDTransfer(self.localDataPath, self.paths["DS"] + ":" + self.paths['SED_TOP'] + "/" + self.paths["SED_Test"]).scp()
+		else:
+			try:
+				SEDTransfer(self.localDataPath, self.paths["AutoCopyDS"]).scp()
+				if self.cfg["expType"] == "proposal":
+					SEDTransfer(self.localDataPath, self.paths["DS"] + ":" + self.userinfo["Experimental_Data_Path"]).scp()
+				else:
+					IHPath = path(self.paths['SED_TOP'], beamline = 'XAFS').getIHPath()
+					SEDTransfer(self.localDataPath, self.paths["DS"] + ":" + IHPath).scp()
+				log.info("Data transfer is done")
+			except:
+				log.error("Problem transferring the data")
 
 	def signal_handler(self, sig, frame):
 		"""Calls abort_scan when ^C is typed"""
