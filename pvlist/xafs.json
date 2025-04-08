@@ -22,34 +22,34 @@
 			"pvname":"D08-ES-SDD1:PresetReal"
 		},
 		"PLOT:Energy":{
-			"pvname":"PLOT:Energy"
+			"pvname":"XAFS:Plot:Energy"
 		},
 		"PLOT:I0":{
-			"pvname":"PLOT:I0"
+			"pvname":"XAFS:Plot:I0"
 		},
 		"PLOT:It":{
-			"pvname":"PLOT:It"
+			"pvname":"XAFS:Plot:It"
 		},
 		"PLOT:It2":{
-			"pvname":"PLOT:It2"
+			"pvname":"XAFS:Plot:It2"
 		},
 		"PLOT:AbsTr":{
-			"pvname":"PLOT:AbsTr"
+			"pvname":"XAFS:Plot:AbsTr"
 		},
 		"PLOT:AbsTr2":{
-			"pvname":"PLOT:AbsTr2"
+			"pvname":"XAFS:Plot:AbsTr2"
 		},
 		"PLOT:If":{
-			"pvname":"PLOT:If"
+			"pvname":"XAFS:Plot:If"
 		},
 		"PLOT:AbsFlu":{
-			"pvname":"PLOT:AbsFlu"
+			"pvname":"XAFS:Plot:AbsFlu"
 		},
 		"USERINFO:Proposal":{
-			"pvname":"USERINFO:Proposal"
+			"pvname":"XAFS:ProposalID"
 		},
 		"USERINFO:Email":{
-			"pvname":"USERINFO:Email"
+			"pvname":"XAFS:PIEmail"
 		},
 		"USERINFO:Beamline":{
 			"pvname":"USERINFO:Beamline"
@@ -60,26 +60,41 @@
 		"USERINFO:EndTime":{
 			"pvname":"USERINFO:EndTime"
 		},
+		"SCAN:StartTime":{
+			"pvname":"XAFS:ScanStartTime"
+		},
+		"SCAN:ExpDataPath":{
+			"pvname":"XAFS:ExperimentalFilePath"
+		},
+		"SCAN:EndTime":{
+			"pvname":"XAFS:ScanEndTime"
+		},
+		"SCAN:RemTime":{
+			"pvname":"XAFS:ScanRemTime"
+		},
+		"SCAN:Type":{
+			"pvname":"XAFS:ScanningType"
+		},
 		"SCAN:pause":{
-			"pvname":"SCAN:XAFSPause"
+			"pvname":"XAFS:ScanStatus"
 		},
 		"SCAN:Nsamples":{
-			"pvname":"SCAN:Nsamples"
+			"pvname":"XAFS:Samples"
 		},
 		"SCAN:CurrentSample":{
-			"pvname":"SCAN:CurrentSample"
+			"pvname":"XAFS:CurrentSample"
 		},
 		"SCAN:Nscans":{
-			"pvname":"SCAN:Nscans"
+			"pvname":"XAFS:Scans"
 		},
 		"SCAN:CurrentScan":{
-			"pvname":"SCAN:CurrentScan"
+			"pvname":"XAFS:CurrentScan"
 		},
 		"SCAN:NIntervals":{
-			"pvname":"SCAN:NIntervals"
+			"pvname":"XAFS:Intervals"
 		},
 		"SCAN:CurrentInterval":{
-			"pvname":"SCAN:CurrentInterval"
+			"pvname":"XAFS:CurrentInterval"
 		},
 		"RING:Current":{
 		"pvname":"SRC01-DI-DCCT1:getDcctCurrent"
@@ -114,7 +129,7 @@
 			"pvname":"D08R1-MO-MC2:OH-DCM-STP-TRSY1"
 		},
 		"SMP:X":{
-			"pvname":"D08R2-MO-MC2:A-EH-SMP-X1"
+			"pvname":"D08R2-MO-MC2:C-EH-SMP-Z1"
 		},
 		"SMP:Y":{
 			"pvname":"D08R2-MO-MC2:B-EH-SMP-Y1"

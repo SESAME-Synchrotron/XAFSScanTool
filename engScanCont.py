@@ -10,6 +10,7 @@ import shutil
 import numpy as np
 import decimal
 import log
+from datetime import datetime, timedelta
 
 from linearIntervals import LINEARINTERVALS
 from xafs_xrf_cont import XAFS_XRFCONT
@@ -20,6 +21,19 @@ from SEDSS.SEDSupport import timeModule
 class ENGSCANCONT(XAFS_XRFCONT):
 	def __init__(self, paths, cfg, testingMode="No", accPlotting="No"):
 		super().__init__(paths, cfg, testingMode, accPlotting)
+		samples		 =	int(self.cfg["Nsamples"])
+		scans		 =	int(self.cfg["Nscans"])
+		intervals	 =	int(self.cfg["NIntervals"])
+		intervalsTime = 0
+
+		for interval in range(intervals):
+			points = len(self.drange(self.cfg["Intervals"][interval]["Startpoint"], self.cfg["Intervals"][interval]["Endpoint"], self.cfg["Intervals"][interval]["Stepsize"]))
+			intervalsTime += (points * scans * samples * self.cfg["Intervals"][interval]["IcsIntTime"])
+		intervalsTime += 300
+
+		currentTime = datetime.now()
+		remainingTime = currentTime + timedelta(seconds=int(intervalsTime))
+		self.PVs["SCAN:RemTime"].put(remainingTime.strftime('%H:%M'), wait=True)
 
 		self.lock = 0
 		self.linearInterval = LINEARINTERVALS(self.cfg)
@@ -37,9 +51,9 @@ class ENGSCANCONT(XAFS_XRFCONT):
 
 	def startScan(self):
 		overAllPointsCounter = 0
-		scanCounter = 0
 		pauseCounter = 0
 		startTime = time.time()
+		self.PVs["SCAN:StartTime"].put(datetime.now().strftime("%H:%M:%S"), wait=True)
 
 		self.clearPlot()
 
@@ -51,6 +65,7 @@ class ENGSCANCONT(XAFS_XRFCONT):
 		previousScan  = None
 		index = 1
 		for sample, scan, interval in self.generateScanPoints():
+			self.cfg["sampleIndex"] = sample
 			log.info(f"Data collection: Sample# {sample}, Scan# {scan}, Interval# {interval}")
 			self.checkPause()
 			print ("#####################################################")
@@ -93,6 +108,7 @@ class ENGSCANCONT(XAFS_XRFCONT):
 			linearIntervals = self.cfg['linearIntervals(LI)'][interval-1]
 			linearIntervalsCounts = len(linearIntervals['linearIntervalValue'])
 			for i, LI in enumerate(linearIntervals['linearIntervalValue']):
+				scanCounter = 0
 				log.info("#" * 50)
 				startpoint = LI[0]
 				endpoint = LI[-1]
@@ -245,7 +261,7 @@ class ENGSCANCONT(XAFS_XRFCONT):
 							(B) Ignore writing data during pausing (shutter stopped, current goes below the limits )
 							"""
 							scanPaused = self.PVs["SCAN:pause"].get()
-							if scanCounter in self.scanLimits["ScanPointsToBeIgnored"] or scanPaused == 1:
+							if scanCounter in self.scanLimits["ScanPointsToBeIgnored"] or scanPaused == 3:
 								pauseCounter = pauseCounter + 1
 							else:
 								XDIWriter(expData, self.localDataPath, self.detChosen, self.creationTime ,self.expStartTimeDF, self.cfg, currentScanInfo)
@@ -255,7 +271,7 @@ class ENGSCANCONT(XAFS_XRFCONT):
 							"""
 							if scanPaused == 1:
 								self.PVs["DCM:Ctrl"].put(1)
-								while self.PVs["SCAN:pause"].get() == 1:
+								while self.PVs["SCAN:pause"].get() == 3:
 									time.sleep(0.005)
 								self.PVs["DCM:Ctrl"].put(3)
 								self.motors["DCM:Energy:SP"].move(endpoint)
@@ -284,6 +300,8 @@ class ENGSCANCONT(XAFS_XRFCONT):
 		shutil.move(f"SEDScanTool_{self.creationTime}.log", f"{self.localDataPath}/SEDScanTool_{self.creationTime}.log")
 		self.PVs["DCM:Speed"].put(float(self.scanLimits["monoThetaDefaultSpeed"]))
 		self.dataTransfer()
+		self.PVs["SCAN:pause"].put(2)
+		self.PVs["SCAN:EndTime"].put(datetime.now().strftime("%H:%M:%S"), wait=True)
 
 	def drange(self, start, stop, step, prec=10):
 		log.info("Calculating energy points")

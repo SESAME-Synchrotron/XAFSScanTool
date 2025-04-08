@@ -9,6 +9,7 @@ import os
 import log
 import glob
 import epics
+from datetime import datetime, timedelta
 
 from xafs_xrf_step import XAFS_XRFSTEP
 from SEDSS.CLIMessage import CLIMessage
@@ -19,7 +20,20 @@ from energyCalibration import energyCalibration
 class ENGSCANSTEP(XAFS_XRFSTEP):
 	def __init__(self, paths, cfg, testingMode = "No", accPlotting = "No"):
 		super().__init__(paths, cfg, testingMode, accPlotting)
+		samples		 =	int(self.cfg["Nsamples"])
+		scans		 =	int(self.cfg["Nscans"])
+		intervals	 =	int(self.cfg["NIntervals"])
+		settlingTime = float(self.cfg["settlingTime"])
+		scanToScanTime = float(self.cfg["ScanToScanTime"])
+		intervalsTime = 0
 
+		for interval in range(intervals):
+			points = len(self.drange(self.cfg["Intervals"][interval]["Startpoint"], self.cfg["Intervals"][interval]["Endpoint"], self.cfg["Intervals"][interval]["Stepsize"]))
+			intervalsTime += (points * scans * samples * (self.cfg["Intervals"][interval]["IcsIntTime"] + settlingTime + scanToScanTime + 5))	# 5: time to meet energy tolerance
+
+		currentTime = datetime.now()
+		remainingTime = currentTime + timedelta(seconds=int(intervalsTime))
+		self.PVs["SCAN:RemTime"].put(remainingTime.strftime('%H:%M'), wait=True)
 		self.startScan()
 
 	def MoveDCM(self, SP, currentScanInfo=None):
@@ -38,6 +52,7 @@ class ENGSCANSTEP(XAFS_XRFSTEP):
 		scanCounter = 0
 		pauseCounter = 0
 		startTime = time.time()
+		self.PVs["SCAN:StartTime"].put(datetime.now().strftime("%H:%M:%S"), wait=True)
 
 		self.clearPlot()
 
@@ -49,6 +64,7 @@ class ENGSCANSTEP(XAFS_XRFSTEP):
 		previousScan  = None
 
 		for sample, scan, interval in self.generateScanPoints():
+			self.cfg["sampleIndex"] = sample
 			log.info("Data collection: Sample# {}, Scan# {}, Interval# {}".format(sample, scan, interval))
 			self.checkPause()
 			print("#####################################################")
@@ -199,7 +215,7 @@ class ENGSCANSTEP(XAFS_XRFSTEP):
 				(A) Ignore writing points listed in ScanPointsToBeIgnored array in the limits.json file, and,
 				(B) Ignore writing data during pausing (shutter stopped, current goes below the limits )
 				"""
-				if scanCounter in self.scanLimits["ScanPointsToBeIgnored"] or self.PVs["SCAN:pause"].get() == 1:
+				if scanCounter in self.scanLimits["ScanPointsToBeIgnored"] or self.PVs["SCAN:pause"].get() == 3:
 					pauseCounter = pauseCounter + 1
 				else:
 					XDIWriter(expData, self.localDataPath, self.detChosen, self.creationTime ,self.expStartTimeDF, self.cfg, currentScanInfo)
@@ -223,6 +239,8 @@ class ENGSCANSTEP(XAFS_XRFSTEP):
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
+		self.PVs["SCAN:pause"].put(2)
+		self.PVs["SCAN:EndTime"].put(datetime.now().strftime("%H:%M:%S"), wait=True)
 		epics.PV("D08-ES-SDD2:setTempMon").put(1)
 		epics.PV("D08-ES-SDD2:getDetectorsTemperatures.SCAN").put("10 second")
 		epics.PV("D08-ES-SDD2:getFPGAsTempreture.SCAN").put("10 second")

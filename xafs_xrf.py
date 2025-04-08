@@ -19,6 +19,7 @@ import json
 import math
 import itertools
 import threading
+import _thread
 import log
 
 from pandabox import PandA
@@ -63,6 +64,9 @@ class XAFS_XRF:
 		self.initPaths()
 		self.initDCM()
 		self.initDetectors()
+
+		exitAction = threading.Thread(target=self.__stop, args=(), daemon=True)
+		exitAction.start()
 
 		# Set ^C interrupt to abort the scan
 		signal.signal(signal.SIGINT, self.signal_handler)
@@ -138,6 +142,7 @@ class XAFS_XRF:
 		self.dataFileName	=	"{}-{}.dat".format(self.cfg["DataFileName"], str(datetime.datetime.now()))
 		self.h5FileName 	=   "{}-{}".format(self.cfg["DataFileName"], self.creationTime)
 		self.dataFileFullPath	=	"{}/{}".format(self.localDataPath, self.dataFileName)
+		self.PVs["SCAN:ExpDataPath"].put(self.localDataPath)
 		self.expStartTimeDF = str(time.strftime("%Y-%m-%dT%H:%M:%S")) # to be added to xdi file as a content
 
 		if not os.path.exists(self.localDataPath):
@@ -192,7 +197,7 @@ class XAFS_XRF:
 
 	def initDCM(self):
 		log.info("DCM initialization")
-		self.PVs["SCAN:pause"].put(0, wait=True) # set pause flag to False
+		self.PVs["SCAN:pause"].put(1, wait=True)
 		self.motors["DCM:Theta"].put("stop_go", 0) # Stop
 		time.sleep(0.1)
 		self.motors["DCM:Theta"].put("stop_go", 3) # Go
@@ -266,7 +271,7 @@ class XAFS_XRF:
 		pauseFlag = 0
 		startTime = time.time()
 
-		while self.PVs["SCAN:pause"].get():
+		while self.PVs["SCAN:pause"].get() == 3:
 			pauseFlag = 1
 			diffTime = time.time() - startTime
 			CLIMessage("Scan is paused | pausing time(sec): {}".format(diffTime), "IO")
@@ -419,9 +424,9 @@ class XAFS_XRF:
 			# if any of below is false, pause the scan
 			if False in (currentOk, shutter1Ok, shutter2Ok, stopperOk,
 				ICI0Ok, KetekROI0Ok, FicusROI0Ok):
-				self.PVs["SCAN:pause"].put(1) # 1 pause, 0 release
+				self.PVs["SCAN:pause"].put(3) # 3 pause, 1 release
 			else:
-				self.PVs["SCAN:pause"].put(0)
+				self.PVs["SCAN:pause"].put(1)
 
 			time.sleep(self.scanLimits["checkLimitsEvery"]) # time in seconds
 
@@ -488,10 +493,24 @@ class XAFS_XRF:
 			except:
 				log.error("Problem transferring the data")
 
+	def __stop(self):
+		"""
+		emit keyboard interrupt if stop button has been pressed
+		"""
+
+		check = 1
+		while check:
+			if self.PVs["SCAN:pause"].get() == 4:
+				check = 0
+				_thread.interrupt_main()			# exit from main thread (KeyInterrupt)
+			time.sleep(0.1)
+
 	def signal_handler(self, sig, frame):
 		"""Calls abort_scan when ^C is typed"""
 		if sig == signal.SIGINT:
 			log.warning("Ctrl + C (^C) has been pressed, running scan is terminated !!")
+			self.PVs["SCAN:pause"].put(4)
+			self.PVs["SCAN:EndTime"].put(datetime.datetime.now().strftime("%H:%M:%S"), wait=True)
 			os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 			shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 			self.dataTransfer()
