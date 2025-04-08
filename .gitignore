@@ -159,3 +159,5 @@ O.*/
 
 # test files
 test.*
+moc*
+build*/
