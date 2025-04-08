@@ -77,7 +77,7 @@ class XDIWriter:
 		- generats the file name 
 		- creats xdi file in respect to the chosen detector
 		"""
-		self.fullFileName = self.filePath +"/" + self.fileName + "_" + self.sampleTitle + "_" + "Scan" + str(self.data["Scan#"]) + "_" + self.scanStartTime + ".xdi"
+		self.fullFileName = self.filePath +"/" + self.fileName + "_" + self.sampleTitle + "_" + str(self.cfg["sampleIndex"]) + "_" + "Scan" + str(self.data["Scan#"]) + "_" + self.scanStartTime + ".xdi"
 		#print (self.fullFileName)
 		
 		if "KETEK" in self.detChosen:
