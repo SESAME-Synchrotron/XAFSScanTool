@@ -163,16 +163,16 @@ record(waveform, "$(P)ExpStartTime")
    field(NELM, "600")
 }
 
-record(waveform, "$(P)ScanStartTime")
+record(stringout, "$(P)ScanStartTime")
 {
-   field(FTVL, "UCHAR")
-   field(NELM, "600")
+   field(DESC, "Start time")
+   field(VAL, "---")
 }
 
-record(waveform, "$(P)ScanEndTime")
+record(stringout, "$(P)ScanEndTime")
 {
-   field(FTVL, "UCHAR")
-   field(NELM, "600")
+   field(DESC, "Interval remaining time")
+   field(VAL, "---")
 }
 
 record(longout, "$(P)ScanEnergy")
@@ -217,3 +217,147 @@ record(waveform, "$(P)ExperimentComments")
    field(FTVL, "UCHAR")
    field(NELM, "600")
 }
+
+record(mbbo, "$(P)ScanningType")
+{
+    field(DESC, "Scanning type")
+    field(PINI, "YES")
+    field(VAL, "0")
+    field(ZRVL, "0")
+    field(ZRST, "NA")
+    field(ONVL, "1")
+    field(ONST, "Step Scan")
+    field(TWVL, "2")
+    field(TWST, "Continuous Scan")
+    field(THVL, "3")
+    field(THST, "Mapping Scan")
+    field(FRVL, "4")
+    field(FRST, "Energy Calibration")
+}
+
+record(mbbo, "$(P)ScanStatus")
+{
+    field(DESC, "Scanning Status")
+    field(PINI, "YES")
+    field(VAL, "0")
+    field(ZRVL, "0")
+    field(ZRST, "NA")
+    field(ONVL, "1")
+    field(ONST, "Running")
+    field(TWVL, "2")
+    field(TWST, "Finished")
+    field(THVL, "3")
+    field(THST, "Paused")
+    field(FRVL, "4")
+    field(FRST, "Stopped")
+}
+
+record(stringout, "$(P)ScanRemTime")
+{
+    field(DESC, "Scan remaining time")
+}
+
+record(waveform, "$(P)Plot:Energy")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:I0")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:It")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:It2")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:AbsTr")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:AbsTr2")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:If")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:AbsFlu")
+{
+	field(PINI, "YES")
+	field(FTVL, "DOUBLE")
+	field(NELM, "25000")
+}
+
+record(longout, "$(P)Intervals")
+{
+    field(DESC, "Set the #.Intervals")
+    field(VAL, "0")
+    field(LOPR, "1")
+    field(HOPR, "100")
+}
+
+record(longout, "$(P)Samples")
+{
+    field(DESC, "Set the #.Samples")
+    field(VAL, "0")
+    field(LOPR, "1")
+    field(HOPR, "40")
+}
+
+record(longout, "$(P)Scans")
+{
+    field(DESC, "Set the #.Scans")
+    field(VAL, "0")
+    field(LOPR, "1")
+    field(HOPR, "100")
+}
+
+record(longout, "$(P)CurrentSample")
+{
+    field(DESC, "Current sample")
+    field(VAL, "0")
+    field(LOPR, "1")
+    field(HOPR, "40")
+}
+
+record(longout, "$(P)CurrentInterval")
+{
+    field(DESC, "Current interval")
+    field(VAL, "0")
+    field(LOPR, "1")
+    field(HOPR, "100")
+}
+
+record(longout, "$(P)CurrentScan")
+{
+    field(DESC, "Current scan")
+    field(VAL, "0")
+    field(LOPR, "1")
+    field(HOPR, "100")
+}
+
