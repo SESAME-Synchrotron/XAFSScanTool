@@ -29,6 +29,8 @@ public:
 private slots:
     void logs();
 
+    void on_startScan_clicked();
+
     void on_scanStatusVal_dbValueChanged(int out);
 
     void keyPressEvent(QKeyEvent *event);

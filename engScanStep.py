@@ -34,6 +34,7 @@ class ENGSCANSTEP(XAFS_XRFSTEP):
 		currentTime = datetime.now()
 		remainingTime = currentTime + timedelta(seconds=int(intervalsTime))
 		self.PVs["SCAN:RemTime"].put(remainingTime.strftime('%H:%M'), wait=True)
+		self.PVs["SCAN:EndTime"].put("---", wait=True)
 		self.startScan()
 
 	def MoveDCM(self, SP, currentScanInfo=None):
@@ -215,7 +216,7 @@ class ENGSCANSTEP(XAFS_XRFSTEP):
 				(A) Ignore writing points listed in ScanPointsToBeIgnored array in the limits.json file, and,
 				(B) Ignore writing data during pausing (shutter stopped, current goes below the limits )
 				"""
-				if scanCounter in self.scanLimits["ScanPointsToBeIgnored"] or self.PVs["SCAN:pause"].get() == 3:
+				if scanCounter in self.scanLimits["ScanPointsToBeIgnored"] or self.PVs["SCAN:Status"].get() == 3:
 					pauseCounter = pauseCounter + 1
 				else:
 					XDIWriter(expData, self.localDataPath, self.detChosen, self.creationTime ,self.expStartTimeDF, self.cfg, currentScanInfo)
@@ -239,7 +240,7 @@ class ENGSCANSTEP(XAFS_XRFSTEP):
 		os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 		shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))
 		self.dataTransfer()
-		self.PVs["SCAN:pause"].put(2)
+		self.PVs["SCAN:Status"].put(2)
 		self.PVs["SCAN:EndTime"].put(datetime.now().strftime("%H:%M:%S"), wait=True)
 		epics.PV("D08-ES-SDD2:setTempMon").put(1)
 		epics.PV("D08-ES-SDD2:getDetectorsTemperatures.SCAN").put("10 second")

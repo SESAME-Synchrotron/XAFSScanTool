@@ -75,8 +75,11 @@
 		"SCAN:Type":{
 			"pvname":"XAFS:ScanningType"
 		},
-		"SCAN:pause":{
+		"SCAN:Status":{
 			"pvname":"XAFS:ScanStatus"
+		},
+		"SCAN:Pause":{
+			"pvname":"XAFS:PauseStatus"
 		},
 		"SCAN:Nsamples":{
 			"pvname":"XAFS:Samples"

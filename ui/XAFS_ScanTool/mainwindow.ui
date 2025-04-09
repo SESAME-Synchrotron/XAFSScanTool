@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1980</width>
-    <height>1300</height>
+    <height>1000</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,228 +17,16 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="1" column="0">
      <widget class="QGroupBox" name="infoGroupBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="title">
        <string/>
       </property>
       <layout class="QGridLayout" name="gridLayout_10">
-       <item row="0" column="1">
-        <layout class="QGridLayout" name="actionsLayout">
-         <item row="0" column="3">
-          <widget class="QEPushButton" name="stop">
-           <property name="palette">
-            <palette>
-             <active>
-              <colorrole role="Button">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>255</red>
-                 <green>0</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </active>
-             <inactive>
-              <colorrole role="Button">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>255</red>
-                 <green>0</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </inactive>
-             <disabled>
-              <colorrole role="Button">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>255</red>
-                 <green>0</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </disabled>
-            </palette>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="autoFillBackground">
-            <bool>true</bool>
-           </property>
-           <property name="text">
-            <string>Stop</string>
-           </property>
-           <property name="variable" stdset="0">
-            <string>$(P)ScanStatus</string>
-           </property>
-           <property name="variableSubstitutions" stdset="0">
-            <string>P=XAFS:</string>
-           </property>
-           <property name="variableAsToolTip">
-            <bool>false</bool>
-           </property>
-           <property name="displayAlarmStateOption" stdset="0">
-            <enum>QEPushButton::Never</enum>
-           </property>
-           <property name="clickText">
-            <string>4</string>
-           </property>
-           <property name="clickCheckedText">
-            <string>Stopped</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QEPushButton" name="pause">
-           <property name="palette">
-            <palette>
-             <active>
-              <colorrole role="Button">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>255</red>
-                 <green>255</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </active>
-             <inactive>
-              <colorrole role="Button">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>255</red>
-                 <green>255</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </inactive>
-             <disabled>
-              <colorrole role="Button">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>255</red>
-                 <green>255</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </disabled>
-            </palette>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="text">
-            <string>Pause</string>
-           </property>
-           <property name="variable" stdset="0">
-            <string>$(P)ScanStatus</string>
-           </property>
-           <property name="variableSubstitutions" stdset="0">
-            <string>P=XAFS:</string>
-           </property>
-           <property name="variableAsToolTip">
-            <bool>false</bool>
-           </property>
-           <property name="displayAlarmStateOption" stdset="0">
-            <enum>QEPushButton::Never</enum>
-           </property>
-           <property name="clickText">
-            <string>3</string>
-           </property>
-           <property name="clickCheckedText">
-            <string>Paused</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QEPushButton" name="resume">
-           <property name="palette">
-            <palette>
-             <active>
-              <colorrole role="Button">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>0</red>
-                 <green>255</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </active>
-             <inactive>
-              <colorrole role="Button">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>0</red>
-                 <green>255</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </inactive>
-             <disabled>
-              <colorrole role="Button">
-               <brush brushstyle="SolidPattern">
-                <color alpha="255">
-                 <red>0</red>
-                 <green>255</green>
-                 <blue>0</blue>
-                </color>
-               </brush>
-              </colorrole>
-             </disabled>
-            </palette>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="text">
-            <string>Resume</string>
-           </property>
-           <property name="variable" stdset="0">
-            <string>$(P)ScanStatus</string>
-           </property>
-           <property name="variableSubstitutions" stdset="0">
-            <string>P=XAFS:</string>
-           </property>
-           <property name="variableAsToolTip">
-            <bool>false</bool>
-           </property>
-           <property name="displayAlarmStateOption" stdset="0">
-            <enum>QEPushButton::Never</enum>
-           </property>
-           <property name="clickText">
-            <string>1</string>
-           </property>
-           <property name="clickCheckedText">
-            <string>Running</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>100</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
        <item row="3" column="1" rowspan="2">
         <layout class="QGridLayout" name="statusLayout">
          <item row="4" column="4">
@@ -252,15 +40,15 @@
            </property>
            <property name="colour2" stdset="0">
             <color>
-             <red>255</red>
+             <red>0</red>
              <green>255</green>
              <blue>0</blue>
             </color>
            </property>
            <property name="colour3" stdset="0">
             <color>
-             <red>0</red>
-             <green>255</green>
+             <red>255</red>
+             <green>0</green>
              <blue>0</blue>
             </color>
            </property>
@@ -296,15 +84,15 @@
            </property>
            <property name="colour2" stdset="0">
             <color>
-             <red>255</red>
+             <red>0</red>
              <green>255</green>
              <blue>0</blue>
             </color>
            </property>
            <property name="colour3" stdset="0">
             <color>
-             <red>0</red>
-             <green>255</green>
+             <red>255</red>
+             <green>0</green>
              <blue>0</blue>
             </color>
            </property>
@@ -416,15 +204,15 @@
            </property>
            <property name="colour2" stdset="0">
             <color>
-             <red>255</red>
+             <red>0</red>
              <green>255</green>
              <blue>0</blue>
             </color>
            </property>
            <property name="colour3" stdset="0">
             <color>
-             <red>0</red>
-             <green>255</green>
+             <red>255</red>
+             <green>0</green>
              <blue>0</blue>
             </color>
            </property>
@@ -611,97 +399,8 @@
          </item>
         </layout>
        </item>
-       <item row="0" column="0">
-        <layout class="QGridLayout" name="scanStatusLayout">
-         <item row="0" column="0">
-          <widget class="QLabel" name="scanStatusLabel">
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="text">
-            <string>Scan</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QSimpleShape" name="scanStatusInd">
-           <property name="shape">
-            <enum>QSimpleShape::rectangle</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QELabel" name="scanStatusVal">
-           <property name="cursor">
-            <cursorShape>IBeamCursor</cursorShape>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="variable" stdset="0">
-            <string>$(P)ScanStatus</string>
-           </property>
-           <property name="variableSubstitutions" stdset="0">
-            <string>P=XAFS:</string>
-           </property>
-           <property name="variableAsToolTip">
-            <bool>false</bool>
-           </property>
-           <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
-           </property>
-           <property name="addUnits">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::Fixed</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>100</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
        <item row="3" column="0" rowspan="2">
         <layout class="QGridLayout" name="infoLayout">
-         <item row="1" column="0">
-          <widget class="QLabel" name="sampleLabel">
-           <property name="text">
-            <string>Sample</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="intervalLabel">
-           <property name="text">
-            <string>Interval</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="SEDPathLabel">
-           <property name="text">
-            <string>SED Path</string>
-           </property>
-          </widget>
-         </item>
          <item row="2" column="3">
           <widget class="QELabel" name="intervalsVal">
            <property name="cursor">
@@ -730,12 +429,74 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="scanningTypeLabel">
-           <property name="text">
-            <string>Scanning Type</string>
+         <item row="1" column="1">
+          <widget class="QELabel" name="currentSampleVal">
+           <property name="cursor">
+            <cursorShape>IBeamCursor</cursorShape>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="variable" stdset="0">
+            <string>$(P)CurrentSample</string>
+           </property>
+           <property name="variableSubstitutions" stdset="0">
+            <string>P=XAFS:</string>
+           </property>
+           <property name="variableAsToolTip">
+            <bool>false</bool>
+           </property>
+           <property name="displayAlarmStateOption" stdset="0">
+            <enum>QELabel::Never</enum>
+           </property>
+           <property name="addUnits">
+            <bool>false</bool>
            </property>
           </widget>
+         </item>
+         <item row="0" column="1" colspan="3">
+          <widget class="QELabel" name="scanningTypeVal">
+           <property name="cursor">
+            <cursorShape>IBeamCursor</cursorShape>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="variable" stdset="0">
+            <string>XAFS:ScanningType</string>
+           </property>
+           <property name="variableAsToolTip">
+            <bool>false</bool>
+           </property>
+           <property name="displayAlarmStateOption" stdset="0">
+            <enum>QELabel::Never</enum>
+           </property>
+           <property name="addUnits">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="4">
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>700</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item row="1" column="3">
           <widget class="QELabel" name="samplesVal">
@@ -765,6 +526,20 @@
            </property>
           </widget>
          </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="sampleLabel">
+           <property name="text">
+            <string>Sample</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="intervalLabel">
+           <property name="text">
+            <string>Interval</string>
+           </property>
+          </widget>
+         </item>
          <item row="2" column="2">
           <widget class="QLabel" name="outOf2">
            <property name="text">
@@ -772,6 +547,41 @@
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="scanningTypeLabel">
+           <property name="text">
+            <string>Scanning Type</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="3">
+          <widget class="QELabel" name="scansVal">
+           <property name="cursor">
+            <cursorShape>IBeamCursor</cursorShape>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="variable" stdset="0">
+            <string>$(P)Scans</string>
+           </property>
+           <property name="variableSubstitutions" stdset="0">
+            <string>P=XAFS:</string>
+           </property>
+           <property name="variableAsToolTip">
+            <bool>false</bool>
+           </property>
+           <property name="displayAlarmStateOption" stdset="0">
+            <enum>QELabel::Never</enum>
+           </property>
+           <property name="addUnits">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -785,8 +595,8 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
-          <widget class="QELabel" name="currentSampleVal">
+         <item row="3" column="1">
+          <widget class="QELabel" name="scanVal">
            <property name="cursor">
             <cursorShape>IBeamCursor</cursorShape>
            </property>
@@ -797,7 +607,7 @@
             <set>Qt::AlignCenter</set>
            </property>
            <property name="variable" stdset="0">
-            <string>$(P)CurrentSample</string>
+            <string>$(P)CurrentScan</string>
            </property>
            <property name="variableSubstitutions" stdset="0">
             <string>P=XAFS:</string>
@@ -841,63 +651,10 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="1" colspan="3">
-          <widget class="QELabel" name="scanningTypeVal">
-           <property name="cursor">
-            <cursorShape>IBeamCursor</cursorShape>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="variable" stdset="0">
-            <string>XAFS:ScanningType</string>
-           </property>
-           <property name="variableAsToolTip">
-            <bool>false</bool>
-           </property>
-           <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
-           </property>
-           <property name="addUnits">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
          <item row="3" column="0">
           <widget class="QLabel" name="scanLabel">
            <property name="text">
             <string>Scan</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QELabel" name="scanVal">
-           <property name="cursor">
-            <cursorShape>IBeamCursor</cursorShape>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="variable" stdset="0">
-            <string>$(P)CurrentScan</string>
-           </property>
-           <property name="variableSubstitutions" stdset="0">
-            <string>P=XAFS:</string>
-           </property>
-           <property name="variableAsToolTip">
-            <bool>false</bool>
-           </property>
-           <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
-           </property>
-           <property name="addUnits">
-            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -911,35 +668,14 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="3">
-          <widget class="QELabel" name="scansVal">
-           <property name="cursor">
-            <cursorShape>IBeamCursor</cursorShape>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="variable" stdset="0">
-            <string>$(P)Scans</string>
-           </property>
-           <property name="variableSubstitutions" stdset="0">
-            <string>P=XAFS:</string>
-           </property>
-           <property name="variableAsToolTip">
-            <bool>false</bool>
-           </property>
-           <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
-           </property>
-           <property name="addUnits">
-            <bool>false</bool>
+         <item row="4" column="0">
+          <widget class="QLabel" name="SEDPathLabel">
+           <property name="text">
+            <string>SED Path</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="1" colspan="3">
+         <item row="4" column="1" colspan="4">
           <widget class="QELabel" name="SEDPath">
            <property name="cursor">
             <cursorShape>IBeamCursor</cursorShape>
@@ -999,13 +735,6 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="startTimeLabel">
-           <property name="text">
-            <string>Start Time</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="1">
           <widget class="QELabel" name="startTimeVal">
            <property name="cursor">
@@ -1031,26 +760,20 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="endTimeLabel">
-           <property name="text">
-            <string>End Time</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-           <property name="indent">
-            <number>20</number>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="4">
           <widget class="QLabel" name="remainingTimeLabel">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Expected Remaining Time&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Expected Time to Complete&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="startTimeLabel">
+           <property name="text">
+            <string>Start Time</string>
            </property>
           </widget>
          </item>
@@ -1067,6 +790,331 @@
            </property>
            <property name="variable" stdset="0">
             <string>$(P)ScanRemTime</string>
+           </property>
+           <property name="variableSubstitutions" stdset="0">
+            <string>P=XAFS:</string>
+           </property>
+           <property name="variableAsToolTip">
+            <bool>false</bool>
+           </property>
+           <property name="displayAlarmStateOption" stdset="0">
+            <enum>QELabel::Never</enum>
+           </property>
+           <property name="addUnits">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="endTimeLabel">
+           <property name="text">
+            <string>End Time</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+           <property name="indent">
+            <number>20</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="6">
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>1000</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="1">
+        <layout class="QGridLayout" name="actionsLayout">
+         <item row="0" column="3">
+          <widget class="QEPushButton" name="resume">
+           <property name="palette">
+            <palette>
+             <active>
+              <colorrole role="Button">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>255</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="Button">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>255</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled>
+              <colorrole role="Button">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>255</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </disabled>
+            </palette>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="text">
+            <string>Resume</string>
+           </property>
+           <property name="variable" stdset="0">
+            <string>$(P)ScanStatus</string>
+           </property>
+           <property name="variableSubstitutions" stdset="0">
+            <string>P=XAFS:</string>
+           </property>
+           <property name="variableAsToolTip">
+            <bool>false</bool>
+           </property>
+           <property name="displayAlarmStateOption" stdset="0">
+            <enum>QEPushButton::Never</enum>
+           </property>
+           <property name="clickText">
+            <string>1</string>
+           </property>
+           <property name="clickCheckedText">
+            <string>Running</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="startScan">
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="text">
+            <string>Start Scan</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QEPushButton" name="stop">
+           <property name="palette">
+            <palette>
+             <active>
+              <colorrole role="Button">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="Button">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled>
+              <colorrole role="Button">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>0</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </disabled>
+            </palette>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="autoFillBackground">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string>Stop</string>
+           </property>
+           <property name="variable" stdset="0">
+            <string>$(P)ScanStatus</string>
+           </property>
+           <property name="variableSubstitutions" stdset="0">
+            <string>P=XAFS:</string>
+           </property>
+           <property name="variableAsToolTip">
+            <bool>false</bool>
+           </property>
+           <property name="displayAlarmStateOption" stdset="0">
+            <enum>QEPushButton::Never</enum>
+           </property>
+           <property name="clickText">
+            <string>4</string>
+           </property>
+           <property name="clickCheckedText">
+            <string>Stopped</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QEPushButton" name="pause">
+           <property name="palette">
+            <palette>
+             <active>
+              <colorrole role="Button">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="Button">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled>
+              <colorrole role="Button">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>0</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </disabled>
+            </palette>
+           </property>
+           <property name="cursor">
+            <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="text">
+            <string>Pause</string>
+           </property>
+           <property name="variable" stdset="0">
+            <string>$(P)ScanStatus</string>
+           </property>
+           <property name="variableSubstitutions" stdset="0">
+            <string>P=XAFS:</string>
+           </property>
+           <property name="variableAsToolTip">
+            <bool>false</bool>
+           </property>
+           <property name="displayAlarmStateOption" stdset="0">
+            <enum>QEPushButton::Never</enum>
+           </property>
+           <property name="clickText">
+            <string>3</string>
+           </property>
+           <property name="clickCheckedText">
+            <string>Paused</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>100</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item row="0" column="0">
+        <layout class="QGridLayout" name="scanStatusLayout">
+         <item row="0" column="2">
+          <widget class="QSimpleShape" name="scanStatusInd">
+           <property name="shape">
+            <enum>QSimpleShape::rectangle</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="scanStatusLabel">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="text">
+            <string>Scan</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>100</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="1">
+          <widget class="QELabel" name="scanStatusVal">
+           <property name="cursor">
+            <cursorShape>IBeamCursor</cursorShape>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="variable" stdset="0">
+            <string>$(P)ScanStatus</string>
            </property>
            <property name="variableSubstitutions" stdset="0">
             <string>P=XAFS:</string>
@@ -1131,7 +1179,7 @@
       <item row="0" column="0" colspan="3">
        <widget class="QEPlotter" name="I0_It_It2">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -1233,7 +1281,7 @@
       <item row="0" column="3" colspan="2">
        <widget class="QEPlotter" name="AbsTr_AbsTr2">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -1393,7 +1441,7 @@
       <item row="0" column="5" colspan="2">
        <widget class="QEPlotter" name="If_AbsFlu">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -1496,6 +1544,12 @@
     </item>
     <item row="3" column="0">
      <widget class="QGroupBox" name="logsGroupBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="title">
        <string>Scan Logs</string>
       </property>

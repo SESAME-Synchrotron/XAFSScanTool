@@ -34,6 +34,7 @@ class ENGSCANCONT(XAFS_XRFCONT):
 		currentTime = datetime.now()
 		remainingTime = currentTime + timedelta(seconds=int(intervalsTime))
 		self.PVs["SCAN:RemTime"].put(remainingTime.strftime('%H:%M'), wait=True)
+		self.PVs["SCAN:EndTime"].put("---", wait=True)
 
 		self.lock = 0
 		self.linearInterval = LINEARINTERVALS(self.cfg)
@@ -260,7 +261,7 @@ class ENGSCANCONT(XAFS_XRFCONT):
 							(A) Ignore writing points listed in ScanPointsToBeIgnored array in the limits.json file, and,
 							(B) Ignore writing data during pausing (shutter stopped, current goes below the limits )
 							"""
-							scanPaused = self.PVs["SCAN:pause"].get()
+							scanPaused = self.PVs["SCAN:Status"].get()
 							if scanCounter in self.scanLimits["ScanPointsToBeIgnored"] or scanPaused == 3:
 								pauseCounter = pauseCounter + 1
 							else:
@@ -271,7 +272,7 @@ class ENGSCANCONT(XAFS_XRFCONT):
 							"""
 							if scanPaused == 1:
 								self.PVs["DCM:Ctrl"].put(1)
-								while self.PVs["SCAN:pause"].get() == 3:
+								while self.PVs["SCAN:Status"].get() == 3:
 									time.sleep(0.005)
 								self.PVs["DCM:Ctrl"].put(3)
 								self.motors["DCM:Energy:SP"].move(endpoint)
@@ -300,7 +301,7 @@ class ENGSCANCONT(XAFS_XRFCONT):
 		shutil.move(f"SEDScanTool_{self.creationTime}.log", f"{self.localDataPath}/SEDScanTool_{self.creationTime}.log")
 		self.PVs["DCM:Speed"].put(float(self.scanLimits["monoThetaDefaultSpeed"]))
 		self.dataTransfer()
-		self.PVs["SCAN:pause"].put(2)
+		self.PVs["SCAN:Status"].put(2)
 		self.PVs["SCAN:EndTime"].put(datetime.now().strftime("%H:%M:%S"), wait=True)
 
 	def drange(self, start, stop, step, prec=10):

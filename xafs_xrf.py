@@ -197,7 +197,8 @@ class XAFS_XRF:
 
 	def initDCM(self):
 		log.info("DCM initialization")
-		self.PVs["SCAN:pause"].put(1, wait=True)
+		self.PVs["SCAN:Status"].put(1, wait=True)
+		self.PVs["SCAN:Pause"].put(0, wait=True)
 		self.motors["DCM:Theta"].put("stop_go", 0) # Stop
 		time.sleep(0.1)
 		self.motors["DCM:Theta"].put("stop_go", 3) # Go
@@ -271,7 +272,7 @@ class XAFS_XRF:
 		pauseFlag = 0
 		startTime = time.time()
 
-		while self.PVs["SCAN:pause"].get() == 3:
+		while self.PVs["SCAN:Pause"].get() == 1:
 			pauseFlag = 1
 			diffTime = time.time() - startTime
 			CLIMessage("Scan is paused | pausing time(sec): {}".format(diffTime), "IO")
@@ -288,6 +289,7 @@ class XAFS_XRF:
 		ICI0Ok = True
 		KetekROI0Ok = True
 		FicusROI0Ok = True
+		pauseOk = True
 
 		# imported from limits.json
 		ringLowerCurrent = self.scanLimits["SRLowerCurrent"]
@@ -316,6 +318,7 @@ class XAFS_XRF:
 		ICI0LogFlag = 0
 		KetekROI0LogFlag = 0
 		FicusROI0LogFlag = 0
+		pauseButtonFlag = 0
 
 		while True:
 
@@ -326,6 +329,7 @@ class XAFS_XRF:
 			ICI0Readout = ICI0Roi0PV.get()
 			KetekROI0Readout = ketekRoi0PV.get()
 			FicusROI0Readout = FicusRoisPV.get()
+			pauseStatus = self.PVs["SCAN:Status"].get()
 
 			################### Check current parameters ###############
 			if ringLowerCurrent <= currentCurrent <= ringUpperCurrent:
@@ -421,12 +425,24 @@ class XAFS_XRF:
 								.format(FicusROI0Readout, FicusROI0LowerLimit))
 							FicusROI0LogFlag = 1
 
+				################### Check pause button ###############
+				if pauseStatus == 3: # pause 3
+					pauseOk = False
+					if pauseButtonFlag == 0:
+						log.warning("pause button has been pressed")
+						pauseButtonFlag = 1
+				else:
+					pauseOk = True
+					if pauseButtonFlag == 1:
+						log.warning("resume button has been pressed")
+						pauseButtonFlag = 0
+
 			# if any of below is false, pause the scan
 			if False in (currentOk, shutter1Ok, shutter2Ok, stopperOk,
-				ICI0Ok, KetekROI0Ok, FicusROI0Ok):
-				self.PVs["SCAN:pause"].put(3) # 3 pause, 1 release
+				ICI0Ok, KetekROI0Ok, FicusROI0Ok, pauseOk):
+				self.PVs["SCAN:Pause"].put(1) # 1 pause, 0 release
 			else:
-				self.PVs["SCAN:pause"].put(1)
+				self.PVs["SCAN:Pause"].put(0)
 
 			time.sleep(self.scanLimits["checkLimitsEvery"]) # time in seconds
 
@@ -500,7 +516,7 @@ class XAFS_XRF:
 
 		check = 1
 		while check:
-			if self.PVs["SCAN:pause"].get() == 4:
+			if self.PVs["SCAN:Status"].get() == 4:
 				check = 0
 				_thread.interrupt_main()			# exit from main thread (KeyInterrupt)
 			time.sleep(0.1)
@@ -509,7 +525,7 @@ class XAFS_XRF:
 		"""Calls abort_scan when ^C is typed"""
 		if sig == signal.SIGINT:
 			log.warning("Ctrl + C (^C) has been pressed, running scan is terminated !!")
-			self.PVs["SCAN:pause"].put(4)
+			self.PVs["SCAN:Status"].put(4)
 			self.PVs["SCAN:EndTime"].put(datetime.datetime.now().strftime("%H:%M:%S"), wait=True)
 			os.rename("SED_Scantool.log", "SEDScanTool_{}.log".format(self.creationTime))
 			shutil.move("SEDScanTool_{}.log".format(self.creationTime), "{}/SEDScanTool_{}.log".format(self.localDataPath, self.creationTime))

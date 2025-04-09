@@ -53,6 +53,13 @@ QString MainWindow::getLogText(const std::string& filePath)
     return QString();
 }
 
+void MainWindow::on_startScan_clicked()
+{
+    QProcess* p = new QProcess(this);
+    p->setWorkingDirectory("/home/control/XAFSScanTool");
+    p->start("gnome-terminal -e ./main.py");
+}
+
 void MainWindow::on_scanStatusVal_dbValueChanged(int out)
 {
     scanStatus = out;
@@ -63,6 +70,7 @@ void MainWindow::on_scanStatusVal_dbValueChanged(int out)
         ui->pause->setEnabled(false);
         ui->resume->setEnabled(false);
         ui->stop->setEnabled(false);
+        ui->startScan->setEnabled(true);
         ui->scanStatusInd->setColour0Property(QColor(200,200,200));
         ui->scanStatusInd->setFlashProperty(0, false);
         break;
@@ -70,6 +78,7 @@ void MainWindow::on_scanStatusVal_dbValueChanged(int out)
         ui->pause->setEnabled(true);
         ui->resume->setEnabled(false);
         ui->stop->setEnabled(true);
+        ui->startScan->setEnabled(false);
         ui->scanStatusInd->setColour0Property(QColor(0,255,0));
         ui->scanStatusInd->setFlashProperty(0, false);
         break;
@@ -77,6 +86,7 @@ void MainWindow::on_scanStatusVal_dbValueChanged(int out)
         ui->pause->setEnabled(false);
         ui->resume->setEnabled(false);
         ui->stop->setEnabled(false);
+        ui->startScan->setEnabled(true);
         ui->scanStatusInd->setColour0Property(QColor(0,0,255));
         ui->scanStatusInd->setFlashProperty(0, false);
         break;
@@ -84,6 +94,7 @@ void MainWindow::on_scanStatusVal_dbValueChanged(int out)
         ui->pause->setEnabled(true);
         ui->resume->setEnabled(true);
         ui->stop->setEnabled(true);
+        ui->startScan->setEnabled(false);
         ui->scanStatusInd->setColour0Property(QColor(255,255,0));
         ui->scanStatusInd->setFlashProperty(0, true);
         ui->scanStatusInd->setFlashRate(QEScanTimers::Medium);
@@ -92,6 +103,7 @@ void MainWindow::on_scanStatusVal_dbValueChanged(int out)
         ui->pause->setEnabled(false);
         ui->resume->setEnabled(false);
         ui->stop->setEnabled(true);
+        ui->startScan->setEnabled(true);
         ui->scanStatusInd->setColour0Property(QColor(255,0,0));
         ui->scanStatusInd->setFlashProperty(0, true);
         ui->scanStatusInd->setFlashRate(QEScanTimers::Fast);
@@ -109,7 +121,7 @@ void MainWindow::on_scanStatusVal_dbValueChanged(int out)
 
 void MainWindow::on_DCMStatusInd_dbValueChanged(bool out)
 {
-    ui->DCMStatusVal->setText(out ? "not move" : "moving");
+    ui->DCMStatusVal->setText(out ? "done" : "moving");
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -133,4 +145,3 @@ void MainWindow::on_close_clicked()
         this->close();
     }
 }
-

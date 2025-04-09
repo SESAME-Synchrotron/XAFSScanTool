@@ -4,6 +4,7 @@ import argparse
 import energyCalibration
 import config
 from common import Common
+from tendo import singleton
 
 try:
 	import numpy as np
@@ -17,6 +18,13 @@ except ImportError as error:
 from engScanStep import ENGSCANSTEP
 from engScanCont import ENGSCANCONT
 from mapScan import MAPSCAN
+
+try:
+	me = singleton.SingleInstance()
+except:
+	print("Can't start DAQ tool, the DAQ system is already running")
+	sys.exit()
+
 app = QtWidgets.QApplication(sys.argv)
 
 #########################################################
