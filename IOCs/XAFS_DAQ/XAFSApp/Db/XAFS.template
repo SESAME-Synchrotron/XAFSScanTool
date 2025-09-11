@@ -252,6 +252,15 @@ record(mbbo, "$(P)ScanStatus")
     field(FRST, "Stopped")
 }
 
+record(bo, "$(P)PauseStatus")
+{
+    field(DESC, "Pausing Status")
+    field(PINI, "YES")
+    field(VAL, "0")
+    field(ZNAM, "resumed")
+    field(ONAM, "paused")
+}
+
 record(stringout, "$(P)ScanRemTime")
 {
     field(DESC, "Scan remaining time")
@@ -313,6 +322,20 @@ record(waveform, "$(P)Plot:AbsFlu")
 	field(NELM, "25000")
 }
 
+record(waveform, "$(P)Plot:PiezoVoltage")
+{
+        field(PINI, "YES")
+        field(FTVL, "DOUBLE")
+        field(NELM, "25000")
+}
+
+record(waveform, "$(P)Plot:PiezoCurrent")
+{
+        field(PINI, "YES")
+        field(FTVL, "DOUBLE")
+        field(NELM, "25000")
+}
+
 record(longout, "$(P)Intervals")
 {
     field(DESC, "Set the #.Intervals")
@@ -360,4 +383,5 @@ record(longout, "$(P)CurrentScan")
     field(LOPR, "1")
     field(HOPR, "100")
 }
+
 

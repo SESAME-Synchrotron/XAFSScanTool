@@ -16,7 +16,8 @@ except ImportError as error:
 	sys.exit()
 
 from engScanStep import ENGSCANSTEP
-from engScanCont import ENGSCANCONT
+from engScanContPos import ENGSCANCONTPOS
+from engScanContTime import ENGSCANCONTTIME
 from mapScan import MAPSCAN
 
 try:
@@ -44,16 +45,15 @@ if __name__ == "__main__":
 	paths	= Common.loadjson("configurations/paths.json")
 	cfg		= config.ConfigGUI(paths).cfg
 
-	print(cfg)
-	print (engCalib)
-
 	if engCalib != None:
 		x = energyCalibration.energyCalibration(engCalib)
 	elif cfg['scanType'] == 'stepEngScan':
 		ENGSCANSTEP(paths = paths, cfg = cfg, testingMode = tMode, accPlotting = accPlotting)
 	elif cfg['scanType'] == 'stepMapScan':
 		MAPSCAN(paths = paths, cfg = cfg, testingMode = tMode)
-	elif cfg['scanType'] == 'contScan':
-		ENGSCANCONT(paths = paths, cfg = cfg, testingMode = tMode, accPlotting = accPlotting)
+	elif cfg['scanType'] == 'contScanPosition':
+		ENGSCANCONTPOS(paths = paths, cfg = cfg, testingMode = tMode, accPlotting = accPlotting)
+	elif cfg['scanType'] == 'contScanTime':
+		ENGSCANCONTTIME(paths = paths, cfg = cfg, testingMode = tMode, accPlotting = accPlotting)
 
 	sys.exit(app.exit())

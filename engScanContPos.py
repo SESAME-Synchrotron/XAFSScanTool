@@ -18,7 +18,7 @@ from SEDSS.CLIMessage import CLIMessage
 from xdiWriter import XDIWriter
 from SEDSS.SEDSupport import timeModule
 
-class ENGSCANCONT(XAFS_XRFCONT):
+class ENGSCANCONTPOS(XAFS_XRFCONT):
 	def __init__(self, paths, cfg, testingMode="No", accPlotting="No"):
 		super().__init__(paths, cfg, testingMode, accPlotting)
 		samples		 =	int(self.cfg["Nsamples"])
@@ -64,16 +64,17 @@ class ENGSCANCONT(XAFS_XRFCONT):
 		expData = {} # Experimental Data
 
 		previousScan  = None
+		previousSample = None
 		index = 1
 		for sample, scan, interval in self.generateScanPoints():
 			self.cfg["sampleIndex"] = sample
 			log.info(f"Data collection: Sample# {sample}, Scan# {scan}, Interval# {interval}")
 			self.checkPause()
-			print ("#####################################################")
+			print("#####################################################")
 			CLIMessage(f"Scan# {scan}", "I")
 			CLIMessage(f"Sample# {sample}", "I")
 			CLIMessage(f"Interval# {interval}", "I")
-			print ("#####################################################")
+			print("#####################################################")
 
 			if scan != previousScan:
 				previousScan = scan
@@ -82,6 +83,15 @@ class ENGSCANCONT(XAFS_XRFCONT):
 					timeModule.waitWithProgressBar(int(self.cfg["ScanToScanTime"]))
 				if self.accPlotting.strip().lower() != 'yes':
 					self.clearPlot()
+				if self.cfg["RockingCurveTuning"] == "Yes" and self.cfg["RCConduct"] == "Scan":
+					self.rockingCurve()
+			
+			if sample != previousSample:
+				previousSample = sample
+				if self.accPlotting.strip().lower() != 'yes':
+					self.clearPlot()
+				if self.cfg["RockingCurveTuning"] == "Yes" and self.cfg["RCConduct"] == "Sample":
+					self.rockingCurve()
 
 			# CSS GUI
 			self.PVs["SCAN:Nsamples"].put(self.cfg["Nsamples"])
@@ -98,6 +108,8 @@ class ENGSCANCONT(XAFS_XRFCONT):
 			stepsize = currentInterval["Stepsize"]
 			ICsIntTime = currentInterval["IcsIntTime"]
 			stepUnit = currentInterval["stepUnit"]
+
+			self.sensitivityExpTime = ICsIntTime
 
 			if "KETEK" in self.cfg["detectors"]:
 				log.info(f"prepare pulse block, width: {ICsIntTime} sec")
@@ -140,6 +152,7 @@ class ENGSCANCONT(XAFS_XRFCONT):
 
 				log.info("prepare pandABlocks")
 				self.pandaBox.disableBit("A")
+				self.pandaBox.disableBit("D")
 				self.pandaBox.enableBit("A")
 
 				log.info("go to end point ...")
@@ -270,7 +283,7 @@ class ENGSCANCONT(XAFS_XRFCONT):
 							"""
 							Stop DCM in case scan paused
 							"""
-							if scanPaused == 1:
+							if scanPaused == 3:
 								self.PVs["DCM:Ctrl"].put(1)
 								while self.PVs["SCAN:Status"].get() == 3:
 									time.sleep(0.005)
@@ -287,7 +300,8 @@ class ENGSCANCONT(XAFS_XRFCONT):
 				Transferring the data after each sub-interval
 				"""
 				self.dataTransfer()
-
+		
+		self.pandaBox.disableBit("A")
 		print("#########################################################################")
 		scanTime = timeModule.timer(startTime)
 		log.info(f"Scan is finished | actual scan time is: {str(scanTime)}, total number of points: {overAllPointsCounter}")

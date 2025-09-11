@@ -33,13 +33,15 @@ private slots:
 
     void on_scanStatusVal_dbValueChanged(int out);
 
+    void on_DCMStatusInd_dbValueChanged(bool out);
+
+    void on_showHideVoltage_stateChanged(int val);
+
     void keyPressEvent(QKeyEvent *event);
 
     void closeEvent(QCloseEvent *event);
 
     void on_close_clicked();
-
-    void on_DCMStatusInd_dbValueChanged(bool out);
 
 private:
     Ui::MainWindow *ui;

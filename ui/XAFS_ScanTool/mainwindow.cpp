@@ -24,6 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
     checkLogs = new QTimer(this);
     this->checkLogs->start(100);
     connect(checkLogs, SIGNAL(timeout()), this, SLOT(logs()));
+
+    ui->V_I0->hide();
+    ui->V_I0Label->hide();
 }
 
 MainWindow::~MainWindow()
@@ -124,6 +127,20 @@ void MainWindow::on_DCMStatusInd_dbValueChanged(bool out)
     ui->DCMStatusVal->setText(out ? "done" : "moving");
 }
 
+void MainWindow::on_showHideVoltage_stateChanged(int val)
+{
+    if(val)
+    {
+        ui->V_I0->show();
+        ui->V_I0Label->show();
+    }
+    else
+    {
+        ui->V_I0->hide();
+        ui->V_I0Label->hide();
+    }
+}
+
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Escape) event->ignore();
@@ -145,3 +162,4 @@ void MainWindow::on_close_clicked()
         this->close();
     }
 }
+

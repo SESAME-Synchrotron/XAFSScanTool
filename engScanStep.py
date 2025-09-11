@@ -63,6 +63,7 @@ class ENGSCANSTEP(XAFS_XRFSTEP):
 		# added by MZ on Aug 24, 2021
 		expData = {} # Experimental Data
 		previousScan  = None
+		previousSample= None
 
 		for sample, scan, interval in self.generateScanPoints():
 			self.cfg["sampleIndex"] = sample
@@ -81,7 +82,15 @@ class ENGSCANSTEP(XAFS_XRFSTEP):
 					timeModule.waitWithProgressBar(int(self.cfg["ScanToScanTime"]))
 				if self.accPlotting.strip().lower() != 'yes':
 					self.clearPlot()
+				if self.cfg["RockingCurveTuning"] == "Yes" and self.cfg["RCConduct"] == "Scan":
+					self.rockingCurve()
 
+			if sample != previousSample:
+				previousSample = sample
+				if self.accPlotting.strip().lower() != 'yes':
+					self.clearPlot()
+				if self.cfg["RockingCurveTuning"] == "Yes" and self.cfg["RCConduct"] == "Sample":
+					self.rockingCurve()
 			# CSS GUI
 			self.PVs["SCAN:Nsamples"].put(self.cfg["Nsamples"])
 			self.PVs["SCAN:Nscans"].put(self.cfg["Nscans"])
@@ -101,6 +110,8 @@ class ENGSCANSTEP(XAFS_XRFSTEP):
 			ICsIntTime = currentInterval["IcsIntTime"]
 			stepUnit = currentInterval["stepUnit"]
 
+			self.sensitivityExpTime = ICsIntTime
+
 			newIntervalFlag = True
 
 			if stepUnit == 1:
@@ -110,6 +121,8 @@ class ENGSCANSTEP(XAFS_XRFSTEP):
 
 			for point in points:
 				self.checkPause()
+				if self.cfg["ICsSensitivityTuning"] == "Yes":
+					self.sensitivityTuning()
 				currentScanInfo = []
 				currentScanInfo.append({"Sample":sample})
 				currentScanInfo.append({"Scan":scan})

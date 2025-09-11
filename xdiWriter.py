@@ -36,8 +36,6 @@ class XDIWriter:
 		self.sampleNum = self.curentScanInfo[0]["Sample"]
 		self.sampleTitle = self.curentScanInfo[4]["sampleTitle"]
 
-
-
 		self.IC1GasMix = self.cfg["ExpMetaData"][0]["IC1GasMix"]
 		self.IC2GasMix = self.cfg["ExpMetaData"][1]["IC2GasMix"]
 		self.IC3GasMix = self.cfg["ExpMetaData"][2]["IC3GasMix"]
@@ -53,9 +51,14 @@ class XDIWriter:
 		self.expCom = self.cfg["ExpMetaData"][12]["expCom"]
 		self.RINGCurrent = self.curentScanInfo[3]["RINGCurrent"]
 
+		self.rockingCurveTuning = False
+		if self.cfg["RockingCurveTuning"] == "Yes":
+			self.rockingCurveTuning = True
+			self.V = self.cfg["V"]
+			self.I0 = self.cfg["I0"]
+
 		self.personalInfoFlage = 0
 
-		
 		if self.cfg["expType"] == "proposal":
 			try: 
 				self.propInfo = readFile("configurations/userinfo.json").readJSON()
@@ -151,6 +154,8 @@ class XDIWriter:
 			f.write("# Scan.start_time: {}\n".format(str(time.strftime("%Y-%m-%dT%H:%M:%S"))))
 			f.write("# Scan.end_time: xxx\n")
 			f.write("# Scan.edge_energy: {}\n".format(self.energy))
+			if self.rockingCurveTuning:
+				f.write("# Rocking curve parameters (V, I0): {} V, {} mA\n".format(self.cfg['V'], self.cfg['I0']))
 			f.write("# Scan.number: {}/{} -- intervals: {}, samples: {}\n".format(self.scanNum, self.numScans, self.numIntervals, self.numSamples))
 			f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
 			f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
@@ -226,6 +231,8 @@ class XDIWriter:
 			f.write("# Scan.start_time: {}\n".format(str(time.strftime("%Y-%m-%dT%H:%M:%S"))))
 			f.write("# Scan.end_time: xxx\n")
 			f.write("# Scan.edge_energy: {}\n".format(self.energy))
+			if self.rockingCurveTuning:
+				f.write("# Rocking curve parameters (V, I0): {} V, {} mA\n".format(self.cfg['V'], self.cfg['I0']))
 			f.write("# Scan.number: {}/{} -- intervals: {}, samples: {}\n".format(self.scanNum, self.numScans, self.numIntervals, self.numSamples))
 			f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
 			f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
@@ -287,6 +294,8 @@ class XDIWriter:
 			f.write("# Scan.start_time: {}\n".format(str(time.strftime("%Y-%m-%dT%H:%M:%S"))))
 			f.write("# Scan.end_time: xxx\n")
 			f.write("# Scan.edge_energy: {}\n".format(self.energy))
+			if self.rockingCurveTuning:
+				f.write("# Rocking curve parameters (V, I0): {} V, {} mA\n".format(self.cfg['V'], self.cfg['I0']))
 			f.write("# Scan.number: {}/{} -- intervals: {}, samples: {}\n".format(self.scanNum, self.numScans, self.numIntervals, self.numSamples))
 			f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
 			f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))
@@ -354,6 +363,8 @@ class XDIWriter:
 			f.write("# Scan.start_time: {}\n".format(str(time.strftime("%Y-%m-%dT%H:%M:%S"))))
 			f.write("# Scan.end_time: xxx\n")
 			f.write("# Scan.edge_energy: {}\n".format(self.energy))
+			if self.rockingCurveTuning:
+				f.write("# Rocking curve parameters (V, I0): {} V, {} mA\n".format(self.cfg['V'], self.cfg['I0']))
 			f.write("# Scan.number: {}/{} -- intervals: {}, samples: {}\n".format(self.scanNum, self.numScans, self.numIntervals, self.numSamples))
 			f.write("# Detector.IC1: 15cm  {}\n".format(self.IC1GasMix))
 			f.write("# Detector.IC2: 30cm  {}\n".format(self.IC2GasMix))

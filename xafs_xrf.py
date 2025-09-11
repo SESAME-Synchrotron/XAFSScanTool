@@ -76,6 +76,10 @@ class XAFS_XRF:
 		else:
 			log.info("Testing mode: Yes")
 
+		self.piezoVoltage = float(self.PVs["Piezo:Get"].get())
+		if self.cfg["RockingCurveTuning"] == "Yes" and self.cfg["RCConduct"] == "Experiment":
+			self.rockingCurve()
+
 	def updateUserInfo(self):
 		self.userinfo = Common.loadjson("configurations/userinfo.json")
 		self.PVs["USERINFO:Proposal"].put(self.userinfo["Proposal"])
@@ -236,6 +240,58 @@ class XAFS_XRF:
 			CLIMessage("sample rotation axis is moving ...", "IG")
 			time.sleep(1)
 
+	def MovePiezo(self, SP):
+		log.info(f"applying {SP} V to piezo motor")
+		self.PVs["Piezo:Set"].put(SP)
+
+	def rockingCurve(self):
+		startPoint = self.piezoVoltage + float(self.scanLimits['RCStart'])
+		endPoint = self.piezoVoltage + float(self.scanLimits['RCEnd'])
+		stepSize = float(self.scanLimits['RCStep'])
+		expTime = float(self.scanLimits['RCExpTime'])
+		log.info(f"Rocking Curve Analysis: start: {startPoint}, end: {endPoint}, step: {stepSize}, time: {expTime}")
+
+		points = self.drange(startPoint, endPoint, stepSize)
+		VoltageData = []
+		ICData = []
+		self.PVs["PLOT:Piezo:Voltage"].put(VoltageData)
+		self.PVs["PLOT:Piezo:Current"].put(ICData)
+
+		for point in points:
+			if self.scanLimits["PiezoMinVoltage"] <= point <= self.scanLimits["PiezoMaxVoltage"]:
+				self.checkPause()
+				self.MovePiezo(point)
+				time.sleep(0.6)
+				args = {}
+				args["ICsIntTime"] = expTime
+
+				ACQdata = {}
+
+				log.info("collecting data from ICs")
+				det = self.detectors[0]
+				detThreading = threading.Thread(target=det.ACQ, args=(args,))
+				log.info("start detector acquiring")
+				detThreading.start()
+				detThreading.join()
+
+				ACQdata={**ACQdata, **det.data}
+				VoltageData.append(point)
+				ICData.append(ACQdata["IC1[V]"])
+				self.PVs["PLOT:Piezo:Voltage"].put(VoltageData)
+				self.PVs["PLOT:Piezo:Current"].put(ICData)
+
+		# find the maximum corresponding values of I0
+		maxVal = ICData.index(max(ICData))
+		V = points[maxVal]
+		I0 = ICData[maxVal]
+
+		self.cfg["V"] = V
+		self.cfg["I0"] = I0
+		log.info(f"max (V, I0) values: {V} V, {I0} mA")
+		self.MovePiezo(startPoint)		# back to start voltage point
+		time.sleep(2)
+		self.MovePiezo(V)
+
 	def clearPlot(self):
 		log.info("Clear plots PVs and parameters")
 		self.Energy	= []
@@ -266,6 +322,27 @@ class XAFS_XRF:
 		self.PVs["PLOT:AbsTr2"].put(self.AbsTr2)
 		self.PVs["PLOT:If"].put(self.If)
 		self.PVs["PLOT:AbsFlu"].put(self.AbsFlu)
+
+	def sensitivityTuning(self):
+		log.info("tuning ICs sensitivity")
+		while not all(0.1 <= self.PVs[f"IC{i}:Voltage"].get() <= 5 for i in range(1, 4)):
+			if self.PVs["SCAN:Pause"].get() != 1:
+				self.sensitivityCheck([1, 2, 3])	# check IC0, IC1, IC2
+			time.sleep(self.sensitivityExpTime)
+
+	def sensitivityCheck(self, n):
+		"""
+		Check the ICs sensitivity between (0.1, 5), and increase or decrease one step based on the value
+		"""
+		for i in n:
+			sensitivityValue = self.PVs[f"IC{i}:Sensitivity"].get()
+			voltage = float(self.PVs[f"IC{i}:Voltage"].get())
+			if voltage >= 5:
+				if self.scanLimits["SensitivityLowerIndex"] < sensitivityValue < self.scanLimits["SensitivityUpperIndex"]:
+					self.PVs[f"IC{i}:Sensitivity"].put(sensitivityValue + 1)
+			elif voltage <= 0.1:
+				if self.scanLimits["SensitivityLowerIndex"] < sensitivityValue < self.scanLimits["SensitivityUpperIndex"]:
+					self.PVs[f"IC{i}:Sensitivity"].put(sensitivityValue - 1)
 
 	def checkPause(self):
 		diffTime = 0

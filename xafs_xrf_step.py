@@ -14,6 +14,7 @@ class XAFS_XRFSTEP(XAFS_XRF):
 		self.PVs["DCM:Speed"].put(0.14)
 		self.pandaBox.disableBit("A")
 		self.pandaBox.enableBit("B")
+		self.pandaBox.disableBit("D")
 	
 	def MoveDCM(self, SP):
 		self.motors["DCM:Energy:SP"].move(SP)

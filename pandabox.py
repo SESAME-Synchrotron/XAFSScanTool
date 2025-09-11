@@ -34,6 +34,9 @@ class PandA:
 		self._send(Put(f"PULSE{blockID}.WIDTH", width))
 		self._send(Put(f"PULSE{blockID}.PULSES", pulses))
 
+	def clock(self, blockID, period):
+		self._send(Put(f"CLOCK{blockID}.PERIOD", period))
+
 	# async def PCAP(self, fileName):
 	# 	async with AsyncioClient(self.pandaboxHost) as cli:
 	# 		await write_hdf_files(cli, file_names=iter([str(fileName)]))

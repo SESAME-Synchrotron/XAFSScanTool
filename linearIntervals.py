@@ -77,7 +77,7 @@ class LINEARINTERVALS:
 		ICsLatency = float(self.limits['ICsLatency'])
 		KetekLatency = float(self.limits['KetekLatency'])
 		FicusLatency = float(self.limits['FicusLatency'])
-		MonoLatency = float(self.limits['MonoLatency'])
+		MonoLatency = float(self.limits['MonoLatencyPos'])
 		ICsReadoutAvrageTime = float(self.limits['ICsReadoutAvrageTime'])
 		ICDataFrameTime = IC_KETEK_ExpTime + ICsReadoutAvrageTime + MonoLatency + ICsLatency
 		if 'KETEK' in detectors:

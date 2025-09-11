@@ -13,8 +13,8 @@ class IC(Base):
 	def ACQ(self,args):
 		#CLIMessage("IC-Start ACQ:: {}".format(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')), "E")
 		intTime = args["ICsIntTime"]
-		self.PVs["ICsAvrTime"].put(float(intTime))
-		time.sleep(int(intTime) + self.scanLimits["ICsReadoutAvrageTime"])
+		self.PVs["ICsAvrTime"].put(intTime)
+		time.sleep(intTime + self.scanLimits["ICsReadoutAvrageTime"])
 
 		IC0avg = self.PVs["IC0AvrVolt"].get()
 		#CLIMessage("IC1 ACQ Done:: {}".format(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')), "M")
@@ -41,8 +41,8 @@ class IC(Base):
 	def ACQCont(self,args):
 		#CLIMessage("IC-Start ACQ:: {}".format(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')), "E")
 		intTime = args["ICsIntTime"]
-		self.PVs["ICsAvrTime"].put(float(intTime))
-		time.sleep(int(intTime) + self.scanLimits["ICsLatency"] + self.scanLimits["ICsReadoutAvrageTime"])
+		self.PVs["ICsAvrTime"].put(intTime)
+		time.sleep(intTime + self.scanLimits["ICsLatency"] + self.scanLimits["ICsReadoutAvrageTime"])
 
 		IC0avg = self.PVs["IC0AvrVolt"].get()
 		#CLIMessage("IC1 ACQ Done:: {}".format(datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S.%f')), "M")
