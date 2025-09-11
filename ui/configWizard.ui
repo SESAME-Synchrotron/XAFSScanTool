@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
+    <width>530</width>
     <height>737</height>
    </rect>
   </property>
@@ -105,7 +105,7 @@
       <x>20</x>
       <y>20</y>
       <width>371</width>
-      <height>135</height>
+      <height>191</height>
      </rect>
     </property>
     <property name="title">
@@ -127,9 +127,14 @@
          <string>Step scan | Mapping scan at fixed energy</string>
         </property>
        </widget>
-       <widget class="QRadioButton" name="contScan">
+       <widget class="QRadioButton" name="contScanPosition">
         <property name="text">
-         <string>Continuous on-the-fly-scan | Energy scan</string>
+         <string>Continuous on-the-fly-scan | Position Based</string>
+        </property>
+       </widget>
+       <widget class="QRadioButton" name="contScanTime">
+        <property name="text">
+         <string>Continuous on-the-fly-scan | Time Based</string>
         </property>
        </widget>
       </widget>
@@ -228,19 +233,19 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>431</width>
+      <width>481</width>
       <height>271</height>
      </rect>
     </property>
     <property name="title">
-     <string>Experiment setup parameters</string>
+     <string>Experiment parameters:</string>
     </property>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>22</x>
        <y>30</y>
-       <width>397</width>
+       <width>451</width>
        <height>229</height>
       </rect>
      </property>
@@ -376,10 +381,10 @@
    <widget class="QGroupBox" name="metadataGroupBox">
     <property name="geometry">
      <rect>
-      <x>9</x>
+      <x>10</x>
       <y>280</y>
-      <width>431</width>
-      <height>371</height>
+      <width>481</width>
+      <height>351</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -395,7 +400,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>180</y>
+       <y>170</y>
        <width>211</width>
        <height>71</height>
       </rect>
@@ -478,9 +483,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>260</y>
-       <width>401</width>
-       <height>91</height>
+       <y>240</y>
+       <width>461</width>
+       <height>101</height>
       </rect>
      </property>
      <property name="title">
@@ -491,7 +496,7 @@
        <rect>
         <x>12</x>
         <y>30</y>
-        <width>371</width>
+        <width>441</width>
         <height>54</height>
        </rect>
       </property>
@@ -538,7 +543,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>411</width>
+       <width>461</width>
        <height>141</height>
       </rect>
      </property>
@@ -550,198 +555,186 @@
        <rect>
         <x>10</x>
         <y>30</y>
-        <width>371</width>
-        <height>32</height>
+        <width>441</width>
+        <height>100</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
-        <widget class="QComboBox" name="edge">
-         <property name="frame">
-          <bool>false</bool>
-         </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <property name="text">
-           <string/>
-          </property>
+          <widget class="QComboBox" name="edge">
+           <property name="frame">
+            <bool>false</bool>
+           </property>
+           <item>
+            <property name="text">
+             <string/>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>K</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>L1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>L2</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>L3</string>
+            </property>
+           </item>
+          </widget>
          </item>
          <item>
-          <property name="text">
-           <string>K</string>
-          </property>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>edge of element:</string>
+           </property>
+          </widget>
          </item>
          <item>
-          <property name="text">
-           <string>L1</string>
-          </property>
+          <widget class="QLineEdit" name="sampleName">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="maxLength">
+            <number>2</number>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
          <item>
-          <property name="text">
-           <string>L2</string>
-          </property>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>at energy:</string>
+           </property>
+          </widget>
          </item>
          <item>
-          <property name="text">
-           <string>L3</string>
-          </property>
+          <widget class="QLineEdit" name="energy">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="font">
+            <font>
+             <weight>50</weight>
+             <bold>false</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="maxLength">
+            <number>50</number>
+           </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
-        </widget>
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>eV</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>edge of element:</string>
-         </property>
-        </widget>
+        <layout class="QFormLayout" name="formLayout_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="stoichiometry_l">
+           <property name="text">
+            <string>Stoichiometry:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="stoichiometry">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
-        <widget class="QLineEdit" name="sampleName">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="maxLength">
-          <number>2</number>
-         </property>
-         <property name="frame">
-          <bool>false</bool>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="readOnly">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>at energy:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="energy">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="font">
-          <font>
-           <weight>50</weight>
-           <bold>false</bold>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="maxLength">
-          <number>50</number>
-         </property>
-         <property name="frame">
-          <bool>false</bool>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>eV</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>13</x>
-        <y>101</y>
-        <width>371</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_samplePrep">
-         <property name="text">
-          <string>Sample preparation:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="samplePrep">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="maxLength">
-          <number>500</number>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>11</x>
-        <y>70</y>
-        <width>224</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <layout class="QFormLayout" name="formLayout_2">
-       <item row="0" column="0">
-        <widget class="QLabel" name="stoichiometry_l">
-         <property name="text">
-          <string>Stoichiometry:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLineEdit" name="stoichiometry">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_samplePrep">
+           <property name="text">
+            <string>Sample preparation:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="samplePrep">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="maxLength">
+            <number>500</number>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -749,9 +742,9 @@
     <widget class="QGroupBox" name="groupBox_7">
      <property name="geometry">
       <rect>
-       <x>230</x>
-       <y>180</y>
-       <width>191</width>
+       <x>250</x>
+       <y>170</y>
+       <width>221</width>
        <height>71</height>
       </rect>
      </property>
@@ -1392,19 +1385,122 @@
     <layout class="QVBoxLayout" name="verticalLayout_2"/>
    </widget>
   </widget>
-  <widget class="QWizardPage" name="startScan">
-   <widget class="QLabel" name="label_2">
+  <widget class="QWizardPage" name="tuning">
+   <widget class="QGroupBox" name="groupBox_14">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>501</width>
-      <height>20</height>
+      <y>20</y>
+      <width>481</width>
+      <height>161</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Press Finish to start scan</string>
+    <property name="title">
+     <string>Tunning:</string>
     </property>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>461</width>
+       <height>86</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QCheckBox" name="ICsSensitivity">
+        <property name="text">
+         <string>ICs sensitivity tuning (runs during the scan)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QCheckBox" name="RCEnabled">
+          <property name="text">
+           <string>Rocking curve analysis (runs once before the scan starts)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QLabel" name="label_16">
+            <property name="text">
+             <string>Conduct rocking curve at the start of each: </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="RCConduct">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <item>
+             <property name="text">
+              <string>Experiment</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Sample</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Scan</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QWizardPage" name="startScan">
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>231</width>
+      <height>661</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_7">
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>588</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 239, 121)</string>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt; font-weight:600;&quot;&gt;Press Finish to start scan&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>
@@ -1415,6 +1511,8 @@
   <tabstop>PropsalID</tabstop>
   <tabstop>stepEngScan</tabstop>
   <tabstop>stepMapScan</tabstop>
+  <tabstop>contScanPosition</tabstop>
+  <tabstop>contScanTime</tabstop>
   <tabstop>Create</tabstop>
   <tabstop>Load</tabstop>
   <tabstop>filePath</tabstop>
@@ -1424,6 +1522,7 @@
   <tabstop>setNumofSamples</tabstop>
   <tabstop>editSample</tabstop>
   <tabstop>setNumofExafsScans</tabstop>
+  <tabstop>scan2scantime</tabstop>
   <tabstop>configureDetectors</tabstop>
   <tabstop>setDataFileName</tabstop>
   <tabstop>settlingTime</tabstop>
@@ -1454,9 +1553,8 @@
   <tabstop>mapMono</tabstop>
   <tabstop>mapUserCom</tabstop>
   <tabstop>mapExpCom</tabstop>
-  <tabstop>MapResX_2</tabstop>
   <tabstop>MapResY_2</tabstop>
-  <tabstop>scan2scantime</tabstop>
+  <tabstop>MapResX_2</tabstop>
  </tabstops>
  <resources/>
  <connections/>
