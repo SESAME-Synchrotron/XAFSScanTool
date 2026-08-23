@@ -109,8 +109,6 @@ class ENGSCANCONTPOS(XAFS_XRFCONT):
 			ICsIntTime = currentInterval["IcsIntTime"]
 			stepUnit = currentInterval["stepUnit"]
 
-			self.sensitivityExpTime = ICsIntTime
-
 			if "KETEK" in self.cfg["detectors"]:
 				log.info(f"prepare pulse block, width: {ICsIntTime} sec")
 				self.pandaBox.pulse(1, ICsIntTime, 1)

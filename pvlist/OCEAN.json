@@ -1,0 +1,23 @@
+{
+  "PV":
+  {
+    "ocean_acquire":{
+      "pvname":"D08-ES-SPEC:AcquireSet"
+    },
+    "ocean_intTime":{
+      "pvname":"D08-ES-SPEC:IntTimeSet"
+    },
+    "ocean_bkgEnable":{
+      "pvname":"D08-ES-SPEC:BkgSubEnable"
+    },
+    "ocean_bkgClear":{
+      "pvname":"D08-ES-SPEC:BkgClear"
+    },
+    "ocean_spectrum":{
+      "pvname":"D08-ES-SPEC:Spectrum"
+    },
+    "ocean_spectrumLength":{
+      "pvname":"D08-ES-SPEC:SpectrumLength"
+    }
+  }
+}

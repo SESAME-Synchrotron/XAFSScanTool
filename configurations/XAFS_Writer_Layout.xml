@@ -1,13 +1,13 @@
 <?xml version="1.0" standalone="no" ?>
 <hdf5_layout>
-  <global name="detector_data_destination" ndattribute="/mnt/tomoData" />
+  <global name="detector_data_destination" ndattribute="/mnt/xmapData" />
 	<group name="exchange">
 	  <group name="xmap">
-		<dataset     name="data"        source="detector">
+<!-- 		<dataset     name="data"        source="detector">
 		  <attribute name="description" source="constant"   value="mappingData"   type="string" />
 		  <attribute name="axes"        source="constant"   value="y:x:channels"  type="string" />
-		  <attribute name="units"       source="constant"   value="counts"        type="string" />
-		</dataset>
+		  <attribute name="units"       source="constant"   value="counts"        type="string" /> -->
+		<!-- </dataset> -->
 	  </group><!-- /xmap -->
 	</group><!-- /exchange -->
 

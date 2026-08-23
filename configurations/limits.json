@@ -10,6 +10,7 @@
 	"FicusReadOutTime": 0.07760,
 	"ICsLatency": 0.03,
 	"KetekLatency": 0.03,
+	"OceanLatency": 0.02,
 	"FicusLatency": 0.0,
 	"MonoLatencyPos": 0.11,
 	"MonoLatencyTime": 0.05,

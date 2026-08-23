@@ -1,13 +1,14 @@
 {
 	"beamline": "XAFS",
-	"detector": "KETEK",
+	"detector": ["KETEK", "OCEAN"],
 	"fileType": "hdf5",
 	"fileFormat": "DX",
 	"EPICSandIOCs":
 	{
 		"EPICSPVTimeout": 1,
 		"KETEKNumChannels": "D08-ES-SDD1:mca1.NORD",
-		"KETEKNetValue":"D08-ES-SDD1:mca1.R0N"
+		"KETEKNetValue":"D08-ES-SDD1:mca1.R0N",
+		"OCEANNumChannels": "D08-ES-SPEC:Spectrum.NORD"
 	},
 	"formatSettings":
 	{
@@ -22,11 +23,9 @@
 		{
 			"EPICSPVs":
 			{
-
 			},
 			"fixed":
 			{
-				"XXX": "YYY"
 			}
 		}
 	},
@@ -83,6 +82,16 @@
 	],
 	"rawDatasets":
 	{
+		"data": 
+		{
+		  "dataset":"/exchange/xmap/data",
+		  "attributes": 
+		  {
+			"axes":"y:x:channels",
+			"description":"mappingData",
+			"units":"counts"
+		  }
+		},
 		"Pixel": 
 		{
 		  "dataset":"/exchange/xmap/pixel",

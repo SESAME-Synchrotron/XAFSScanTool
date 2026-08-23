@@ -92,7 +92,7 @@ padding: 0 3px 0 3px;</string>
             <string>D08-OP-PSH:getStatus</string>
            </property>
            <property name="edgeAlarmStateOption" stdset="0">
-            <enum>QESimpleShape::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -136,7 +136,7 @@ padding: 0 3px 0 3px;</string>
             <string>D08-FE-PSH:getStatus</string>
            </property>
            <property name="edgeAlarmStateOption" stdset="0">
-            <enum>QESimpleShape::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -180,7 +180,7 @@ padding: 0 3px 0 3px;</string>
             <string>D08R1-MO-MC2:OH-DCM-STP-ROTX1.DMOV</string>
            </property>
            <property name="edgeAlarmStateOption" stdset="0">
-            <enum>QESimpleShape::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -215,7 +215,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>true</bool>
@@ -256,7 +256,7 @@ padding: 0 3px 0 3px;</string>
             <string>D08-FE-PST:getStatus</string>
            </property>
            <property name="edgeAlarmStateOption" stdset="0">
-            <enum>QESimpleShape::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -291,7 +291,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
           </widget>
          </item>
@@ -332,7 +332,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
           </widget>
          </item>
@@ -354,7 +354,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
           </widget>
          </item>
@@ -376,7 +376,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -401,7 +401,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -426,7 +426,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -492,7 +492,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QEPushButton::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="clickText">
             <string>1</string>
@@ -570,7 +570,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QEPushButton::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="clickText">
             <string>4</string>
@@ -635,7 +635,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QEPushButton::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="clickText">
             <string>3</string>
@@ -686,7 +686,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -714,7 +714,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -739,7 +739,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -783,7 +783,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -842,7 +842,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -880,7 +880,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -908,7 +908,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -960,7 +960,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -992,7 +992,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -1020,7 +1020,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
           </widget>
          </item>
@@ -1062,7 +1062,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>
@@ -1159,7 +1159,7 @@ padding: 0 3px 0 3px;</string>
             <bool>false</bool>
            </property>
            <property name="displayAlarmStateOption" stdset="0">
-            <enum>QELabel::Never</enum>
+            <enum>QE::Never</enum>
            </property>
            <property name="addUnits">
             <bool>false</bool>

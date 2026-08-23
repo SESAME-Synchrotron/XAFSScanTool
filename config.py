@@ -312,6 +312,9 @@ class ConfigGUI:
         if "KETEK" in self.cfg["detectors"]:
             detCheckbox = getattr(self.mapDetectorGUI.mapDetectorGUI_UI, "KETEK")
             detCheckbox.setChecked(True)
+        if "OCEAN" in self.cfg["detectors"]:
+            detCheckbox = getattr(self.mapDetectorGUI.mapDetectorGUI_UI, "OCEAN")
+            detCheckbox.setChecked(True)
         # self.guiObj.mapEdge.setCurrentText(str(self.cfg["ExpMetaData"][0]["edge"]))
         # self.guiObj.mapEdgeElement.setText(str(self.cfg["ExpMetaData"][1]["mapEdgeElement"]))
 
@@ -1305,7 +1308,7 @@ class MapDefineROIGUI:
 
 class mapDetectorGUI:
     def __init__(self):
-        self.mapDetectors = ["IC1", "IC2", "IC3", "FICUS", "KETEK"]
+        self.mapDetectors = ["IC1", "IC2", "IC3", "FICUS", "KETEK", "OCEAN"]
         self.mapDetectorGUI_Dialog 	= QtWidgets.QDialog()
         self.mapDetectorGUI_UI 		= mapDetectorsForm.Ui_Dialog()
         self.mapDetectorGUI_UI.setupUi(self.mapDetectorGUI_Dialog)

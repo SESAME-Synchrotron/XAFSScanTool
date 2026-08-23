@@ -38,6 +38,7 @@ class MAPSCAN(XAFS_XRFSTEP):
 
 		""" read XAFS_writer cfg file"""
 		self.h5cfg = readFile(h5CfgFile).readJSON()
+		self.h5cfg["detector"] = self.cfg["detectors"]
 
 		""" create zmq socket as publisher """
 		ZMQSettings = self.h5cfg["ZMQSettings"]["ZMQSenderSettings"]
@@ -45,17 +46,16 @@ class MAPSCAN(XAFS_XRFSTEP):
 		ZMQSPort = ZMQSettings["ZMQPort"]
 		ZMQSProtocol = ZMQSettings["ZMQProtocol"]
 		ZMQSender = ZMQSProtocol + "://" + ZMQSender + ":" + ZMQSPort
-		self.numChannels = PV(self.h5cfg["EPICSandIOCs"]["KETEKNumChannels"]).get(timeout=1, use_monitor=False)
 		context = zmq.Context()
 		self.sock = context.socket(zmq.PUB)
-		self.sock.connect(ZMQSender)  	# Connect instead of bind for the server
+		self.sock.connect(ZMQSender)
 
-		self.writePVS()		# write the config data in PVs
+		self.writePVS()
 
 		""" setup h5 file layout """
 		h5Layout = threading.Thread(target=self.setupH5DXLayout, args=())
 		h5Layout.start()
-		h5Layout.join()		# waiting until finishing setup h5 layout
+		h5Layout.join()
 
 		self.checkMapScanPara()
 		self.MoveDCM(self.scanEnergy)
@@ -162,7 +162,7 @@ class MAPSCAN(XAFS_XRFSTEP):
 		"""
 
 		startTime = time.time()
-		mcaData = None
+		detData = None
 		self.xRange = self.drange(self.ROIXStart, self.ROIXEnd, self.scanResX)
 		self.yRange = self.drange(self.ROIYStart, self.ROIYEnd, self.scanResY)
 		log.info('Scan range for X axis: {}'.format(self.xRange))
@@ -187,11 +187,11 @@ class MAPSCAN(XAFS_XRFSTEP):
 					log.info('Moving sample stage X to: {}'.format(x))
 					self.MoveSmpX(x)
 					log.info('Collecting data for the scan point: ({},{})'.format(x,y))
-					mcaData = self.getDetectorData()
-					# print(mcaData)
+					detData = self.getDetectorData()
+					# print(detData)
 					try:
 						# self.sock.send_pyobj(list(range(0,2048)))
-						self.sock.send_pyobj(list(mcaData[:self.numChannels]))		# send MCA data array with the dimension of #channels
+						self.sock.send_pyobj(detData)		# send detector data array with the dimension of #channels
 
 					except:
 						self.sock.send_pyobj("timeout")		# parse "timeout" if PV not acquired
@@ -215,11 +215,11 @@ class MAPSCAN(XAFS_XRFSTEP):
 				log.info('Move sample Y to: {}'.format(yScanPoints[i]))
 				self.MoveSmpY(yScanPoints[i])
 				log.info('Collecting data for the scan point: ({},{})'.format(xScanPoints[i],yScanPoints[i]))
-				mcaData = self.getDetectorData()
-				# print(mcaData)
+				detData = self.getDetectorData()
+				# print(detData)
 				try:
 					# self.sock.send_pyobj(list(range(0,2048)))
-					self.sock.send_pyobj(list(mcaData[:self.numChannels]))		# send MCA data array with the dimension of #channels
+					self.sock.send_pyobj(detData)		# send detector data array with the dimension of #channels
 
 				except:
 					self.sock.send_pyobj("timeout")		# parse "timeout" if PV not acquired
@@ -264,7 +264,7 @@ class MAPSCAN(XAFS_XRFSTEP):
 		log.info("Collecting data from detectors")
 		expData.update(ACQdata)
 
-		return (expData["KETEK-MCA1"])
+		return (expData)
 
 	def startZMQ(self, numPointsX, numPointsY, scanTopo = "seq", arrayIndexX = None, arrayIndexY=None):
 		self.writer.createRawDatasets(numPointsX, numPointsY)
@@ -273,7 +273,7 @@ class MAPSCAN(XAFS_XRFSTEP):
 		PV("XAFS:ScanEndTime").put(str(time.strftime('%Y-%m-%dT%H:%M:%S')), wait=True)
 
 	def setupH5DXLayout(self):
-		self.writer = ZMQWriter(self.h5FileName, self.BasePath, h5CfgFile)
+		self.writer = ZMQWriter(self.h5FileName, self.BasePath, self.h5cfg)
 		self.writer.createH5File()
 		self.writer.setupH5DXLayout()
 

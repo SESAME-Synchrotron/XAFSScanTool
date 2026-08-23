@@ -14,7 +14,7 @@ import xml.etree.ElementTree as ET
 from SEDWriter import SEDWriter
 from SEDSS.CLIMessage import CLIMessage
 from SEDSS.SEDSupport import readFile
-class H5Writer (SEDWriter): 
+class H5Writer(SEDWriter): 
 	def __init__(self, fName, fPath, configFile, wMode="w"):
 		super().__init__(fName, fPath)
 
@@ -33,7 +33,7 @@ class H5Writer (SEDWriter):
 		log.info("Reading Writer configration file: {}".format(configFile))
 		# Print = "yes" in readJSON is to print json file contents
 		try: 
-			self.configFile = readFile(configFile).readJSON() 
+			self.configFile = configFile
 			self.fFormat = self.configFile["fileFormat"]
 			self.XMLH5LayoutFile = self.configFile["formatSettings"]["layout"]
 			log.info(f"Reading XML dxFile layout file: {self.XMLH5LayoutFile}")
@@ -185,7 +185,7 @@ class H5Writer (SEDWriter):
 							"""
 							if elem.attrib.get("source") == "detector":
 								# get dimentiones of the frames from the driver to create hdf5 shape 
-								self.numChannels = PV(self.configFile["EPICSandIOCs"]["KETEKNumChannels"]).get(timeout=self.PVTimeout, use_monitor=False)
+								self.numChannels = PV(self.configFile["EPICSandIOCs"][f"{self.configFile['detector']}NumChannels"]).get(timeout=self.PVTimeout, use_monitor=False)
 								#define and set hdf5 chuncks 
 								_chunks = True																														
 									

@@ -9,7 +9,7 @@ from H5Writer import H5Writer
 from SEDSS.CLIMessage import CLIMessage
 GfullH5Path = None # Global(G) full h5 path
 
-class ZMQWriter (H5Writer):
+class ZMQWriter(H5Writer):
     def __init__(self, fName, fPath, configFile, wMode = "w"):
         super().__init__(fName, fPath, configFile, wMode)
         global GfullH5Path
@@ -42,10 +42,10 @@ class ZMQWriter (H5Writer):
 
         CLIMessage("ZMQ type is PUB (Publisher)", "I")
         log.info("Creating ZMQ context and socket")
-        self.context = zmq.Context() #Create a zmq Context
-        self.sock = self.context.socket(self.ZMQRType) # Create a socket
+        self.context = zmq.Context()
+        self.sock = self.context.socket(self.ZMQRType)
         self.sock.setsockopt_string(zmq.SUBSCRIBE, "")
-        self.sock.bind(self.ZMQSender) # connect the created socket on the reciver to the sender
+        self.sock.bind(self.ZMQSender)
         log.info("Create ZMQ subscriber")
 
     def createDefaultDatasets(self, numPointsX, numPointsY):
@@ -84,27 +84,38 @@ class ZMQWriter (H5Writer):
         _dtype = dt # default if no dtype found
 
         for dataset in rawDatasets:
-            if rawDatasets[dataset]["valueType"] == "EPICSPV":
+            if dataset == "data":
+                for det in self.configFile['detector']:
+                    detector = det
+                    channels = f"{det}NumChannels"
+                    numChannels = PV(self.configFile["EPICSandIOCs"][channels]).get(timeout=self.PVTimeout, use_monitor=False)                                                                                                                   
+                    datasetOnH5 = self.h5File.create_dataset(rawDatasets[dataset]["dataset"].replace("data", f"{detector.lower()}_data") if len(self.configFile['detector']) != 1 else rawDatasets[dataset]["dataset"], 
+                        dtype='uint16', shape=(1, 1, numChannels), maxshape = (None, None, numChannels), chunks=True)
+                    for att in rawDatasets[dataset]["attributes"]:
+                        datasetOnH5.attrs[att]=rawDatasets[dataset]["attributes"][att]
 
-                _data, _dataType = self.getPVValueType(rawDatasets[dataset]["value"])
+            elif rawDatasets[dataset]["valueType"] == "EPICSPV":
+                for det in self.configFile['detector']:
+                    detector = det
+                    _data, _dataType = self.getPVValueType(rawDatasets[dataset]["value"])
 
-                if _dataType in {"int","time_int", "ctrl_int", "short",
-                "time_short","ctrl_short", "enum","time_enum", "ctrl_enum",
-                 "long","time_long", "ctrl_long"}: # _AN: These data types need to be validated
-                     _dtype = h5py.h5t.NATIVE_INT32
-                elif _dataType in {"double", "time_double", "ctrl_double", "float",
-                "time_float", "ctrl_float"}:
-                    _dtype = "double"
-                elif _dataType in {"char", "time_char", "ctrl_char", "time_string"}:
-                    _dtype = dt
+                    if _dataType in {"int","time_int", "ctrl_int", "short",
+                    "time_short","ctrl_short", "enum","time_enum", "ctrl_enum",
+                     "long","time_long", "ctrl_long"}: # _AN: These data types need to be validated
+                         _dtype = h5py.h5t.NATIVE_INT32
+                    elif _dataType in {"double", "time_double", "ctrl_double", "float",
+                    "time_float", "ctrl_float"}:
+                        _dtype = "double"
+                    elif _dataType in {"char", "time_char", "ctrl_char", "time_string"}:
+                        _dtype = dt
 
-                # create datasets
-                datasetOnH5 = self.h5File.create_dataset(rawDatasets[dataset]["dataset"],
-                dtype=_dtype, shape=(len(numPointsY), len(numPointsX)), chunks=True)        # create a 2D dataset based on rows*cols >> y*x
+                    # create datasets
+                    datasetOnH5 = self.h5File.create_dataset(rawDatasets[dataset]["dataset"].replace("pixel", f"{detector.lower()}_pixel") if len(self.configFile['detector']) != 1 else rawDatasets[dataset]["dataset"],
+                    dtype=_dtype, shape=(len(numPointsY), len(numPointsX)), chunks=True)        # create a 2D dataset based on rows*cols >> y*x
 
-                # add attributes to the created dataset
-                for att in rawDatasets[dataset]["attributes"]:
-                    datasetOnH5.attrs[att]=rawDatasets[dataset]["attributes"][att]
+                    # add attributes to the created dataset
+                    for att in rawDatasets[dataset]["attributes"]:
+                        datasetOnH5.attrs[att]=rawDatasets[dataset]["attributes"][att]
 
         log.info("Raw datasets creation is done")
 
@@ -123,7 +134,7 @@ class ZMQWriter (H5Writer):
         PV(self.prefix + self.PVs[self.PVs.index("TotalPoints")]).put(self.numXPoints * self.numYPoints, wait=True)
         CLIMessage(f"Ready to collect {self.numXPoints * self.numYPoints} points", "I")
 
-        self.h5file = h5py.File(GfullH5Path, 'a')  # Reopen in append mode
+        self.h5file = h5py.File(GfullH5Path, 'a')
         self.data 		= "/exchange/xmap/data"
         self.indexX 	= "/defaults/IndexX"
         self.indexY 	= "/defaults/IndexY"
@@ -131,11 +142,16 @@ class ZMQWriter (H5Writer):
         self.positionY 	= "/defaults/PositionY"
         self.pixel      = "/exchange/xmap/pixel"
 
-        self.h5file[self.data].resize(self.numXPoints, axis=1)      # resize X axis from 1 to X points
-        self.h5file[self.data].resize(self.numYPoints, axis=0)      # resize Y axis from 1 to Y points
+        self.dataGrp = "/exchange/xmap/"
+        self.xmapGrp = self.h5file[self.dataGrp]
 
-        self.missedPoints = []          # array to store missed points
-        self.totalPoints = 0            # attr to store the points
+        for group in self.xmapGrp:
+            dataset = self.xmapGrp[group]
+            dataset.resize(self.numXPoints, axis=1)
+            dataset.resize(self.numYPoints, axis=0)
+
+        self.missedPoints = []
+        self.totalPoints = 0
 
         if self.scanTopo.lower()[0:3] == "seq":
             for y in range(0,self.numYPoints):
@@ -159,8 +175,11 @@ class ZMQWriter (H5Writer):
         self.totalPoints +=1            # increase the recieved points each time (for each point)
         data = self.sock.recv_pyobj()   # waiting until recieve any data (NO BLOCKING)
         if data == "timeout":
-            self.h5file[self.data][y, x, :] = 0
-            self.h5file[self.pixel][y,x] = 0
+            for name, dset in self.xmapGrp.items():
+                if "data" in dset.name.lower():
+                    dset[y, x, :] = 0
+                elif "pixel" in dset.name.lower():
+                    dset[y,x] = 0
             self.missedPoints.append((x, y))
             PV(self.prefix + self.PVs[self.PVs.index("MissedPoints")]).put(len(self.missedPoints), wait=True)
             log.error(f"missed point index ({x, y})")
@@ -171,8 +190,24 @@ class ZMQWriter (H5Writer):
             self.h5File.close()
         else:
             PV(self.prefix + self.PVs[self.PVs.index("ReceivedPoints")]).put(self.totalPoints, wait=True)
-            self.h5file[self.data][y, x, :] = data
-            self.h5file[self.pixel][y,x] = PV(self.configFile["EPICSandIOCs"]["KETEKNetValue"]).get(timeout=self.PVTimeout, use_monitor=False)
+            if len(self.configFile['detector']) != 1:
+                if "OCEAN_Spectrum" in data:
+                    data = list(data["OCEAN_Spectrum"])
+                    self.h5file[self.data.replace("data", "ocean_data")][y, x, :] = data
+                    self.h5file[self.pixel.replace("pixel", "ocean_pixel")][y,x] = sum(data) / len(data)
+                elif "KETEK-MCA1" in data:
+                    data = list(data["KETEK-MCA1"])
+                    self.h5file[self.data.replace("data", "ketek_data")][y, x, :] = data
+                    self.h5file[self.pixel.replace("pixel", "ketek_pixel")][y,x] = PV(self.configFile["EPICSandIOCs"]["KETEKNetValue"]).get(timeout=self.PVTimeout, use_monitor=False)
+            else:
+                if "OCEAN_Spectrum" in data:
+                    data = list(data["OCEAN_Spectrum"])
+                    self.h5file[self.data][y, x, :] = data
+                    self.h5file[self.pixel][y,x] = sum(data) / len(data)
+                elif "KETEK-MCA1" in data:
+                    data = list(data["KETEK-MCA1"])
+                    self.h5file[self.data][y, x, :] = data
+                    self.h5file[self.pixel][y,x] = PV(self.configFile["EPICSandIOCs"]["KETEKNetValue"]).get(timeout=self.PVTimeout, use_monitor=False)
             CLIMessage(f"Total Points: {self.numXPoints * self.numYPoints} | "
                         f"current point index: {x, y} | "
                         f"current point position: {self.arrayXPositions[x], self.arrayYPositions[y]} | "

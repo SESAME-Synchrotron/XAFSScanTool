@@ -26,6 +26,7 @@ from pandabox import PandA
 from common import Common
 from detectors.ficus import FICUS
 from detectors.ketek import KETEK
+from detectors.ocean import OCEAN
 from detectors.ic import IC
 from SEDSS.CLIMessage import CLIMessage
 from SEDSS.UIMessage import UIMessage
@@ -77,8 +78,10 @@ class XAFS_XRF:
 			log.info("Testing mode: Yes")
 
 		self.piezoVoltage = float(self.PVs["Piezo:Get"].get())
-		if self.cfg["RockingCurveTuning"] == "Yes" and self.cfg["RCConduct"] == "Experiment":
-			self.rockingCurve()
+
+		if self.cfg['scanType'] != 'stepMapScan':
+			if self.cfg["RockingCurveTuning"] == "Yes" and self.cfg["RCConduct"] == "Experiment":
+				self.rockingCurve()
 
 	def updateUserInfo(self):
 		self.userinfo = Common.loadjson("configurations/userinfo.json")
@@ -525,7 +528,7 @@ class XAFS_XRF:
 
 	def initDetectors(self):
 		log.info("Detectors initialization")
-		self.available_detectors = ["IC", "KETEK", "FICUS"]
+		self.available_detectors = ["IC", "KETEK", "OCEAN", "FICUS"]
 
 		self.Ingtime = [0.005, 0.0075, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10]
 		self.detectors = []
@@ -540,6 +543,8 @@ class XAFS_XRF:
 				self.detectors.append(IC("IC", self.paths))
 			elif det == "KETEK":
 				self.detectors.append(KETEK("KETEK", self.paths))
+			elif det == "OCEAN":
+				self.detectors.append(OCEAN("OCEAN", self.paths))
 			elif det == "FICUS":
 				self.detectors.append(FICUS("FICUS", self.paths, self.userinfo))
 			elif not det in self.available_detectors and det not in ("IC1", "IC2", "IC3"):

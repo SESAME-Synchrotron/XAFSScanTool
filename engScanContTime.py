@@ -110,8 +110,6 @@ class ENGSCANCONTTIME(XAFS_XRFCONT):
 			ICsIntTime = currentInterval["IcsIntTime"]
 			stepUnit = currentInterval["stepUnit"]
 
-			self.sensitivityExpTime = ICsIntTime
-
 			ICDataFrameTime = KETEKDataFrameTime = FICUSDataFrameTime = 0
 			FicusReadOutTime = float(self.scanLimits['FicusReadOutTime'])
 			KetekReadoutAvrageTime = float(self.scanLimits['KetekReadoutAvrageTime'])
