@@ -14,7 +14,7 @@ packaging==23.0
 pandablocks==0.10.0
 pandas==2.2.2
 paramiko==3.0.0
-Pillow==9.4.0
+Pillow==13.0.0
 progressbar==2.5
 pycparser==2.21
 pyepics==3.5.1
