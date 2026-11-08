@@ -1,0 +1,35 @@
+<QEGuiConfig>
+ <Config Name="ExitSave">
+  <Component Name="QEGui">
+   <MainWindows>1</MainWindows>
+   <UserLevel>User</UserLevel>
+  </Component>
+  <Component Name="QEGuiMainWindow_0">
+   <Identity id="0">
+    <Title>XAFS DCM (R1B2) Motion Control</Title>
+   </Identity>
+   <Geometry X="752" Height="585" Y="89" Width="760"/>
+   <State Flags="0"/>
+   <Gui ID="QEGui_window_0_form_0" Name="/mnt/control/galil-ui/galil_dmc.ui" CurrentGui="1">
+    <MacroSubstitutions>TITLE='XAFS DCM (R1B2)',group=D08R1-MO-MC2:,M1=OH-DCM-STP-TRSX1,M2=OH-DCM-STP-TRSY1,M3=OH-DCM-STP-ROTX1,M4=OH-DCM-STP-ROLZ1,M5=OH-DCM-STP-ROLZ2,M6=OH-DCM-STP-PITZ2,M7=G,M8=H,M9=I,M10=J,M11=K,M12=L,M13=M,M14=N,M15=O,M16=P</MacroSubstitutions>
+    <PathListItem Order="0">
+     <Path>/mnt/control/galil-ui</Path>
+    </PathListItem>
+    <PathListItem Order="1">
+     <Path>/opt/epics/support/galil/op/ui</Path>
+    </PathListItem>
+    <Title>XAFS DCM (R1B2) Motion Control</Title>
+    <Presentation>Central</Presentation>
+   </Gui>
+  </Component>
+  <Component Name="QEGui_window_0_form_0_QEForm">
+   <MacroSubstitutions>TITLE='XAFS DCM (R1B2)',group=D08R1-MO-MC2:,M1=OH-DCM-STP-TRSX1,M2=OH-DCM-STP-TRSY1,M3=OH-DCM-STP-ROTX1,M4=OH-DCM-STP-ROLZ1,M5=OH-DCM-STP-ROLZ2,M6=OH-DCM-STP-PITZ2,M7=G,M8=H,M9=I,M10=J,M11=K,M12=L,M13=M,M14=N,M15=O,M16=P</MacroSubstitutions>
+   <PathListItem Order="0">
+    <Path>/mnt/control/galil-ui</Path>
+   </PathListItem>
+   <PathListItem Order="1">
+    <Path>/opt/epics/support/galil/op/ui</Path>
+   </PathListItem>
+  </Component>
+ </Config>
+</QEGuiConfig>

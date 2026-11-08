@@ -63,15 +63,6 @@
 		"USERINFO:Email":{
 			"pvname":"XAFS:PIEmail"
 		},
-		"USERINFO:Beamline":{
-			"pvname":"USERINFO:Beamline"
-		},
-		"USERINFO:StartTime":{
-			"pvname":"USERINFO:StartTime"
-		},
-		"USERINFO:EndTime":{
-			"pvname":"USERINFO:EndTime"
-		},
 		"SCAN:StartTime":{
 			"pvname":"XAFS:ScanStartTime"
 		},

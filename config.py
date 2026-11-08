@@ -115,7 +115,7 @@ class ConfigGUI:
             self.guiObj.energy.setStyleSheet("QLineEdit {background : green;}")
             # self.guiObj.mapEdgeEnergy.setStyleSheet("QLineEdit {background : green;}")
             self.guiObj.energy.setText(str(caget(self.PVs["PV"]["ENGCAL:RealFoilEng"]["pvname"])))
-            self.guiObj.Mono.setEnabled(False)
+            #self.guiObj.Mono.setEnabled(False)
             self.guiObj.Mono.setStyleSheet("QComboBox {background : green;}")
             self.guiObj.mapMono.setStyleSheet("QComboBox {background : green;}")
             self.guiObj.Mono.setCurrentText(caget(self.PVs["PV"]["BLSetup:Crystal"]["pvname"]))

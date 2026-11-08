@@ -305,6 +305,7 @@ class ENGSCANCONTTIME(XAFS_XRFCONT):
 				energyPoint = energyPoint + 1
 				if self.motors["DCM:Energy:SP"].done_moving:
 					break
+			moveThread.join(timeout=60)   # wait for DCM to reach the end point
 			"""
 			Transferring the data after each sub-interval
 			"""

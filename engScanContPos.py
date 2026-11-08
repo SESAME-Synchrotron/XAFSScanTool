@@ -293,6 +293,7 @@ class ENGSCANCONTPOS(XAFS_XRFCONT):
 							break
 						time.sleep(0.005)
 					energyPoint = energyPoint + 1
+				moveThread.join(timeout=60)   # wait for DCM to reach the end point
 				index = index + 1
 				"""
 				Transferring the data after each sub-interval

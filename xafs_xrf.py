@@ -87,9 +87,9 @@ class XAFS_XRF:
 		self.userinfo = Common.loadjson("configurations/userinfo.json")
 		self.PVs["USERINFO:Proposal"].put(self.userinfo["Proposal"])
 		self.PVs["USERINFO:Email"].put(self.userinfo["Email"])
-		self.PVs["USERINFO:Beamline"].put(self.userinfo["Beamline"])
-		self.PVs["USERINFO:StartTime"].put(self.userinfo["Begin"])
-		self.PVs["USERINFO:EndTime"].put(self.userinfo["End"])
+		# self.PVs["USERINFO:Beamline"].put(self.userinfo["Beamline"])
+		# self.PVs["USERINFO:StartTime"].put(self.userinfo["Begin"])
+		# self.PVs["USERINFO:EndTime"].put(self.userinfo["End"])
 
 	def runPauseMonitor(self):
 		log.info("start pause trigger monitor")
@@ -129,7 +129,7 @@ class XAFS_XRF:
 		if len(DisconnectedPvs):
 			log.error("Disconnected PVs: {}".format(DisconnectedPvs))
 			Common.show_message(PyQt5.QtWidgets.QMessageBox.Critical, "The following PVs are disconnected:\n {}".format(" ".join(DisconnectedPvs)), "scan tool" , PyQt5.QtWidgets.QMessageBox.Ok)
-			sys.exit()
+			#sys.exit()
 
 	def initPaths(self):
 		log.info("Paths initialization")
@@ -577,6 +577,7 @@ class XAFS_XRF:
 		return stepSize_eV
 
 	def dataTransfer(self):
+		return 
 		if self.testingMode == "Yes":
 			SEDTransfer(self.localDataPath, self.paths["DS"] + ":" + self.paths['SED_TOP'] + "/" + self.paths["SED_Test"]).scp()
 		else:
