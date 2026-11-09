@@ -13,7 +13,7 @@ packaging==24.2
 pandablocks==0.10.0
 pandas==2.2.2
 paramiko==5.0.0
-Pillow==10.4.0
+Pillow==13.0.0
 progressbar==2.5
 pycparser==2.22
 pyepics==3.5.10
@@ -60,7 +60,7 @@ pytz==2024.1
 PyYAML==6.0.2
 pyzmq==27.3.0
 scipy==1.12.0
-setuptools==80.9.0
+setuptools==84.1.0
 six==1.16.0
 tendo==0.3.0
 tzdata==2024.1
@@ -98,7 +98,7 @@ pytz==2024.1
 PyYAML==6.0.2
 pyzmq==27.3.0
 scipy==1.12.0
-setuptools==80.9.0
+setuptools==84.1.0
 six==1.16.0
 tendo==0.3.0
 tzdata==2024.1
